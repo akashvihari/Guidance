@@ -147,7 +147,7 @@
     margin-bottom: 8px;
   }
 
-  /* Privacy / Public Selector Box */
+  /* Privacy Box */
   .msh-privacy-box {
     background: #fff;
     border: 1px solid #fde68a;
@@ -222,7 +222,7 @@
     width: 100%;
     max-width: 500px;
   }
-  #mshLeafletMap { height: 300px; width: 100%; border-radius: 10px; margin: 10px 0; border: 1px solid #cbd5e1; }
+  #mshLeafletMap { height: 280px; width: 100%; border-radius: 10px; margin: 8px 0; border: 1px solid #cbd5e1; }
 </style>
 
 <div class="msh-ride-box" id="mshRideModule">
@@ -313,7 +313,7 @@
         <span>ఛార్జ్: <span class="msh-badge" id="mshFareText">₹25</span></span>
       </div>
       <input type="range" id="mshSlider" min="1" max="25" step="0.5" value="5" style="width:100%; accent-color:#0f4c3a;">
-      <div id="mshCalcMsg" style="font-size:0.75rem; color:#15803d; margin-top:5px;">* Live GPS + Destination (లేదా Map) ఎంచుకుంటే KM & ఛార్జ్ ఆటోమేటిక్‌గా వస్తాయి.</div>
+      <div id="mshCalcMsg" style="font-size:0.75rem; color:#15803d; margin-top:5px;">* Live GPS + Destination (లేదా Map Search) ఎంచుకుంటే KM & ఛార్జ్ ఆటోమేటిక్‌గా వస్తాయి.</div>
     </div>
 
     <!-- Step 2 -->
@@ -326,7 +326,7 @@
 
       <div class="msh-row">
         <select id="mshDestSel" class="msh-select" style="margin:0;">
-          <option value="">-- వెళ్లాల్సిన ఊరు ఎంచుకోండి (20 KM) --</option>
+          <option value="">-- ఊరు ఎంచుకోండి (20 KM) --</option>
           <optgroup label="📍 Local / Boddavara Center">
             <option value="18.0815,83.1285">Boddavara (బొడ్డవార)</option>
             <option value="18.0890,83.1210">Ithannapalem (ఇతన్నపాలెం)</option>
@@ -352,7 +352,7 @@
             <option value="17.8930,83.1840">Kothavalasa (కొత్తవలస)</option>
           </optgroup>
         </select>
-        <button type="button" class="msh-btn-sm msh-btn-map" id="mshOpenMapBtn">🗺️ Map</button>
+        <button type="button" class="msh-btn-sm msh-btn-map" id="mshOpenMapBtn">🗺️ Map / Search</button>
       </div>
 
       <textarea id="mshNoteInput" class="msh-textarea" rows="2" placeholder="అడ్వాన్స్ టైమ్ & వివరాలు రాయండి (ఉదా: రేపు ఉదయం 7:30 కి బొడ్డవార నుండి S.Kota వెళ్ళాలి...)"></textarea>
@@ -384,7 +384,7 @@
     </div>
   </div>
 
-  <!-- Public Advance Ride Schedule Board (Shows ONLY Public Advance Messages) -->
+  <!-- Public Advance Ride Schedule Board -->
   <div class="msh-public-board" id="mshPublicBoard">
     <div style="display:flex; justify-content:space-between; align-items:center;">
       <strong style="font-size:0.88rem; color:#1e40af;">📢 Public Advance Ride Schedule (ముందుగా బుక్ చేసుకున్న ప్రయాణాలు)</strong>
@@ -394,18 +394,25 @@
   </div>
 </div>
 
-<!-- Interactive Map Modal -->
+<!-- Interactive Map Modal WITH NAME SEARCH -->
 <div class="msh-modal" id="mshMapModal">
   <div class="msh-modal-inner">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <strong style="color:#0f4c3a;">🗺️ Map లో వెళ్లాల్సిన చోట Tap చేయండి</strong>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+      <strong style="color:#0f4c3a;">🗺️ Map లో ఊరి పేరు సెర్చ్ చేయండి లేదా Tap చేయండి</strong>
       <button type="button" id="mshCloseMapBtn" style="border:none; background:#e2e8f0; border-radius:6px; padding:4px 10px; cursor:pointer; font-weight:700;">✕</button>
     </div>
-    <p style="font-size:0.78rem; color:#64748b; margin:4px 0;">మ్యాప్‌ను జూమ్ చేసి మీ Destination పై నొక్కండి—KM & ఛార్జ్ ఆటోమేటిక్‌గా లెక్కించబడతాయి.</p>
+
+    <!-- Map Search Input -->
+    <div class="msh-row" style="margin-bottom:4px;">
+      <input type="text" id="mshMapSearchInput" class="msh-input" style="margin:0;" placeholder="ఊరి పేరు టైప్ చేయండి (ఉదా: Tatipudi, S.Kota, Kothavalasa)...">
+      <button type="button" class="msh-btn-sm msh-btn-map" id="mshMapSearchBtn">🔍 Search</button>
+    </div>
+
     <div id="mshLeafletMap"></div>
+
     <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
-      <span id="mshMapPickedText" style="font-size:0.8rem; font-weight:600; color:#0f4c3a;">ఇంకా పిన్ ఎంచుకోలేదు</span>
-      <button type="button" class="msh-btn-sm" style="background:#16a34a;" id="mshConfirmMapBtn">✅ Confirm Destination</button>
+      <span id="mshMapPickedText" style="font-size:0.8rem; font-weight:600; color:#0f4c3a;">ఊరు సెర్చ్ చేయండి లేదా మ్యాప్‌లో Tap చేయండి</span>
+      <button type="button" class="msh-btn-sm" style="background:#16a34a;" id="mshConfirmMapBtn">✅ Confirm</button>
     </div>
   </div>
 </div>
@@ -428,9 +435,9 @@
     { name: "Swami", vehicle: "BIKE", area: "Thatipudi", phone: "9000000003", status: "busy", updated: "25m ago" }
   ];
 
-  let riders = JSON.parse(localStorage.getItem("msh_riders_v3")) || defaultRiders;
-  let adminRides = JSON.parse(localStorage.getItem("msh_admin_rides_v3")) || [];
-  let publicNotices = JSON.parse(localStorage.getItem("msh_public_notices_v3")) || [];
+  let riders = JSON.parse(localStorage.getItem("msh_riders_v4")) || defaultRiders;
+  let adminRides = JSON.parse(localStorage.getItem("msh_admin_rides_v4")) || [];
+  let publicNotices = JSON.parse(localStorage.getItem("msh_public_notices_v4")) || [];
 
   function renderRiders() {
     const box = document.getElementById("mshRidersList");
@@ -473,7 +480,7 @@
 
   window.mshDeletePublic = function(idx) {
     publicNotices.splice(idx, 1);
-    localStorage.setItem("msh_public_notices_v3", JSON.stringify(publicNotices));
+    localStorage.setItem("msh_public_notices_v4", JSON.stringify(publicNotices));
     renderPublicNotices();
   };
 
@@ -539,7 +546,18 @@
     calcDistance();
   });
 
-  // Map Modal
+  // Helper to place pin on map
+  function setMapPin(lat, lng, label) {
+    dLat = lat;
+    dLng = lng;
+    dName = label;
+    if (mapMarker) mapMarker.setLatLng([lat, lng]);
+    else mapMarker = L.marker([lat, lng]).addTo(mapInstance);
+    mapInstance.setView([lat, lng], 14);
+    document.getElementById("mshMapPickedText").innerText = `✅ ${label}`;
+  }
+
+  // Open Map Modal
   document.getElementById("mshOpenMapBtn").addEventListener("click", function() {
     document.getElementById("mshMapModal").style.display = "flex";
     setTimeout(() => {
@@ -552,12 +570,7 @@
         }).addTo(mapInstance);
 
         mapInstance.on("click", function(e) {
-          dLat = e.latlng.lat;
-          dLng = e.latlng.lng;
-          dName = `Map Pin (${dLat.toFixed(4)}, ${dLng.toFixed(4)})`;
-          if (mapMarker) mapMarker.setLatLng(e.latlng);
-          else mapMarker = L.marker(e.latlng).addTo(mapInstance);
-          document.getElementById("mshMapPickedText").innerText = "పిన్ ఎంచుకున్నారు ✅";
+          setMapPin(e.latlng.lat, e.latlng.lng, `Map Pin (${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)})`);
         });
       } else if (mapInstance) {
         mapInstance.invalidateSize();
@@ -565,19 +578,49 @@
     }, 200);
   });
 
+  // Search Location by Name on Map (Free OpenStreetMap Nominatim API)
+  async function searchLocationOnMap() {
+    const query = document.getElementById("mshMapSearchInput").value.trim();
+    if (!query) { alert("ఊరి పేరు రాయండి (ఉదా: Tatipudi, S.Kota)"); return; }
+
+    const statusEl = document.getElementById("mshMapPickedText");
+    statusEl.innerText = "🔍 వెతుకుతున్నాము...";
+
+    try {
+      const searchUrl = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(query + ", Andhra Pradesh, India")}`;
+      const res = await fetch(searchUrl);
+      const data = await res.json();
+
+      if (data && data.length > 0) {
+        const place = data[0];
+        const shortName = place.display_name.split(",").slice(0, 2).join(",");
+        setMapPin(parseFloat(place.lat), parseFloat(place.lon), shortName);
+      } else {
+        statusEl.innerText = "❌ దొరకలేదు—మ్యాప్‌లో నేరుగా Tap చేయండి";
+      }
+    } catch (err) {
+      statusEl.innerText = "⚠️ నెట్‌వర్క్ సమస్య—మ్యాప్‌లో నేరుగా Tap చేయండి";
+    }
+  }
+
+  document.getElementById("mshMapSearchBtn").addEventListener("click", searchLocationOnMap);
+  document.getElementById("mshMapSearchInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") { e.preventDefault(); searchLocationOnMap(); }
+  });
+
   document.getElementById("mshCloseMapBtn").addEventListener("click", () => {
     document.getElementById("mshMapModal").style.display = "none";
   });
 
   document.getElementById("mshConfirmMapBtn").addEventListener("click", () => {
-    if (dLat === null) { alert("దయచేసి మ్యాప్‌లో వెళ్లాల్సిన చోట నొక్కండి."); return; }
+    if (dLat === null) { alert("దయచేసి ఊరు సెర్చ్ చేయండి లేదా మ్యాప్‌లో Tap చేయండి."); return; }
     document.getElementById("mshMapModal").style.display = "none";
     const noteBox = document.getElementById("mshNoteInput");
     if (!noteBox.value.trim()) noteBox.value = dName;
     calcDistance();
   });
 
-  // Send Ride Request (Private OR Public + WhatsApp)
+  // Send Ride Request
   document.getElementById("mshSendWaBtn").addEventListener("click", function() {
     const note = document.getElementById("mshNoteInput").value.trim();
     const emerg = document.getElementById("mshEmergCheck").checked;
@@ -587,7 +630,6 @@
     const dropLabel = dName || note || "Not Selected";
     const dropText = dLat ? `${dName} (https://maps.google.com/?q=${dLat},${dLng})` : dropLabel;
 
-    // If Public selected, post to Public Advance Board on website
     if (privacyMode === "public") {
       publicNotices.unshift({
         veh,
@@ -598,12 +640,12 @@
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       });
       if (publicNotices.length > 10) publicNotices.pop();
-      localStorage.setItem("msh_public_notices_v3", JSON.stringify(publicNotices));
+      localStorage.setItem("msh_public_notices_v4", JSON.stringify(publicNotices));
       renderPublicNotices();
     }
 
-    let reqs = parseInt(localStorage.getItem("msh_reqs_v3") || "0");
-    localStorage.setItem("msh_reqs_v3", reqs + 1);
+    let reqs = parseInt(localStorage.getItem("msh_reqs_v4") || "0");
+    localStorage.setItem("msh_reqs_v4", reqs + 1);
     if (reqs >= 1) document.getElementById("mshAdvBox").style.display = "block";
 
     let msg = `🛵 *MANA SEVA HUB - RIDE REQUEST*\n`;
@@ -617,7 +659,7 @@
     window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(msg)}`, "_blank");
   });
 
-  // Admin Lock Toggle
+  // Admin Controls
   document.getElementById("mshAdminBtn").addEventListener("click", function() {
     const bar = document.getElementById("mshAdminBar");
     if (adminUnlocked) {
@@ -703,7 +745,7 @@
     if (!pick || !drop) { alert("Pickup & Destination రాయండి"); return; }
 
     adminRides.unshift({ cName, cPhone, pick, drop, rKm, rAmt, rider: rider.name });
-    localStorage.setItem("msh_admin_rides_v3", JSON.stringify(adminRides));
+    localStorage.setItem("msh_admin_rides_v4", JSON.stringify(adminRides));
     renderAdminRides();
 
     const msg = `🛵 *NEW RIDE (Mana Seva Hub)*\n👤 Customer: ${cName} (${cPhone})\n📍 Pickup: ${pick}\n🏁 Drop: ${drop}\n📏 KM: ${rKm} km | 💰 Cash: ₹${rAmt}`;
@@ -737,12 +779,12 @@
       status: document.getElementById("mshRStat").value,
       updated: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
-    localStorage.setItem("msh_riders_v3", JSON.stringify(riders));
+    localStorage.setItem("msh_riders_v4", JSON.stringify(riders));
     renderRiders();
     alert("Rider Updated ✅");
   });
 
-  if (parseInt(localStorage.getItem("msh_reqs_v3") || "0") >= 1) {
+  if (parseInt(localStorage.getItem("msh_reqs_v4") || "0") >= 1) {
     document.getElementById("mshAdvBox").style.display = "block";
   }
   updateFare();
