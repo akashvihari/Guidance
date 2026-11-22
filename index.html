@@ -9,9 +9,10 @@
     --rapido-dark: #111827;
     --green: #16a34a;
     --red: #dc2626;
+    --blue: #1d4ed8;
     --border: #cbd5e1;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    max-width: 1120px;
+    max-width: 1160px;
     margin: 14px auto;
     background: #ffffff;
     border: 2px solid #e2e8f0;
@@ -44,13 +45,12 @@
     font-size: 0.85rem;
     font-weight: 800;
     cursor: pointer;
-    transition: 0.2s;
   }
   .msh-btn-duty { background: var(--rapido-yellow); color: #000; }
   .msh-btn-admin { background: var(--rapido-dark); color: #fff; }
   .msh-btn-admin.unlocked { background: var(--green); }
 
-  /* Rider Live Duty Control Box */
+  /* Rider Duty & Admin Panels */
   .msh-duty-panel {
     display: none;
     background: #fefce8;
@@ -59,8 +59,6 @@
     padding: 14px;
     margin-bottom: 16px;
   }
-
-  /* Admin Bar & Panels */
   .msh-admin-bar {
     display: none;
     background: #1e293b;
@@ -81,7 +79,6 @@
     cursor: pointer;
   }
   .msh-tab-btn.active { background: var(--rapido-yellow); color: #000; border-color: var(--rapido-yellow); }
-
   .msh-admin-panel {
     display: none;
     background: #f1f5f9;
@@ -90,24 +87,19 @@
     padding: 14px;
     margin-bottom: 14px;
   }
-  .msh-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; }
+  .msh-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; }
 
-  /* Main Booking Grid */
+  /* Main 3-Column Booking Grid */
   .msh-main-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
     gap: 16px;
   }
-  .msh-box {
-    border-radius: 14px;
-    padding: 16px;
-    border: 1.5px solid var(--border);
-  }
+  .msh-box { border-radius: 14px; padding: 16px; border: 1.5px solid var(--border); }
   .msh-box-loc { background: #fffbeb; border-color: #fde68a; }
   .msh-box-veh { background: #f0fdf4; border-color: #bbf7d0; }
   .msh-box-riders { background: #f8fafc; border-color: #cbd5e1; }
-
-  .msh-sec-title { font-size: 1rem; font-weight: 800; color: var(--primary); margin: 0 0 12px; }
+  .msh-sec-title { font-size: 1.02rem; font-weight: 800; color: var(--primary); margin: 0 0 12px; }
 
   .msh-row { display: flex; gap: 8px; margin-bottom: 10px; }
   .msh-input, .msh-select, .msh-textarea {
@@ -134,6 +126,40 @@
   }
   .msh-btn-map { background: #0284c7; }
 
+  /* SEPARATE CLEAR PARAGRAPH BOXES FOR PRIVATE & PUBLIC */
+  .msh-choice-card {
+    background: #fff;
+    border: 2px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .msh-choice-card.selected-priv {
+    border-color: #16a34a;
+    background: #f0fdf4;
+  }
+  .msh-choice-card.selected-pub {
+    border-color: #2563eb;
+    background: #eff6ff;
+  }
+  .msh-choice-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.96rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .msh-choice-para {
+    font-size: 0.86rem;
+    color: #334155;
+    margin: 0;
+    line-height: 1.45;
+    padding-left: 24px;
+  }
+
   /* Vehicle Cards */
   .msh-veh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
   .msh-veh-card {
@@ -150,7 +176,6 @@
     border-color: var(--rapido-dark);
   }
 
-  /* Fare Display */
   .msh-fare-strip {
     display: flex;
     justify-content: space-between;
@@ -171,7 +196,6 @@
     font-size: 1.2rem;
   }
 
-  /* HUGE RAPIDO-STYLE BOOK RIDE BUTTON */
   .msh-book-hero-btn {
     width: 100%;
     padding: 15px 16px;
@@ -181,7 +205,6 @@
     border-radius: 12px;
     font-size: 1.12rem;
     font-weight: 900;
-    letter-spacing: 0.4px;
     cursor: pointer;
     box-shadow: 0 6px 16px rgba(22, 163, 74, 0.35);
     margin-top: 10px;
@@ -189,11 +212,9 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: transform 0.15s;
   }
-  .msh-book-hero-btn:active { transform: scale(0.98); }
 
-  /* Nearest Live Rider Cards */
+  /* Individual PIN-Locked Rider Cards */
   .msh-rider-card {
     background: #fff;
     border: 1.5px solid #cbd5e1;
@@ -205,10 +226,7 @@
     align-items: center;
     gap: 8px;
   }
-  .msh-rider-card.nearest {
-    border-color: #16a34a;
-    background: #f0fdf4;
-  }
+  .msh-rider-card.nearest { border-color: #16a34a; background: #f0fdf4; }
   .msh-dist-pill {
     background: #dcfce7;
     color: #15803d;
@@ -227,10 +245,31 @@
     font-size: 0.78rem;
     font-weight: 700;
   }
+  .msh-pin-open-btn {
+    background: #1e293b;
+    color: #facc15;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+  }
 
-  /* LARGE FONT PUBLIC NOTICE BOARD */
-  .msh-notice-board {
+  /* BOTTOM 2-COLUMN SECTION: PUBLIC NOTICE BOARD + QUERY / MISBEHAVE REPORT */
+  .msh-bottom-split {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 16px;
     margin-top: 20px;
+  }
+  @media (max-width: 780px) {
+    .msh-bottom-split { grid-template-columns: 1fr; }
+  }
+
+  /* Large Font Public Notice Board */
+  .msh-notice-board {
     background: #eff6ff;
     border: 2px solid #93c5fd;
     border-radius: 16px;
@@ -241,11 +280,6 @@
     font-weight: 900;
     color: #1e3a8a;
     margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
   }
   .msh-notice-card {
     background: #ffffff;
@@ -259,17 +293,45 @@
     align-items: center;
     gap: 10px;
   }
-  .msh-notice-route {
-    font-size: 1.08rem;
-    font-weight: 800;
-    color: #0f172a;
-    margin-bottom: 4px;
+  .msh-notice-route { font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+  .msh-notice-msg { font-size: 1.04rem; font-weight: 600; color: #1e293b; line-height: 1.45; }
+
+  /* Side Query & Misbehave Report Box */
+  .msh-query-board {
+    background: #fff1f2;
+    border: 2px solid #fda4af;
+    border-radius: 16px;
+    padding: 18px;
   }
-  .msh-notice-msg {
-    font-size: 1.02rem;
+  .msh-query-header {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #9f1239;
+    margin-bottom: 8px;
+  }
+  .msh-query-item {
+    background: #ffffff;
+    border-left: 5px solid #e11d48;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 8px;
+    font-size: 0.95rem;
     font-weight: 600;
-    color: #1e293b;
-    line-height: 1.4;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .msh-del-btn {
+    background: #dc2626;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
   }
 
   /* Map Modal */
@@ -306,14 +368,14 @@
     </div>
   </div>
 
-  <!-- RIDER LIVE GPS DUTY PANEL (For the 4 Riders) -->
+  <!-- RIDER LIVE GPS DUTY PANEL -->
   <div class="msh-duty-panel" id="mshDutyPanel">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
       <strong style="font-size:1rem; color:#854d0e;">📡 Rider Live GPS Duty Control (రైడర్ డ్యూటీ ఆన్/ఆఫ్)</strong>
       <button type="button" id="mshCloseDutyBtn" style="border:none; background:#fde047; border-radius:6px; padding:4px 10px; font-weight:800; cursor:pointer;">✕</button>
     </div>
-    <p style="font-size:0.84rem; color:#713f12; margin:0 0 10px;">
-      మీ పేరు ఎంచుకుని <b>🟢 Duty ON</b> నొక్కితే మీ Live GPS కస్టమర్లకు కనిపిస్తుంది (మీరు Boddavara కి ఎంత దగ్గరలో ఉన్నారో ఆటోమేటిక్‌గా చూపిస్తుంది). <b>🔴 Duty OFF</b> నొక్కితే ఆగిపోతుంది.
+    <p style="font-size:0.86rem; color:#713f12; margin:0 0 10px;">
+      మీ పేరు ఎంచుకుని <b>🟢 Duty ON</b> నొక్కితే మీ Live GPS కస్టమర్లకు కనిపిస్తుంది. <b>🔴 Duty OFF</b> నొక్కితే ఆగిపోతుంది.
     </p>
     <div class="msh-form-grid">
       <select id="mshDutyRiderSel" class="msh-select" style="margin:0;"></select>
@@ -325,11 +387,10 @@
 
   <!-- ADMIN SELECTIVE BAR -->
   <div class="msh-admin-bar" id="mshAdminBar">
-    <div style="font-size:0.85rem; color:#facc15; font-weight:800;">🔓 Admin Control Menu (మీకు ఏది కావాలో దానిపై నొక్కండి):</div>
+    <div style="font-size:0.88rem; color:#facc15; font-weight:800;">🔓 Admin Unlocked! (కింద బోర్డులలో తప్పుడు పోస్టులు Delete చేయవచ్చు & రైడర్లను మార్చవచ్చు):</div>
     <div class="msh-admin-tabs">
-      <button type="button" class="msh-tab-btn" id="mshBtnShowNums">📞 Show Rider Numbers</button>
       <button type="button" class="msh-tab-btn" id="mshBtnAddRide">📝 + Add Ride Form</button>
-      <button type="button" class="msh-tab-btn" id="mshBtnEditRiders">🛵 Edit 4 Riders</button>
+      <button type="button" class="msh-tab-btn" id="mshBtnEditRiders">🛵 Edit 4 Riders & PINs</button>
     </div>
   </div>
 
@@ -357,9 +418,9 @@
     <div id="mshSavedRidesBox" style="margin-top:10px; font-size:0.85rem;"></div>
   </div>
 
-  <!-- Admin Panel 2: Edit 4 Riders -->
+  <!-- Admin Panel 2: Edit 4 Riders & Individual PINs -->
   <div class="msh-admin-panel" id="mshPanelRiders">
-    <h4 style="margin:0 0 10px; color:#0f4c3a;">🛵 Add / Edit 4 Local Riders</h4>
+    <h4 style="margin:0 0 10px; color:#0f4c3a;">🛵 Edit 4 Local Riders & Individual PINs</h4>
     <div class="msh-form-grid">
       <select id="mshSlotSel" class="msh-select">
         <option value="0">Slot 1</option>
@@ -374,10 +435,11 @@
         <option value="CAR">CAR</option>
       </select>
       <input type="tel" id="mshRPhone" class="msh-input" placeholder="ఫోన్ నంబర్">
-      <input type="text" id="mshRArea" class="msh-input" placeholder="బేస్ ఏరియా (ఉదా: Boddavara)">
+      <input type="text" id="mshRArea" class="msh-input" placeholder="బేస్ ఏరియా">
+      <input type="text" id="mshRPin" class="msh-input" maxlength="4" placeholder="Rider 4-Digit PIN">
       <select id="mshRStat" class="msh-select">
-        <option value="online">🟢 Duty ON (Live)</option>
-        <option value="offline">🔴 Duty OFF (Offline)</option>
+        <option value="online">🟢 Duty ON</option>
+        <option value="offline">🔴 Duty OFF</option>
       </select>
     </div>
     <div style="display:flex; gap:8px;">
@@ -389,9 +451,9 @@
   <!-- MAIN 3-COLUMN BOOKING INTERFACE -->
   <div class="msh-main-grid">
     
-    <!-- STEP 1: PICKUP & DESTINATION -->
+    <!-- STEP 1: PICKUP, DESTINATION & CLEAR PRIVATE/PUBLIC EXPLANATION -->
     <div class="msh-box msh-box-loc">
-      <div class="msh-sec-title">1. మీ లొకేషన్ (Pickup) & వెళ్లాల్సిన ఊరు (Drop)</div>
+      <div class="msh-sec-title">1. మీ లొకేషన్ & వెళ్లాల్సిన ఊరు ఎంచుకోండి</div>
       
       <div class="msh-row">
         <input type="text" id="mshGpsBox" class="msh-input" style="margin:0;" placeholder="మీ Live GPS కోసం నొక్కండి ➔" readonly>
@@ -429,45 +491,59 @@
         <button type="button" class="msh-btn-sm msh-btn-map" id="mshOpenMapBtn">🗺️ Map Search</button>
       </div>
 
-      <textarea id="mshNoteInput" class="msh-textarea" rows="2" placeholder="అడ్వాన్స్ సమయం & వివరాలు (ఉదా: రేపు ఉదయం 7:00 కి బొడ్డవార నుండి S.Kota వెళ్ళాలి)"></textarea>
+      <textarea id="mshNoteInput" class="msh-textarea" rows="2" placeholder="సమయం & వివరాలు రాయండి (ఉదా: రేపు ఉదయం 7:00 కి బొడ్డవార నుండి S.Kota వెళ్ళాలి)"></textarea>
 
-      <div style="background:#fff; border:1px solid #fde68a; border-radius:8px; padding:8px; font-size:0.84rem; margin-bottom:8px;">
-        <label style="display:flex; align-items:center; gap:6px; font-weight:700; color:#0f4c3a; margin-bottom:4px; cursor:pointer;">
-          <input type="radio" name="mshMsgPrivacy" value="private" checked> 🔒 Private (Admin కి మాత్రమే కనిపిస్తుంది)
-        </label>
-        <label style="display:flex; align-items:center; gap:6px; font-weight:700; color:#1d4ed8; cursor:pointer;">
-          <input type="radio" name="mshMsgPrivacy" value="public"> 📢 Public Notice Board లో పోస్ట్ చేయండి
-        </label>
+      <!-- SEPARATE CLEAR PARAGRAPHS FOR PRIVATE VS PUBLIC -->
+      <div style="font-size:0.88rem; font-weight:800; color:#0f4c3a; margin-bottom:6px;">
+        👇 మీ మెసేజ్ ఎవరికి కనిపించాలో ఒకటి ఎంచుకోండి:
       </div>
 
-      <label style="font-size:0.85rem; font-weight:800; color:#dc2626; display:flex; align-items:center; gap:6px;">
+      <label class="msh-choice-card selected-priv" id="mshCardPriv">
+        <div class="msh-choice-head" style="color:#15803d;">
+          <input type="radio" name="mshMsgPrivacy" value="private" checked> 🔒 Private (రహస్యం - Admin కి మాత్రమే)
+        </div>
+        <p class="msh-choice-para">
+          ఈ ఆప్షన్ ఎంచుకుంటే మీ వివరాలు వెబ్‌సైట్‌లో <b>ఎవరికీ కనిపించవు</b>. కేవలం అడ్మిన్ (ప్రకాష్) వాట్సాప్‌కు మాత్రమే వస్తాయి. మీ వివరాలు 100% రహస్యంగా ఉంటాయి.
+        </p>
+      </label>
+
+      <label class="msh-choice-card" id="mshCardPub">
+        <div class="msh-choice-head" style="color:#1d4ed8;">
+          <input type="radio" name="mshMsgPrivacy" value="public"> 📢 Public (అందరికీ కనిపిస్తుంది - Advance Notice)
+        </div>
+        <p class="msh-choice-para">
+          ఈ ఆప్షన్ ఎంచుకుంటే మీరు వెళ్లాల్సిన సమయం & ఊరు కింద బోర్డులో <b>అందరికీ కనిపిస్తుంది</b> (మీ ఫోన్ నంబర్ కనిపించదు). దీనివల్ల ఆ టైమ్‌కి రైడర్లు సిద్ధంగా ఉంటారు.
+        </p>
+      </label>
+
+      <label style="font-size:0.86rem; font-weight:800; color:#dc2626; display:flex; align-items:center; gap:6px; margin-top:6px;">
         <input type="checkbox" id="mshEmergCheck"> 🚨 Emergency Ride (అత్యవసర ప్రయాణం)
       </label>
     </div>
 
-    <!-- STEP 2: VEHICLE, FARE & HUGE BOOK RIDE BUTTON -->
+    <!-- STEP 2: VEHICLE, FARE & HERO BOOK RIDE BUTTON -->
     <div class="msh-box msh-box-veh">
       <div class="msh-sec-title">2. వాహనం ఎంచుకుని రైడ్ బుక్ చేయండి</div>
       
       <div class="msh-veh-grid">
         <div class="msh-veh-card active" data-veh="Bike" data-rate="5" data-min="20">
-          <strong style="font-size:1rem;">🏍️ Bike</strong><br><small>₹5/km</small>
+          <strong style="font-size:1.05rem;">🏍️ Bike</strong><br><small>₹5/km</small>
         </div>
         <div class="msh-veh-card" data-veh="Auto" data-rate="12" data-min="50">
-          <strong style="font-size:1rem;">🛺 Auto</strong><br><small>₹12/km</small>
+          <strong style="font-size:1.05rem;">🛺 Auto</strong><br><small>₹12/km</small>
         </div>
         <div class="msh-veh-card" data-veh="Car" data-rate="18" data-min="100">
-          <strong style="font-size:1rem;">🚗 Car</strong><br><small>₹18/km</small>
+          <strong style="font-size:1.05rem;">🚗 Car</strong><br><small>₹18/km</small>
         </div>
       </div>
 
       <div class="msh-fare-strip">
         <span>దూరం: <strong id="mshKmText">5 km</strong></span>
-        <span>మొత్తం ఛార్జ్: <span class="msh-price-tag" id="mshFareText">₹25</span></span>
+        <span>ఛార్జ్: <span class="msh-price-tag" id="mshFareText">₹25</span></span>
       </div>
 
       <input type="range" id="mshSlider" min="1" max="25" step="0.5" value="5" style="width:100%; accent-color:#0f4c3a;">
-      <div id="mshCalcMsg" style="font-size:0.8rem; color:#15803d; margin-top:4px; font-weight:600;">
+      <div id="mshCalcMsg" style="font-size:0.82rem; color:#15803d; margin-top:4px; font-weight:600;">
         * Live GPS + Destination ఎంచుకుంటే KM & ఛార్జ్ ఆటోమేటిక్‌గా మారుతాయి.
       </div>
 
@@ -475,34 +551,55 @@
         ⚠️ 2వ బుకింగ్: కన్ఫర్మేషన్ కోసం ₹20 అడ్వాన్స్ (UPI: 8985240287) అవసరం కావచ్చు.
       </div>
 
-      <!-- CLEAR, VISIBLE HERO BOOK RIDE BUTTON -->
       <button type="button" class="msh-book-hero-btn" id="mshBookRideBtn">
         🛵 BOOK RIDE NOW (రైడ్ బుక్ చేయండి)
       </button>
     </div>
 
-    <!-- STEP 3: LIVE NEAREST RIDERS (Auto-sorted by distance to customer) -->
+    <!-- STEP 3: LIVE NEAREST RIDERS (Each with Individual PIN Lock!) -->
     <div class="msh-box msh-box-riders">
-      <div class="msh-sec-title">3. దగ్గరలో ఉన్న లైవ్ రైడర్లు (Live Nearest)</div>
-      <div style="font-size:0.8rem; color:#475569; margin-bottom:6px; font-weight:600;">
-        మీ Live GPS ఆధారంగా మీకు దగ్గరలో ఉన్న ఆన్‌లైన్ రైడర్ పైన కనిపిస్తారు:
+      <div class="msh-sec-title">3. దగ్గరలో ఉన్న లైవ్ రైడర్లు (Individual PIN Lock)</div>
+      <div style="font-size:0.82rem; color:#475569; margin-bottom:6px; font-weight:600;">
+        ఏ రైడర్ నంబర్ కావాలో ఆ రైడర్ పక్కన ఉన్న <b>PIN</b> నొక్కితే ఆ ఒక్కరి నంబర్ మాత్రమే ఓపెన్ అవుతుంది:
       </div>
       <div id="mshRidersList"></div>
     </div>
 
   </div>
 
-  <!-- LARGE FONT PUBLIC ADVANCE RIDE NOTICE BOARD -->
-  <div class="msh-notice-board" id="mshPublicBoard">
-    <div class="msh-notice-header">
-      <span>📢 Public Advance Ride Notice Board (ముందుగా బుక్ అయిన ప్రయాణాలు)</span>
-      <span style="font-size:0.82rem; color:#1e40af; font-weight:700;">రైడర్లు ఈ సమయానికి సిద్ధంగా ఉండగలరు</span>
+  <!-- BOTTOM 2-COLUMN SECTION: PUBLIC NOTICE BOARD + SIDE QUERY / MISBEHAVE REPORT -->
+  <div class="msh-bottom-split">
+    
+    <!-- LEFT: LARGE FONT PUBLIC ADVANCE RIDE NOTICE BOARD -->
+    <div class="msh-notice-board">
+      <div class="msh-notice-header">
+        📢 Public Advance Ride Board (ముందుగా బుక్ అయిన ప్రయాణాలు)
+      </div>
+      <p style="font-size:0.88rem; color:#1e40af; margin:0 0 8px; font-weight:600;">
+        పైన <b>"Public"</b> ఎంచుకున్న ప్రయాణాలు ఇక్కడ పెద్ద అక్షరాలతో కనిపిస్తాయి (ఫోన్ నంబర్లు కనిపించవు).
+      </p>
+      <div id="mshPublicList"></div>
     </div>
-    <div id="mshPublicList"></div>
+
+    <!-- RIGHT: SIDE QUERY / MISBEHAVE / COMPLAINT BOX (Admin Delete Available) -->
+    <div class="msh-query-board">
+      <div class="msh-query-header">
+        💬 ఏవైనా ప్రశ్నలు / ఫిర్యాదులు (Query & Misbehave)
+      </div>
+      <p style="font-size:0.84rem; color:#881337; margin:0 0 8px; font-weight:600;">
+        రైడ్ గురించి సందేహాలు ఉన్నా, ఎవరైనా తప్పుగా ప్రవర్తించినా (Misbehave) ఇక్కడ రాయండి:
+      </p>
+      <textarea id="mshQueryInput" class="msh-textarea" rows="2" style="margin-bottom:6px;" placeholder="మీ ప్రశ్న లేదా ఫిర్యాదు ఇక్కడ రాయండి..."></textarea>
+      <button type="button" id="mshPostQueryBtn" class="msh-btn-sm" style="width:100%; background:#e11d48; height:38px;">
+        📩 పోస్ట్ చేయండి (Post Query / Report)
+      </button>
+      <div id="mshQueryList" style="margin-top:10px;"></div>
+    </div>
+
   </div>
 </div>
 
-<!-- Interactive Map Modal with Search -->
+<!-- Interactive Map Modal -->
 <div class="msh-modal" id="mshMapModal">
   <div class="msh-modal-inner">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -524,28 +621,37 @@
 <script>
 (function() {
   const ADMIN_WA = "918985240287";
-  const ADMIN_PIN = "1234";
+  const MASTER_ADMIN_PIN = "1234";
 
   let veh = "Bike", rate = 5, minFare = 20, km = 5;
   let uLat = null, uLng = null;
   let dLat = null, dLng = null, dName = "";
-  let adminUnlocked = false, showNumbers = false;
+  let adminUnlocked = false;
+  let unlockedRiderSlots = {}; // Tracks individual unlocked riders by index!
   let mapInstance = null, mapMarker = null;
   let dutyWatchId = null;
 
-  // 4 Local Riders with live coordinates (Boddavara, S.Kota, Kiltampalem, Thatipudi)
+  // 4 Local Riders - Each has their own individual PIN!
   const defaultRiders = [
-    { name: "Prakash", vehicle: "BIKE", area: "Boddavara", phone: "8985240287", status: "online", lat: 18.0815, lng: 83.1285, updated: "Live GPS" },
-    { name: "Rajesh", vehicle: "BIKE", area: "S.Kota", phone: "9000000001", status: "online", lat: 18.1118, lng: 83.1415, updated: "Live GPS" },
-    { name: "Sridhar", vehicle: "AUTO", area: "Kiltampalem", phone: "9000000002", status: "online", lat: 18.1050, lng: 83.1480, updated: "Live GPS" },
-    { name: "Swami", vehicle: "BIKE", area: "Thatipudi", phone: "9000000003", status: "offline", lat: 18.1730, lng: 83.1880, updated: "Duty OFF" }
+    { name: "Prakash", vehicle: "BIKE", area: "Boddavara", phone: "8985240287", pin: "1111", status: "online", lat: 18.0815, lng: 83.1285, updated: "Live GPS" },
+    { name: "Rajesh", vehicle: "BIKE", area: "S.Kota", phone: "9000000001", pin: "2222", status: "online", lat: 18.1118, lng: 83.1415, updated: "Live GPS" },
+    { name: "Sridhar", vehicle: "AUTO", area: "Kiltampalem", phone: "9000000002", pin: "3333", status: "online", lat: 18.1050, lng: 83.1480, updated: "Live GPS" },
+    { name: "Swami", vehicle: "BIKE", area: "Thatipudi", phone: "9000000003", pin: "4444", status: "offline", lat: 18.1730, lng: 83.1880, updated: "Duty OFF" }
   ];
 
-  let riders = JSON.parse(localStorage.getItem("msh_riders_pro_v1")) || defaultRiders;
-  let adminRides = JSON.parse(localStorage.getItem("msh_admin_rides_pro_v1")) || [];
-  let publicNotices = JSON.parse(localStorage.getItem("msh_public_notices_pro_v1")) || [];
+  let riders = JSON.parse(localStorage.getItem("msh_riders_v5")) || defaultRiders;
+  let adminRides = JSON.parse(localStorage.getItem("msh_admin_rides_v5")) || [];
+  let publicNotices = JSON.parse(localStorage.getItem("msh_public_notices_v5")) || [];
+  let queryPosts = JSON.parse(localStorage.getItem("msh_queries_v5")) || [];
 
-  // Calculate distance in KM between two GPS coordinates
+  // Highlight selected Private / Public card clearly
+  document.querySelectorAll('input[name="mshMsgPrivacy"]').forEach(radio => {
+    radio.addEventListener("change", function() {
+      document.getElementById("mshCardPriv").classList.toggle("selected-priv", this.value === "private");
+      document.getElementById("mshCardPub").classList.toggle("selected-pub", this.value === "public");
+    });
+  });
+
   function getRoadKm(lat1, lon1, lat2, lon2) {
     if (lat1 == null || lat2 == null) return null;
     const R = 6371;
@@ -556,12 +662,28 @@
     return Math.round(straight * 1.25 * 10) / 10;
   }
 
-  // Render 4 Riders sorted by nearest live distance
+  // Unlock ONLY ONE specific rider using their individual PIN
+  window.mshUnlockSingleRider = function(slotIndex) {
+    const rider = riders[slotIndex];
+    const entered = prompt(`${rider.name} నంబర్ ఓపెన్ చేయడానికి PIN ఎంటర్ చేయండి (Default: ${rider.pin}):`);
+    if (entered === rider.pin || entered === MASTER_ADMIN_PIN) {
+      unlockedRiderSlots[slotIndex] = true;
+      renderRiders();
+    } else if (entered !== null) {
+      alert("తప్పు PIN! ఈ రైడర్ నంబర్ ఓపెన్ కాలేదు.");
+    }
+  };
+
+  window.mshLockSingleRider = function(slotIndex) {
+    delete unlockedRiderSlots[slotIndex];
+    renderRiders();
+  };
+
+  // Render 4 Riders (Each with Individual PIN Lock!)
   function renderRiders() {
     const box = document.getElementById("mshRidersList");
     if (!box) return;
 
-    // Sort: Online first, then nearest distance to customer (if customer GPS available)
     const sorted = riders.map((r, originalIdx) => {
       const dist = (uLat !== null && r.lat) ? getRoadKm(uLat, uLng, r.lat, r.lng) : null;
       return { ...r, originalIdx, dist };
@@ -576,13 +698,18 @@
     sorted.forEach((r, index) => {
       const isOnline = r.status === "online";
       const isNearest = isOnline && index === 0 && r.dist !== null;
+      const isThisRiderUnlocked = !!unlockedRiderSlots[r.originalIdx];
+
       const distBadge = isOnline
         ? (r.dist !== null ? `<span class="msh-dist-pill">📍 ${r.dist} km away ${isNearest ? "(అతి దగ్గరలో!)" : ""}</span>` : `<span class="msh-dist-pill">🟢 Duty ON (${r.area})</span>`)
-        : `<span class="msh-offline-pill">🔴 Duty OFF (Offline)</span>`;
+        : `<span class="msh-offline-pill">🔴 Duty OFF</span>`;
 
-      const rightBtn = (adminUnlocked && showNumbers)
-        ? `<a href="tel:${r.phone}" style="background:#16a34a; color:#fff; text-decoration:none; padding:6px 10px; border-radius:8px; font-weight:800; font-size:0.8rem;">📞 ${r.phone}</a>`
-        : `<span style="background:#e2e8f0; color:#334155; padding:5px 8px; border-radius:6px; font-size:0.75rem; font-weight:700;">🔒 Admin Confirm</span>`;
+      const rightBtn = isThisRiderUnlocked
+        ? `<div style="display:flex; flex-direction:column; gap:4px; align-items:flex-end;">
+             <a href="tel:${r.phone}" style="background:#16a34a; color:#fff; text-decoration:none; padding:5px 10px; border-radius:8px; font-weight:800; font-size:0.82rem;">📞 ${r.phone}</a>
+             <button type="button" onclick="window.mshLockSingleRider(${r.originalIdx})" style="background:#e2e8f0; border:none; border-radius:6px; padding:2px 8px; font-size:0.72rem; cursor:pointer; font-weight:700;">🔒 Lock</button>
+           </div>`
+        : `<button type="button" class="msh-pin-open-btn" onclick="window.mshUnlockSingleRider(${r.originalIdx})">🔑 PIN నొక్కి చూడండి</button>`;
 
       box.innerHTML += `
         <div class="msh-rider-card ${isNearest ? "nearest" : ""}">
@@ -597,30 +724,70 @@
     });
   }
 
-  // Render Large Font Public Notice Board
+  // Render Large Font Public Advance Ride Board (With Admin Delete)
   function renderPublicNotices() {
     const list = document.getElementById("mshPublicList");
     if (!list) return;
     if (publicNotices.length === 0) {
-      list.innerHTML = `<div style="font-size:0.95rem; color:#475569; padding:8px 0;">ప్రస్తుతం పబ్లిక్ అడ్వాన్స్ రైడ్ నోటీసులు లేవు. పైన <b>"Public Notice Board"</b> ఎంచుకుని బుక్ చేస్తే ఇక్కడ పెద్ద అక్షరాలతో కనిపిస్తుంది.</div>`;
+      list.innerHTML = `<div style="font-size:0.95rem; color:#475569; padding:8px 0;">ప్రస్తుతం పబ్లిక్ అడ్వాన్స్ రైడ్ నోటీసులు లేవు.</div>`;
       return;
     }
     list.innerHTML = publicNotices.map((n, idx) => `
       <div class="msh-notice-card">
         <div>
           <div class="msh-notice-route">🚘 ${n.veh} • ${n.dest} (${n.km} km • ${n.fare})</div>
-          <div class="msh-notice-msg">🕒 ${n.note} <span style="font-size:0.82rem; color:#64748b;">(Posted: ${n.time})</span></div>
+          <div class="msh-notice-msg">🕒 ${n.note} <span style="font-size:0.82rem; color:#64748b;">(${n.time})</span></div>
         </div>
-        ${adminUnlocked ? `<button type="button" onclick="window.mshDeletePublicPro(${idx})" style="background:#fee2e2; color:#dc2626; border:none; border-radius:8px; padding:6px 12px; cursor:pointer; font-weight:800;">Delete</button>` : ""}
+        ${adminUnlocked ? `<button type="button" class="msh-del-btn" onclick="window.mshDeletePublicV5(${idx})">🗑️ Delete</button>` : ""}
       </div>
     `).join("");
   }
 
-  window.mshDeletePublicPro = function(idx) {
+  window.mshDeletePublicV5 = function(idx) {
     publicNotices.splice(idx, 1);
-    localStorage.setItem("msh_public_notices_pro_v1", JSON.stringify(publicNotices));
+    localStorage.setItem("msh_public_notices_v5", JSON.stringify(publicNotices));
     renderPublicNotices();
   };
+
+  // Render Side Query & Misbehave Reports (With Admin Delete)
+  function renderQueryPosts() {
+    const box = document.getElementById("mshQueryList");
+    if (!box) return;
+    if (queryPosts.length === 0) {
+      box.innerHTML = `<div style="font-size:0.84rem; color:#881337;">ఇంకా ఎలాంటి ప్రశ్నలు లేదా ఫిర్యాదులు లేవు.</div>`;
+      return;
+    }
+    box.innerHTML = queryPosts.map((q, idx) => `
+      <div class="msh-query-item">
+        <div>
+          <div>${q.text}</div>
+          <small style="color:#64748b;">Posted: ${q.time}</small>
+        </div>
+        ${adminUnlocked ? `<button type="button" class="msh-del-btn" onclick="window.mshDeleteQueryV5(${idx})">🗑️ Delete</button>` : ""}
+      </div>
+    `).join("");
+  }
+
+  window.mshDeleteQueryV5 = function(idx) {
+    queryPosts.splice(idx, 1);
+    localStorage.setItem("msh_queries_v5", JSON.stringify(queryPosts));
+    renderQueryPosts();
+  };
+
+  document.getElementById("mshPostQueryBtn").addEventListener("click", function() {
+    const inp = document.getElementById("mshQueryInput");
+    const txt = inp.value.trim();
+    if (!txt) { alert("దయచేసి మీ ప్రశ్న లేదా ఫిర్యాదు రాయండి."); return; }
+    queryPosts.unshift({
+      text: txt,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    });
+    if (queryPosts.length > 15) queryPosts.pop();
+    localStorage.setItem("msh_queries_v5", JSON.stringify(queryPosts));
+    inp.value = "";
+    renderQueryPosts();
+    alert("మీ మెసేజ్ పోస్ట్ అయింది!");
+  });
 
   function updateFare() {
     let total = Math.round(km * rate);
@@ -640,24 +807,18 @@
       : `✅ ఆటోమేటిక్ రోడ్ దూరం: <b>${km} km</b> లెక్కించబడింది.`;
   }
 
-  // Rider Duty ON / OFF Live GPS Tracking
+  // Rider Duty ON / OFF
   document.getElementById("mshToggleDutyBtn").addEventListener("click", function() {
     const panel = document.getElementById("mshDutyPanel");
-    const isOpen = panel.style.display === "block";
-    panel.style.display = isOpen ? "none" : "block";
-    const sel = document.getElementById("mshDutyRiderSel");
-    sel.innerHTML = riders.map((r, i) => `<option value="${i}">${r.name} (${r.vehicle} - ${r.area})</option>`).join("");
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+    document.getElementById("mshDutyRiderSel").innerHTML = riders.map((r, i) => `<option value="${i}">${r.name} (${r.vehicle} - ${r.area})</option>`).join("");
   });
-
-  document.getElementById("mshCloseDutyBtn").addEventListener("click", () => {
-    document.getElementById("mshDutyPanel").style.display = "none";
-  });
+  document.getElementById("mshCloseDutyBtn").addEventListener("click", () => document.getElementById("mshDutyPanel").style.display = "none");
 
   document.getElementById("mshStartDutyBtn").addEventListener("click", function() {
     const idx = Number(document.getElementById("mshDutyRiderSel").value);
     const statusText = document.getElementById("mshDutyLiveStatus");
     if (!navigator.geolocation) { alert("GPS సపోర్ట్ లేదు"); return; }
-
     statusText.innerText = "📡 Live GPS ఆన్ అవుతోంది...";
     if (dutyWatchId !== null) navigator.geolocation.clearWatch(dutyWatchId);
 
@@ -666,8 +827,8 @@
       riders[idx].lng = pos.coords.longitude;
       riders[idx].status = "online";
       riders[idx].updated = "Live Now (" + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ")";
-      localStorage.setItem("msh_riders_pro_v1", JSON.stringify(riders));
-      statusText.innerText = `🟢 ${riders[idx].name} Duty ON! Live GPS ట్రాకింగ్ నడుస్తోంది (${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)})`;
+      localStorage.setItem("msh_riders_v5", JSON.stringify(riders));
+      statusText.innerText = `🟢 ${riders[idx].name} Duty ON! Live GPS ట్రాకింగ్ నడుస్తోంది.`;
       renderRiders();
     }, () => {
       statusText.innerText = "⚠️ దయచేసి ఫోన్‌లో Location (GPS) ఆన్ చేయండి.";
@@ -676,14 +837,11 @@
 
   document.getElementById("mshStopDutyBtn").addEventListener("click", function() {
     const idx = Number(document.getElementById("mshDutyRiderSel").value);
-    if (dutyWatchId !== null) {
-      navigator.geolocation.clearWatch(dutyWatchId);
-      dutyWatchId = null;
-    }
+    if (dutyWatchId !== null) { navigator.geolocation.clearWatch(dutyWatchId); dutyWatchId = null; }
     riders[idx].status = "offline";
     riders[idx].updated = "Duty OFF";
-    localStorage.setItem("msh_riders_pro_v1", JSON.stringify(riders));
-    document.getElementById("mshDutyLiveStatus").innerHTML = `<span style="color:#dc2626;">🔴 ${riders[idx].name} Duty OFF చేయబడింది (Live GPS ఆగిపోయింది).</span>`;
+    localStorage.setItem("msh_riders_v5", JSON.stringify(riders));
+    document.getElementById("mshDutyLiveStatus").innerHTML = `<span style="color:#dc2626;">🔴 ${riders[idx].name} Duty OFF చేయబడింది.</span>`;
     renderRiders();
   });
 
@@ -692,30 +850,22 @@
     el.addEventListener("click", function() {
       document.querySelectorAll("#mshRapidoApp .msh-veh-card").forEach(c => c.classList.remove("active"));
       this.classList.add("active");
-      veh = this.dataset.veh;
-      rate = Number(this.dataset.rate);
-      minFare = Number(this.dataset.min);
+      veh = this.dataset.veh; rate = Number(this.dataset.rate); minFare = Number(this.dataset.min);
       updateFare();
     });
   });
 
-  document.getElementById("mshSlider").addEventListener("input", function() {
-    km = parseFloat(this.value);
-    updateFare();
-  });
+  document.getElementById("mshSlider").addEventListener("input", function() { km = parseFloat(this.value); updateFare(); });
 
-  // Customer Live GPS (Also refreshes nearest riders immediately!)
   document.getElementById("mshGpsBtn").addEventListener("click", function() {
     const box = document.getElementById("mshGpsBox");
     box.value = "GPS తీసుకుంటున్నాము...";
     if (!navigator.geolocation) { alert("GPS సపోర్ట్ లేదు"); return; }
     navigator.geolocation.getCurrentPosition(pos => {
-      uLat = pos.coords.latitude;
-      uLng = pos.coords.longitude;
+      uLat = pos.coords.latitude; uLng = pos.coords.longitude;
       box.value = `Live GPS Ready ✅ (${uLat.toFixed(4)}, ${uLng.toFixed(4)})`;
       this.style.background = "#16a34a";
-      calcTripDistance();
-      renderRiders(); // Re-sort riders by nearest distance to customer!
+      calcTripDistance(); renderRiders();
     }, () => {
       box.value = "Location On చేసి మళ్లీ నొక్కండి";
       alert("దయచేసి ఫోన్‌లో Location ఆన్ చేయండి.");
@@ -725,12 +875,11 @@
   document.getElementById("mshDestSel").addEventListener("change", function() {
     if (!this.value) return;
     const parts = this.value.split(",").map(Number);
-    dLat = parts[0]; dLng = parts[1];
-    dName = this.options[this.selectedIndex].text;
+    dLat = parts[0]; dLng = parts[1]; dName = this.options[this.selectedIndex].text;
     calcTripDistance();
   });
 
-  // Map Modal & Search
+  // Map Modal
   function setMapPin(lat, lng, label) {
     dLat = lat; dLng = lng; dName = label;
     if (mapMarker) mapMarker.setLatLng([lat, lng]);
@@ -746,9 +895,7 @@
         mapInstance = L.map("mshLeafletMap").setView([uLat || 18.0815, uLng || 83.1285], 12);
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap" }).addTo(mapInstance);
         mapInstance.on("click", e => setMapPin(e.latlng.lat, e.latlng.lng, `Map Pin (${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)})`));
-      } else if (mapInstance) {
-        mapInstance.invalidateSize();
-      }
+      } else if (mapInstance) mapInstance.invalidateSize();
     }, 200);
   });
 
@@ -760,14 +907,9 @@
     try {
       const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(q + ", Andhra Pradesh, India")}`);
       const data = await res.json();
-      if (data && data.length > 0) {
-        setMapPin(parseFloat(data[0].lat), parseFloat(data[0].lon), data[0].display_name.split(",").slice(0, 2).join(","));
-      } else {
-        txt.innerText = "❌ దొరకలేదు—మ్యాప్‌లో Tap చేయండి";
-      }
-    } catch {
-      txt.innerText = "⚠️ నెట్‌వర్క్ సమస్య—మ్యాప్‌లో Tap చేయండి";
-    }
+      if (data && data.length > 0) setMapPin(parseFloat(data[0].lat), parseFloat(data[0].lon), data[0].display_name.split(",").slice(0, 2).join(","));
+      else txt.innerText = "❌ దొరకలేదు—మ్యాప్‌లో Tap చేయండి";
+    } catch { txt.innerText = "⚠️ నెట్‌వర్క్ సమస్య—మ్యాప్‌లో Tap చేయండి"; }
   }
 
   document.getElementById("mshMapSearchBtn").addEventListener("click", searchMapPlace);
@@ -797,12 +939,12 @@
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       });
       if (publicNotices.length > 10) publicNotices.pop();
-      localStorage.setItem("msh_public_notices_pro_v1", JSON.stringify(publicNotices));
+      localStorage.setItem("msh_public_notices_v5", JSON.stringify(publicNotices));
       renderPublicNotices();
     }
 
-    let reqs = parseInt(localStorage.getItem("msh_reqs_pro_v1") || "0");
-    localStorage.setItem("msh_reqs_pro_v1", reqs + 1);
+    let reqs = parseInt(localStorage.getItem("msh_reqs_v5") || "0");
+    localStorage.setItem("msh_reqs_v5", reqs + 1);
     if (reqs >= 1) document.getElementById("mshAdvBox").style.display = "block";
 
     let msg = `🛵 *MANA SEVA RAPIDO - NEW RIDE BOOKING*\n`;
@@ -816,33 +958,25 @@
     window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(msg)}`, "_blank");
   });
 
-  // Admin Lock & Selective Panels
+  // Master Admin Lock Toggle (Enables Delete buttons on Public & Query boards + Ride Form)
   document.getElementById("mshAdminBtn").addEventListener("click", function() {
     const bar = document.getElementById("mshAdminBar");
     if (adminUnlocked) {
-      adminUnlocked = false; showNumbers = false;
+      adminUnlocked = false;
       this.innerText = "🔒 Admin Lock"; this.classList.remove("unlocked");
       bar.style.display = "none";
       document.getElementById("mshPanelRide").style.display = "none";
       document.getElementById("mshPanelRiders").style.display = "none";
-      document.getElementById("mshBtnShowNums").classList.remove("active");
-      document.getElementById("mshBtnShowNums").innerText = "📞 Show Rider Numbers";
-      renderRiders(); renderPublicNotices();
+      renderPublicNotices(); renderQueryPosts();
       return;
     }
-    const pin = prompt("Admin PIN ఎంటర్ చేయండి (1234):");
-    if (pin === ADMIN_PIN) {
+    const pin = prompt("Master Admin PIN ఎంటర్ చేయండి (1234):");
+    if (pin === MASTER_ADMIN_PIN) {
       adminUnlocked = true;
       this.innerText = "🔓 Admin Unlocked"; this.classList.add("unlocked");
-      bar.style.display = "block"; renderPublicNotices();
+      bar.style.display = "block";
+      renderPublicNotices(); renderQueryPosts();
     } else if (pin !== null) alert("తప్పు PIN!");
-  });
-
-  document.getElementById("mshBtnShowNums").addEventListener("click", function() {
-    showNumbers = !showNumbers;
-    this.classList.toggle("active", showNumbers);
-    this.innerText = showNumbers ? "🙈 Hide Rider Numbers" : "📞 Show Rider Numbers";
-    renderRiders();
   });
 
   document.getElementById("mshBtnAddRide").addEventListener("click", function() {
@@ -884,7 +1018,7 @@
     if (!pick || !drop) { alert("Pickup & Destination రాయండి"); return; }
 
     adminRides.unshift({ cName, cPhone, pick, drop, rKm, rAmt, rider: rider.name });
-    localStorage.setItem("msh_admin_rides_pro_v1", JSON.stringify(adminRides));
+    localStorage.setItem("msh_admin_rides_v5", JSON.stringify(adminRides));
     renderAdminRides();
 
     const msg = `🛵 *NEW RIDE (Mana Seva Hub)*\n👤 Customer: ${cName} (${cPhone})\n📍 Pickup: ${pick}\n🏁 Drop: ${drop}\n📏 KM: ${rKm} km | 💰 Cash: ₹${rAmt}`;
@@ -902,6 +1036,7 @@
     document.getElementById("mshRVeh").value = r.vehicle;
     document.getElementById("mshRPhone").value = r.phone;
     document.getElementById("mshRArea").value = r.area;
+    document.getElementById("mshRPin").value = r.pin || "1111";
     document.getElementById("mshRStat").value = r.status;
   }
   document.getElementById("mshSlotSel").addEventListener("change", loadRiderSlot);
@@ -914,17 +1049,19 @@
       vehicle: document.getElementById("mshRVeh").value,
       phone: document.getElementById("mshRPhone").value.trim() || "8985240287",
       area: document.getElementById("mshRArea").value.trim() || "Boddavara",
+      pin: document.getElementById("mshRPin").value.trim() || "1111",
       status: document.getElementById("mshRStat").value,
       updated: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
-    localStorage.setItem("msh_riders_pro_v1", JSON.stringify(riders));
+    localStorage.setItem("msh_riders_v5", JSON.stringify(riders));
     renderRiders();
-    alert("Rider Updated ✅");
+    alert("Rider & PIN Updated ✅");
   });
 
-  if (parseInt(localStorage.getItem("msh_reqs_pro_v1") || "0") >= 1) document.getElementById("mshAdvBox").style.display = "block";
+  if (parseInt(localStorage.getItem("msh_reqs_v5") || "0") >= 1) document.getElementById("mshAdvBox").style.display = "block";
   updateFare();
   renderRiders();
   renderPublicNotices();
+  renderQueryPosts();
 })();
 </script>
