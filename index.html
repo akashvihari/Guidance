@@ -1,725 +1,63 @@
-<!DOCTYPE html>
-<html lang="te">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mana Seva Hub - Rapido-Style Easy Ride (20 KM Local)</title>
+<!-- Leaflet Free Interactive Map CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <style>
-  :root {
+  .msh-ride-box {
     --primary: #0f4c3a;
-    --primary-light: #e8f5e9;
     --accent: #f59e0b;
-    --accent-dark: #d97706;
     --danger: #dc2626;
-    --bg: #f8fafc;
-    --card-bg: #ffffff;
     --border: #e2e8f0;
     --text: #1e293b;
     --muted: #64748b;
-  }
-
-  * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-  body { background: var(--bg); color: var(--text); margin: 0; padding: 12px; }
-
-  .ride-wrapper {
+    font-family: 'Segoe UI', system-ui, sans-serif;
     max-width: 1100px;
-    margin: 0 auto;
-    background: var(--card-bg);
+    margin: 12px auto;
+    background: #fff;
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 18px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    padding: 16px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    color: var(--text);
   }
+  .msh-ride-box * { box-sizing: border-box; }
 
-  /* Header */
-  .ride-header {
+  .msh-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 16px;
     border-bottom: 1px solid var(--border);
     padding-bottom: 12px;
-  }
-  .ride-title { font-size: 1.2rem; font-weight: 800; color: var(--primary); margin: 0; }
-  .ride-subtitle { font-size: 0.85rem; color: var(--muted); margin: 4px 0 0; }
-  .header-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn-pill {
-    border: none;
-    border-radius: 999px;
-    padding: 7px 14px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  .btn-rider-join { background: var(--accent); color: #fff; }
-  .btn-rider-join:hover { background: var(--accent-dark); }
-  .btn-admin-toggle { background: #1e293b; color: #fff; }
-
-  /* 3-Column Grid */
-  .ride-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 14px;
-  }
-
-  .step-box {
-    border-radius: 12px;
-    padding: 14px;
-    border: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .step-1 { background: #f0fdf4; border-color: #bbf7d0; }
-  .step-2 { background: #fffbeb; border-color: #fde68a; }
-  .step-3 { background: #f8fafc; border-color: #cbd5e1; }
-
-  .step-heading {
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin: 0 0 10px;
-  }
-
-  /* Vehicle Selector */
-  .vehicle-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
-  .veh-card {
-    background: #fff;
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 8px 4px;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  .veh-card.active {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
-  }
-  .veh-name { font-weight: 700; font-size: 0.88rem; display: block; }
-  .veh-rate { font-size: 0.78rem; opacity: 0.9; }
-
-  /* Fare Display */
-  .fare-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #fff;
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #bbf7d0;
-    margin-bottom: 10px;
-    font-weight: 700;
-  }
-  .fare-badge {
-    background: var(--primary);
-    color: #fff;
-    padding: 3px 10px;
-    border-radius: 6px;
-    font-size: 1rem;
-  }
-
-  input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; }
-
-  /* Inputs & GPS */
-  .gps-row { display: flex; gap: 8px; margin-bottom: 8px; }
-  .form-input, .form-select {
-    width: 100%;
-    padding: 9px 10px;
-    border-radius: 8px;
-    border: 1px solid #cbd5e1;
-    font-size: 0.88rem;
-    background: #fff;
-    margin-bottom: 8px;
-  }
-  .btn-gps {
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 0 12px;
-    font-weight: 700;
-    font-size: 0.82rem;
-    white-space: nowrap;
-    cursor: pointer;
-    height: 38px;
-  }
-  .btn-gps.attached { background: #15803d; }
-
-  .checkbox-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--danger);
-    margin-top: 2px;
-  }
-
-  /* Alerts */
-  .advance-alert {
-    display: none;
-    background: #fef2f2;
-    border: 1px solid #fca5a5;
-    color: #991b1b;
-    padding: 8px 10px;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  /* Action Buttons */
-  .btn-action {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 9px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    cursor: pointer;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-  .btn-whatsapp { background: #16a34a; color: #fff; }
-  .btn-whatsapp:hover { background: #15803d; }
-  .btn-lock { background: var(--primary); color: #fff; }
-
-  /* 4 Riders List */
-  .riders-list { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
-  .rider-item {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 7px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.82rem;
-  }
-  .rider-info strong { display: block; color: var(--text); }
-  .rider-meta { color: var(--muted); font-size: 0.75rem; }
-  .status-dot {
-    display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    margin-right: 4px;
-  }
-  .dot-online { background: #16a34a; }
-  .dot-busy { background: #dc2626; }
-  .btn-call-mini {
-    background: #16a34a;
-    color: #fff;
-    text-decoration: none;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-weight: 700;
-    font-size: 0.78rem;
-  }
-  .locked-tag {
-    background: #f1f5f9;
-    color: #475569;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-
-  /* Modal */
-  .modal-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    z-index: 999;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-  }
-  .modal-card {
-    background: #fff;
-    border-radius: 14px;
-    padding: 18px;
-    width: 100%;
-    max-width: 400px;
-  }
-  .modal-card h3 { margin: 0 0 10px; color: var(--primary); }
-</style>
-</head>
-<body>
-
-<div class="ride-wrapper">
-  <!-- Header -->
-  <div class="ride-header">
-    <div>
-      <h2 class="ride-title">🛵 Rapido-Style Easy Ride (15–20 KM Local • Bike ₹5/km • Auto • Car)</h2>
-      <p class="ride-subtitle">అడ్వాన్స్ & ఎమర్జెన్సీ ట్రాన్స్‌పోర్ట్ (Boddavara • Kiltampalem • Thatipudi • S.Kota • L.Kota • Kothavalasa)</p>
-    </div>
-    <div class="header-btns">
-      <button class="btn-pill btn-rider-join" onclick="openRiderModal()">+ Rider Update / Join (Max 4)</button>
-      <button class="btn-pill btn-admin-toggle" onclick="toggleAdminLock()" id="adminLockBtn">🔒 Admin Unlock</button>
-    </div>
-  </div>
-
-  <!-- 3-Step Grid -->
-  <div class="ride-grid">
-    
-    <!-- STEP 1: Vehicle & Auto KM/Amount -->
-    <div class="step-box step-1">
-      <div>
-        <div class="step-heading">1. వాహనం & దూరం (1–25 KM) ఎంచుకోండి</div>
-        <div class="vehicle-row">
-          <div class="veh-card active" onclick="selectVehicle('Bike', 5, 20, this)">
-            <span class="veh-name">🏍️ Bike</span>
-            <span class="veh-rate">₹5/km</span>
-          </div>
-          <div class="veh-card" onclick="selectVehicle('Auto', 12, 50, this)">
-            <span class="veh-name">🛺 Auto</span>
-            <span class="veh-rate">₹12/km</span>
-          </div>
-          <div class="veh-card" onclick="selectVehicle('Car', 18, 100, this)">
-            <span class="veh-name">🚗 Car</span>
-            <span class="veh-rate">₹18/km</span>
-          </div>
-        </div>
-
-        <div class="fare-bar">
-          <span>దూరం: <strong id="kmDisplay">5 km</strong></span>
-          <span>ఛార్జ్: <span class="fare-badge" id="fareDisplay">₹25</span></span>
-        </div>
-
-        <input type="range" id="kmSlider" min="1" max="25" step="0.5" value="5" oninput="manualSliderChange(this.value)">
-        <div style="font-size:0.75rem; color:#15803d; margin-top:4px;" id="calcNote">
-          * Live GPS + Destination ఎంచుకుంటే KM & ఛార్జ్ ఆటోమేటిక్‌గా మారుతాయి.
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP 2: Live GPS & Destination -->
-    <div class="step-box step-2">
-      <div>
-        <div class="step-heading">2. మీ Live GPS & వెళ్లాల్సిన ఊరు (Destination)</div>
-        
-        <div class="gps-row">
-          <input type="text" id="pickupStatus" class="form-input" style="margin-bottom:0;" placeholder="ప్రస్తుత లొకేషన్ కోసం Live GPS నొక్కండి" readonly>
-          <button type="button" class="btn-gps" id="gpsBtn" onclick="getLiveGPS()">📍 Live GPS</button>
-        </div>
-
-        <select id="destSelect" class="form-select" onchange="handleDestinationChange()">
-          <option value="">-- వెళ్లాల్సిన ఊరు (Destination) ఎంచుకోండి --</option>
-          <option value="18.0815,83.1285">Boddavara (బొడ్డవార)</option>
-          <option value="18.1050,83.1480">Kiltampalem (కిల్తంపాలెం)</option>
-          <option value="18.1730,83.1880">Thatipudi (తాటిపూడి)</option>
-          <option value="18.1118,83.1415">S.Kota / Srungavarapukota (ఎస్.కోట)</option>
-          <option value="18.0680,83.1290">Malliveedu (మల్లివీడు)</option>
-          <option value="18.0335,83.1485">L.Kota / Lakkavarapukota (ఎల్.కోట)</option>
-          <option value="17.8930,83.1840">Kothavalasa (కొత్తవలస)</option>
-          <option value="18.0460,83.2460">Jami (జామి)</option>
-          <option value="17.9890,83.0760">Vepada (వేపాడ)</option>
-          <option value="custom">Other / Custom Location (ఇతర ఊరు)</option>
-        </select>
-
-        <input type="text" id="customDestInput" class="form-input" placeholder="వెళ్లాల్సిన ఊరి పేరు రాయండి..." style="display:none;">
-        <input type="text" id="customMsgInput" class="form-input" placeholder="కస్టమ్ మెసేజ్ (ఉదా: 2 బ్యాగులు ఉన్నాయి / త్వరగా రావాలి)">
-
-        <label class="checkbox-row">
-          <input type="checkbox" id="emergencyCheck"> 🚨 Emergency Ride (అత్యవసర ప్రయాణం)
-        </label>
-      </div>
-    </div>
-
-    <!-- STEP 3: Mediator Booking & 4 Riders Status -->
-    <div class="step-box step-3">
-      <div>
-        <div class="step-heading">3. అడ్మిన్ కన్ఫర్మేషన్ & 4 లోకల్ రైడర్లు</div>
-
-        <div class="advance-alert" id="advanceAlert">
-          ⚠️ 2వ బుకింగ్ అలర్ట్: కన్ఫర్మేషన్ కోసం ₹20 అడ్వాన్స్ పేమెంట్ (UPI: 8985240287) అవసరం కావచ్చు.
-        </div>
-
-        <button class="btn-action btn-whatsapp" onclick="sendRideWhatsApp()">
-          📲 Send Ride + GPS on WhatsApp
-        </button>
-
-        <div style="font-size:0.76rem; color:#475569; margin-bottom:6px; font-weight:600;">
-          📍 ఆక్టివ్ రైడర్లు (20 KM పరిధి - Admin Control):
-        </div>
-
-        <div class="riders-list" id="ridersListContainer"></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- Rider Update / Join Modal -->
-<div class="modal-backdrop" id="riderModal">
-  <div class="modal-card">
-    <h3>🛵 Rider Location & Status Update</h3>
-    <p style="font-size:0.8rem; color:#64748b; margin-top:0;">కేవలం 4 లోకల్ రైడర్లకు మాత్రమే అనుమతి ఉంది.</p>
-    
-    <select id="riderSlotSelect" class="form-select">
-      <option value="0">Slot 1: Prakash (Boddavara)</option>
-      <option value="1">Slot 2: Rider 2 (S.Kota)</option>
-      <option value="2">Slot 3: Rider 3 (Kiltampalem)</option>
-      <option value="3">Slot 4: Rider 4 (Thatipudi)</option>
-    </select>
-
-    <input type="text" id="riderNameInput" class="form-input" placeholder="రైడర్ పేరు (ఉదా: Rajesh)">
-    <input type="tel" id="riderPhoneInput" class="form-input" placeholder="ఫోన్ నంబర్ (10 అంకెలు)">
-    <input type="text" id="riderLocInput" class="form-input" placeholder="ప్రస్తుత ఏరియా (ఉదా: S.Kota Bus Stand)">
-    
-    <select id="riderStatusInput" class="form-select">
-      <option value="online">🟢 Available (ఖాళీగా ఉన్నాను)</option>
-      <option value="busy">🔴 Busy (రైడ్‌లో ఉన్నాను)</option>
-    </select>
-
-    <div style="display:flex; gap:8px; margin-top:8px;">
-      <button class="btn-action btn-whatsapp" style="margin:0;" onclick="saveRiderSlot()">Save Update</button>
-      <button class="btn-action" style="margin:0; background:#e2e8f0; color:#1e293b;" onclick="closeRiderModal()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<script>
-  // Admin WhatsApp Number (Mediator)
-  const ADMIN_WHATSAPP = "918985240287";
-  const ADMIN_PIN = "1234"; // Admin unlock PIN
-
-  // State
-  let selectedVehicle = "Bike";
-  let ratePerKm = 5;
-  let minFare = 20;
-  let currentKm = 5;
-  let userLat = null;
-  let userLng = null;
-  let isAdminUnlocked = false;
-
-  // 4 Local Riders Data (Saved in LocalStorage)
-  const defaultRiders = [
-    { name: "Prakash", vehicle: "BIKE", area: "Boddavara", phone: "8985240287", status: "online", updated: "Just now" },
-    { name: "Rajesh", vehicle: "BIKE", area: "S.Kota", phone: "9000000001", status: "online", updated: "10m ago" },
-    { name: "Sridhar", vehicle: "AUTO", area: "Kiltampalem", phone: "9000000002", status: "online", updated: "15m ago" },
-    { name: "Swami", vehicle: "BIKE", area: "Thatipudi", phone: "9000000003", status: "busy", updated: "25m ago" }
-  ];
-
-  let ridersData = JSON.parse(localStorage.getItem("manahub_4_riders")) || defaultRiders;
-
-  // Check 2nd Booking for Advance Payment Rule
-  function checkBookingCount() {
-    let count = parseInt(localStorage.getItem("manahub_ride_requests") || "0");
-    if (count >= 1) {
-      document.getElementById("advanceAlert").style.display = "block";
-    }
-  }
-
-  // Select Vehicle
-  function selectVehicle(name, rate, minimum, el) {
-    selectedVehicle = name;
-    ratePerKm = rate;
-    minFare = minimum;
-    document.querySelectorAll(".veh-card").forEach(c => c.classList.remove("active"));
-    el.classList.add("active");
-    updateFareUI();
-  }
-
-  // Manual Slider Change
-  function manualSliderChange(val) {
-    currentKm = parseFloat(val);
-    updateFareUI();
-  }
-
-  // Update KM & Fare Display
-  function updateFareUI() {
-    let total = Math.round(currentKm * ratePerKm);
-    if (total < minFare) total = minFare;
-    document.getElementById("kmDisplay").innerText = currentKm + " km";
-    document.getElementById("fareDisplay").innerText = "₹" + total;
-    document.getElementById("kmSlider").value = Math.min(currentKm, 25);
-  }
-
-  // Get Live GPS
-  function getLiveGPS() {
-    const statusBox = document.getElementById("pickupStatus");
-    const gpsBtn = document.getElementById("gpsBtn");
-    statusBox.value = "GPS లొకేషన్ తీసుకుంటున్నాము...";
-
-    if (!navigator.geolocation) {
-      alert("మీ ఫోన్‌లో GPS సపోర్ట్ లేదు.");
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        userLat = pos.coords.latitude;
-        userLng = pos.coords.longitude;
-        statusBox.value = `Live GPS Attached ✅ (${userLat.toFixed(4)}, ${userLng.toFixed(4)})`;
-        gpsBtn.classList.add("attached");
-        gpsBtn.innerText = "✅ GPS Ready";
-        calculateAutoDistance();
-      },
-      (err) => {
-        statusBox.value = "GPS అనుమతి ఇవ్వలేదు (Location On చేయండి)";
-        alert("దయచేసి ఫోన్‌లో Location (GPS) ఆన్ చేసి మళ్లీ నొక్కండి.");
-      },
-      { enableHighAccuracy: true, timeout: 10000 }
-    );
-  }
-
-  // Handle Destination Dropdown
-  function handleDestinationChange() {
-    const val = document.getElementById("destSelect").value;
-    const customBox = document.getElementById("customDestInput");
-    if (val === "custom") {
-      customBox.style.display = "block";
-      document.getElementById("calcNote").innerText = "* కస్టమ్ ఊరు ఎంచుకున్నారు: కింద స్లైడర్‌తో KM సెట్ చేయండి.";
-    } else {
-      customBox.style.display = "none";
-      calculateAutoDistance();
-    }
-  }
-
-  // Haversine Formula + 1.25 Road Curve Factor
-  function calculateAutoDistance() {
-    const val = document.getElementById("destSelect").value;
-    if (!userLat || !userLng || !val || val === "custom") return;
-
-    const [destLat, destLng] = val.split(",").map(Number);
-    const R = 6371; // Earth radius in km
-    const dLat = (destLat - userLat) * Math.PI / 180;
-    const dLon = (destLng - userLng) * Math.PI / 180;
-    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.cos(userLat * Math.PI / 180) * Math.cos(destLat * Math.PI / 180) *
-              Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const straightKm = R * c;
-
-    // Multiply by 1.25 for rural road turns, minimum 2 km
-    let roadKm = Math.max(2, Math.round(straightKm * 1.25 * 10) / 10);
-    currentKm = roadKm;
-    updateFareUI();
-
-    if (roadKm > 25) {
-      document.getElementById("calcNote").innerHTML = `<span style="color:#dc2626;">⚠️ దూరం ${roadKm} km ఉంది (మా సర్వీస్ 20-25 KM లోపు మాత్రమే).</span>`;
-    } else {
-      document.getElementById("calcNote").innerText = `✅ ఆటోమేటిక్ రోడ్ దూరం: ${roadKm} km లెక్కించబడింది.`;
-    }
-  }
-
-  // Send WhatsApp Message to Admin (Mediator)
-  function sendRideWhatsApp() {
-    const destSelect = document.getElementById("destSelect");
-    let destName = "Not Selected";
-    if (destSelect.value === "custom") {
-      destName = document.getElementById("customDestInput").value.trim() || "Custom Location";
-    } else if (destSelect.value !== "") {
-      destName = destSelect.options[destSelect.selectedIndex].text;
-    }
-
-    const customMsg = document.getElementById("customMsgInput").value.trim();
-    const isEmergency = document.getElementById("emergencyCheck").checked;
-    const fareText = document.getElementById("fareDisplay").innerText;
-    const gpsLink = (userLat && userLng)
-      ? `https://maps.google.com/?q=${userLat},${userLng}`
-      : "GPS Not Attached (Manual KM)";
-
-    // Track booking count for 2nd request advance rule
-    let reqCount = parseInt(localStorage.getItem("manahub_ride_requests") || "0");
-    const isSecondRequest = reqCount >= 1;
-    localStorage.setItem("manahub_ride_requests", reqCount + 1);
-    checkBookingCount();
-
-    let message = `🛵 *MANA SEVA HUB - RIDE REQUEST*\n`;
-    if (isEmergency) message += `🚨 *EMERGENCY RIDE REQUEST*\n`;
-    if (isSecondRequest) message += `⚠️ *2nd Request (Advance Applicable)*\n`;
-    message += `--------------------------\n`;
-    message += `🚘 *Vehicle:* ${selectedVehicle}\n`;
-    message += `📍 *Pickup GPS:* ${gpsLink}\n`;
-    message += `🏁 *Destination:* ${destName}\n`;
-    message += `📏 *Distance:* ${currentKm} km\n`;
-    message += `💰 *Estimated Fare:* ${fareText}\n`;
-    if (customMsg) message += `📝 *Note:* ${customMsg}\n`;
-    message += `--------------------------\n`;
-    message += `దయచేసి దగ్గరలో ఉన్న రైడర్ నంబర్ పంపండి.`;
-
-    const waUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(message)}`;
-    window.open(waUrl, "_blank");
-  }
-
-  // Render 4 Riders List
-  function renderRiders() {
-    const container = document.getElementById("ridersListContainer");
-    container.innerHTML = "";
-
-    ridersData.forEach((r) => {
-      const dotClass = r.status === "online" ? "dot-online" : "dot-busy";
-      const statusText = r.status === "online" ? "Available" : "Busy";
-      const rightAction = isAdminUnlocked
-        ? `<a href="tel:${r.phone}" class="btn-call-mini">📞 ${r.phone}</a>`
-        : `<span class="locked-tag">🔒 Admin Confirm Only</span>`;
-
-      container.innerHTML += `
-        <div class="rider-item">
-          <div class="rider-info">
-            <strong><span class="status-dot ${dotClass}"></span>${r.name} (${r.vehicle} • ${r.area})</strong>
-            <span class="rider-meta">${statusText} • Updated: ${r.updated}</span>
-          </div>
-          <div>${rightAction}</div>
-        </div>
-      `;
-    });
-  }
-
-  // Admin Unlock Toggle
-  function toggleAdminLock() {
-    if (isAdminUnlocked) {
-      isAdminUnlocked = false;
-      document.getElementById("adminLockBtn").innerText = "🔒 Admin Unlock";
-      renderRiders();
-      return;
-    }
-    const pin = prompt("Admin PIN ఎంటర్ చేయండి (Default: 1234):");
-    if (pin === ADMIN_PIN) {
-      isAdminUnlocked = true;
-      document.getElementById("adminLockBtn").innerText = "🔓 Admin Unlocked";
-      renderRiders();
-    } else if (pin !== null) {
-      alert("తప్పు PIN!");
-    }
-  }
-
-  // Rider Modal Functions
-  function openRiderModal() {
-    document.getElementById("riderModal").style.display = "flex";
-  }
-  function closeRiderModal() {
-    document.getElementById("riderModal").style.display = "none";
-  }
-  function saveRiderSlot() {
-    const slot = parseInt(document.getElementById("riderSlotSelect").value);
-    const name = document.getElementById("riderNameInput").value.trim();
-    const phone = document.getElementById("riderPhoneInput").value.trim();
-    const area = document.getElementById("riderLocInput").value.trim();
-    const status = document.getElementById("riderStatusInput").value;
-
-    if (!name || !phone || !area) {
-      alert("దయచేసి పేరు, ఫోన్ నంబర్ మరియు లొకేషన్ రాయండి.");
-      return;
-    }
-
-    ridersData[slot] = {
-      name: name,
-      vehicle: ridersData[slot].vehicle,
-      area: area,
-      phone: phone,
-      status: status,
-      updated: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-
-    localStorage.setItem("manahub_4_riders", JSON.stringify(ridersData));
-    renderRiders();
-    closeRiderModal();
-    alert("రైడర్ వివరాలు అప్‌డేట్ అయ్యాయి!");
-  }
-
-  // Initialize
-  checkBookingCount();
-  updateFareUI();
-  renderRiders();
-</script>
-
-</body>
-</html>
-
-
-
-<!DOCTYPE html>
-<html lang="te">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mana Seva Hub - Rapido-Style Easy Ride (Admin Controls)</title>
-<style>
-  :root {
-    --primary: #0f4c3a;
-    --accent: #f59e0b;
-    --accent-dark: #d97706;
-    --danger: #dc2626;
-    --bg: #f8fafc;
-    --card-bg: #ffffff;
-    --border: #e2e8f0;
-    --text: #1e293b;
-    --muted: #64748b;
-  }
-
-  * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-  body { background: var(--bg); color: var(--text); margin: 0; padding: 12px; }
-
-  .ride-wrapper {
-    max-width: 1100px;
-    margin: 0 auto;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 18px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  }
-
-  /* Header */
-  .ride-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 10px;
     margin-bottom: 14px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 12px;
   }
-  .ride-title { font-size: 1.18rem; font-weight: 800; color: var(--primary); margin: 0; }
-  .ride-subtitle { font-size: 0.84rem; color: var(--muted); margin: 4px 0 0; }
-  .header-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn-pill {
+  .msh-title { font-size: 1.15rem; font-weight: 800; color: var(--primary); margin: 0; }
+  .msh-sub { font-size: 0.82rem; color: var(--muted); margin: 3px 0 0; }
+
+  .msh-btn-lock {
+    background: #1e293b;
+    color: #fff;
     border: none;
     border-radius: 999px;
-    padding: 7px 14px;
+    padding: 8px 15px;
     font-size: 0.82rem;
     font-weight: 700;
     cursor: pointer;
-    transition: 0.2s;
   }
-  .btn-admin-toggle { background: #1e293b; color: #fff; }
-  .btn-admin-toggle.unlocked { background: #16a34a; }
+  .msh-btn-lock.unlocked { background: #16a34a; }
 
-  /* Admin Selective Control Bar (Hidden until PIN unlock) */
-  .admin-bar {
+  /* Admin Bar */
+  .msh-admin-bar {
     display: none;
     background: #1e293b;
     color: #fff;
     padding: 12px;
     border-radius: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
-  .admin-bar-title {
-    font-size: 0.82rem;
-    color: #fbbf24;
-    font-weight: 700;
-    margin-bottom: 8px;
-    display: block;
-  }
-  .admin-tabs {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .admin-tab-btn {
+  .msh-admin-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .msh-tab-btn {
     background: #334155;
     color: #fff;
     border: 1px solid #475569;
@@ -729,51 +67,28 @@
     font-weight: 600;
     cursor: pointer;
   }
-  .admin-tab-btn.active {
-    background: var(--accent);
-    color: #000;
-    border-color: var(--accent);
-    font-weight: 700;
-  }
+  .msh-tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
 
-  /* Admin Panels (Each opens ONLY when its button is clicked) */
-  .admin-panel {
+  .msh-admin-panel {
     display: none;
     background: #f1f5f9;
     border: 1px solid #cbd5e1;
     border-radius: 12px;
     padding: 14px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
-  .admin-panel h4 { margin: 0 0 10px; color: var(--primary); font-size: 0.95rem; }
-  .admin-form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 8px;
-  }
+  .msh-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; }
 
-  /* 3-Column Customer Grid */
-  .ride-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 14px;
-  }
-  .step-box {
-    border-radius: 12px;
-    padding: 14px;
-    border: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .step-1 { background: #f0fdf4; border-color: #bbf7d0; }
-  .step-2 { background: #fffbeb; border-color: #fde68a; }
-  .step-3 { background: #f8fafc; border-color: #cbd5e1; }
-  .step-heading { font-size: 0.92rem; font-weight: 700; color: var(--primary); margin: 0 0 10px; }
+  /* 3-Column Grid */
+  .msh-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 14px; }
+  .msh-card { border-radius: 12px; padding: 14px; border: 1px solid var(--border); }
+  .msh-c1 { background: #f0fdf4; border-color: #bbf7d0; }
+  .msh-c2 { background: #fffbeb; border-color: #fde68a; }
+  .msh-c3 { background: #f8fafc; border-color: #cbd5e1; }
+  .msh-step-h { font-size: 0.92rem; font-weight: 700; color: var(--primary); margin: 0 0 10px; }
 
-  /* Vehicle Selector */
-  .vehicle-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
-  .veh-card {
+  .msh-veh-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+  .msh-veh {
     background: #fff;
     border: 2px solid var(--border);
     border-radius: 10px;
@@ -781,12 +96,9 @@
     text-align: center;
     cursor: pointer;
   }
-  .veh-card.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-  .veh-name { font-weight: 700; font-size: 0.88rem; display: block; }
-  .veh-rate { font-size: 0.78rem; opacity: 0.9; }
+  .msh-veh.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-  /* Fare Display */
-  .fare-bar {
+  .msh-fare-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -797,285 +109,243 @@
     margin-bottom: 10px;
     font-weight: 700;
   }
-  .fare-badge { background: var(--primary); color: #fff; padding: 3px 10px; border-radius: 6px; font-size: 1rem; }
-  input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; }
+  .msh-badge { background: var(--primary); color: #fff; padding: 3px 10px; border-radius: 6px; font-size: 1rem; }
 
-  /* Inputs & Buttons */
-  .gps-row { display: flex; gap: 8px; margin-bottom: 8px; }
-  .form-input, .form-select {
+  .msh-row { display: flex; gap: 6px; margin-bottom: 8px; }
+  .msh-input, .msh-select {
     width: 100%;
     padding: 8px 10px;
     border-radius: 8px;
     border: 1px solid #cbd5e1;
-    font-size: 0.86rem;
+    font-size: 0.85rem;
     background: #fff;
     margin-bottom: 8px;
   }
-  .btn-gps {
+  .msh-btn-sm {
     background: var(--primary);
     color: #fff;
     border: none;
     border-radius: 8px;
     padding: 0 12px;
     font-weight: 700;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     white-space: nowrap;
     cursor: pointer;
     height: 36px;
   }
-  .btn-gps.attached { background: #15803d; }
-
-  .checkbox-row { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 600; color: var(--danger); }
-  .advance-alert {
-    display: none;
-    background: #fef2f2;
-    border: 1px solid #fca5a5;
-    color: #991b1b;
-    padding: 8px 10px;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  .btn-action {
+  .msh-btn-map { background: #0284c7; }
+  .msh-btn-wa {
     width: 100%;
     padding: 10px;
+    background: #16a34a;
+    color: #fff;
     border: none;
     border-radius: 9px;
     font-weight: 700;
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     cursor: pointer;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
+    margin-bottom: 10px;
   }
-  .btn-whatsapp { background: #16a34a; color: #fff; }
-  .btn-primary { background: var(--primary); color: #fff; }
 
   /* Riders List */
-  .riders-list { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
-  .rider-item {
+  .msh-rider-item {
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 7px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.82rem;
-  }
-  .rider-info strong { display: block; color: var(--text); }
-  .rider-meta { color: var(--muted); font-size: 0.75rem; }
-  .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
-  .dot-online { background: #16a34a; }
-  .dot-busy { background: #dc2626; }
-  .btn-call-mini { background: #16a34a; color: #fff; text-decoration: none; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.78rem; }
-  .locked-tag { background: #f1f5f9; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
-
-  /* Admin Saved Ride Log */
-  .ride-log-item {
-    background: #fff;
-    border-left: 4px solid var(--primary);
-    padding: 8px 10px;
-    border-radius: 6px;
     margin-top: 6px;
-    font-size: 0.82rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
+    font-size: 0.82rem;
   }
+  .msh-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+  .msh-on { background: #16a34a; }
+  .msh-off { background: #dc2626; }
+  .msh-lock-tag { background: #f1f5f9; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+  .msh-call-btn { background: #16a34a; color: #fff; text-decoration: none; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.78rem; }
+
+  /* Map Modal */
+  .msh-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+  }
+  .msh-modal-inner {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px;
+    width: 100%;
+    max-width: 500px;
+  }
+  #mshLeafletMap { height: 300px; width: 100%; border-radius: 10px; margin: 10px 0; border: 1px solid #cbd5e1; }
 </style>
-</head>
-<body>
 
-<div class="ride-wrapper">
+<div class="msh-ride-box" id="mshRideModule">
   <!-- Header -->
-  <div class="ride-header">
+  <div class="msh-header">
     <div>
-      <h2 class="ride-title">🛵 Rapido-Style Easy Ride (15–20 KM Local • Bike ₹5/km • Auto • Car)</h2>
-      <p class="ride-subtitle">అడ్వాన్స్ & ఎమర్జెన్సీ ట్రాన్స్‌పోర్ట్ (Boddavara • Kiltampalem • Thatipudi • S.Kota • L.Kota • Kothavalasa)</p>
+      <h2 class="msh-title">🛵 Rapido-Style Easy Ride (15–20 KM Local • Bike ₹5/km • Auto • Car)</h2>
+      <p class="msh-sub">అడ్వాన్స్ & ఎమర్జెన్సీ ట్రాన్స్‌పోర్ట్ (Boddavara • Kiltampalem • Thatipudi • S.Kota • L.Kota • Kothavalasa)</p>
     </div>
-    <div class="header-btns">
-      <button class="btn-pill btn-admin-toggle" onclick="toggleAdminMode()" id="adminLockBtn">🔒 Admin Lock</button>
+    <button type="button" class="msh-btn-lock" id="mshAdminBtn">🔒 Admin Lock</button>
+  </div>
+
+  <!-- Admin Selective Bar -->
+  <div class="msh-admin-bar" id="mshAdminBar">
+    <div style="font-size:0.82rem; color:#fbbf24; font-weight:700;">🔓 Admin Control Menu (మీకు ఏది కావాలో దానిపై నొక్కండి):</div>
+    <div class="msh-admin-tabs">
+      <button type="button" class="msh-tab-btn" id="mshBtnShowNums">📞 Show Rider Numbers</button>
+      <button type="button" class="msh-tab-btn" id="mshBtnAddRide">📝 + Add Ride Form</button>
+      <button type="button" class="msh-tab-btn" id="mshBtnEditRiders">🛵 Edit 4 Riders</button>
     </div>
   </div>
 
-  <!-- ADMIN CONTROL MENU (Appears only after PIN unlock - nothing opens automatically!) -->
-  <div class="admin-bar" id="adminBar">
-    <span class="admin-bar-title">🔓 Admin Control Menu (మీకు ఏది కావాలో దానిపై నొక్కండి):</span>
-    <div class="admin-tabs">
-      <button class="admin-tab-btn" id="btnToggleNumbers" onclick="toggleRiderNumbers()">📞 Show Rider Numbers</button>
-      <button class="admin-tab-btn" id="btnTabAddRide" onclick="openAdminPanel('panelAddRide', this)">📝 + Add Ride Form (బుకింగ్)</button>
-      <button class="admin-tab-btn" id="btnTabManageRiders" onclick="openAdminPanel('panelManageRiders', this)">🛵 Add / Edit 4 Riders</button>
-    </div>
-  </div>
-
-  <!-- ADMIN PANEL 1: ADD RIDE FORM (Opens only when "+ Add Ride Form" is clicked) -->
-  <div class="admin-panel" id="panelAddRide">
-    <h4>📝 Admin Ride Form (కస్టమర్ రైడ్ వివరాలు యాడ్ చేయండి)</h4>
-    <div class="admin-form-grid">
-      <input type="text" id="admCustName" class="form-input" placeholder="కస్టమర్ పేరు">
-      <input type="tel" id="admCustPhone" class="form-input" placeholder="కస్టమర్ ఫోన్ నంబర్">
-      <input type="text" id="admPickup" class="form-input" placeholder="Pickup ఊరు (ఉదా: Boddavara)">
-      <input type="text" id="admDrop" class="form-input" placeholder="Destination ఊరు (ఉదా: S.Kota)">
-      <select id="admVehicle" class="form-select">
-        <option value="Bike (₹5/km)">🏍️ Bike (₹5/km)</option>
-        <option value="Auto (₹12/km)">🛺 Auto (₹12/km)</option>
-        <option value="Car (₹18/km)">🚗 Car (₹18/km)</option>
+  <!-- Admin Panel 1: Add Ride Form -->
+  <div class="msh-admin-panel" id="mshPanelRide">
+    <h4 style="margin:0 0 10px; color:#0f4c3a;">📝 Admin Ride Form (కస్టమర్ బుకింగ్ యాడ్ చేయండి)</h4>
+    <div class="msh-form-grid">
+      <input type="text" id="mshAdmCust" class="msh-input" placeholder="కస్టమర్ పేరు">
+      <input type="tel" id="mshAdmPhone" class="msh-input" placeholder="కస్టమర్ ఫోన్">
+      <input type="text" id="mshAdmPick" class="msh-input" placeholder="Pickup ఊరు">
+      <input type="text" id="mshAdmDrop" class="msh-input" placeholder="Destination ఊరు">
+      <select id="mshAdmVeh" class="msh-select">
+        <option value="5">🏍️ Bike (₹5/km)</option>
+        <option value="12">🛺 Auto (₹12/km)</option>
+        <option value="18">🚗 Car (₹18/km)</option>
       </select>
-      <input type="number" id="admKm" class="form-input" placeholder="దూరం (KM)" oninput="calcAdminRideFare()">
-      <input type="number" id="admAmount" class="form-input" placeholder="మొత్తం ఛార్జ్ (₹)">
-      <select id="admAssignRider" class="form-select"></select>
+      <input type="number" id="mshAdmKm" class="msh-input" placeholder="దూరం (KM)">
+      <input type="number" id="mshAdmAmt" class="msh-input" placeholder="మొత్తం ఛార్జ్ (₹)">
+      <select id="mshAdmRiderSel" class="msh-select"></select>
     </div>
-    <div style="display:flex; gap:8px; margin-top:4px; flex-wrap:wrap;">
-      <button class="btn-action btn-primary" style="width:auto; padding:8px 16px; margin:0;" onclick="saveAdminRide()">✅ Save Ride Entry</button>
-      <button class="btn-action btn-whatsapp" style="width:auto; padding:8px 16px; margin:0;" onclick="sendAdminRideToRider()">📲 Save & Forward to Rider WhatsApp</button>
-      <button class="btn-action" style="width:auto; padding:8px 14px; margin:0; background:#cbd5e1; color:#000;" onclick="closeAllAdminPanels()">Close</button>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button type="button" class="msh-btn-sm" style="background:#16a34a;" id="mshSaveForwardRide">📲 Save & Send to Rider WhatsApp</button>
+      <button type="button" class="msh-btn-sm" style="background:#64748b;" id="mshClosePanels1">Close</button>
     </div>
-
-    <!-- Saved Admin Rides List -->
-    <div id="adminSavedRidesList" style="margin-top:12px;"></div>
+    <div id="mshSavedRidesBox" style="margin-top:10px; font-size:0.82rem;"></div>
   </div>
 
-  <!-- ADMIN PANEL 2: ADD / EDIT 4 RIDERS (Opens only when "Add / Edit 4 Riders" is clicked) -->
-  <div class="admin-panel" id="panelManageRiders">
-    <h4>🛵 Add / Edit Local Riders (గరిష్టంగా 4 రైడర్లు)</h4>
-    <div class="admin-form-grid">
-      <select id="riderSlotSelect" class="form-select" onchange="loadSlotToForm()">
+  <!-- Admin Panel 2: Edit 4 Riders -->
+  <div class="msh-admin-panel" id="mshPanelRiders">
+    <h4 style="margin:0 0 10px; color:#0f4c3a;">🛵 Add / Edit 4 Local Riders</h4>
+    <div class="msh-form-grid">
+      <select id="mshSlotSel" class="msh-select">
         <option value="0">Slot 1</option>
         <option value="1">Slot 2</option>
         <option value="2">Slot 3</option>
         <option value="3">Slot 4</option>
       </select>
-      <input type="text" id="riderNameInput" class="form-input" placeholder="రైడర్ పేరు">
-      <select id="riderVehInput" class="form-select">
+      <input type="text" id="mshRName" class="msh-input" placeholder="రైడర్ పేరు">
+      <select id="mshRVeh" class="msh-select">
         <option value="BIKE">BIKE</option>
         <option value="AUTO">AUTO</option>
         <option value="CAR">CAR</option>
       </select>
-      <input type="tel" id="riderPhoneInput" class="form-input" placeholder="ఫోన్ నంబర్ (10 అంకెలు)">
-      <input type="text" id="riderLocInput" class="form-input" placeholder="ప్రస్తుత ఊరు (ఉదా: S.Kota)">
-      <select id="riderStatusInput" class="form-select">
+      <input type="tel" id="mshRPhone" class="msh-input" placeholder="ఫోన్ నంబర్">
+      <input type="text" id="mshRArea" class="msh-input" placeholder="ఏరియా (ఉదా: S.Kota)">
+      <select id="mshRStat" class="msh-select">
         <option value="online">🟢 Available</option>
         <option value="busy">🔴 Busy</option>
       </select>
     </div>
-    <div style="display:flex; gap:8px; margin-top:4px;">
-      <button class="btn-action btn-whatsapp" style="width:auto; padding:8px 16px; margin:0;" onclick="saveRiderSlot()">💾 Save Rider</button>
-      <button class="btn-action" style="width:auto; padding:8px 14px; margin:0; background:#cbd5e1; color:#000;" onclick="closeAllAdminPanels()">Close</button>
+    <div style="display:flex; gap:8px;">
+      <button type="button" class="msh-btn-sm" style="background:#16a34a;" id="mshSaveRiderBtn">💾 Save Rider</button>
+      <button type="button" class="msh-btn-sm" style="background:#64748b;" id="mshClosePanels2">Close</button>
     </div>
   </div>
 
-  <!-- CUSTOMER 3-STEP GRID -->
-  <div class="ride-grid">
-    
-    <!-- STEP 1: Vehicle & Auto KM/Amount -->
-    <div class="step-box step-1">
-      <div>
-        <div class="step-heading">1. వాహనం & దూరం (1–25 KM) ఎంచుకోండి</div>
-        <div class="vehicle-row">
-          <div class="veh-card active" onclick="selectVehicle('Bike', 5, 20, this)">
-            <span class="veh-name">🏍️ Bike</span>
-            <span class="veh-rate">₹5/km</span>
-          </div>
-          <div class="veh-card" onclick="selectVehicle('Auto', 12, 50, this)">
-            <span class="veh-name">🛺 Auto</span>
-            <span class="veh-rate">₹12/km</span>
-          </div>
-          <div class="veh-card" onclick="selectVehicle('Car', 18, 100, this)">
-            <span class="veh-name">🚗 Car</span>
-            <span class="veh-rate">₹18/km</span>
-          </div>
-        </div>
-
-        <div class="fare-bar">
-          <span>దూరం: <strong id="kmDisplay">5 km</strong></span>
-          <span>ఛార్జ్: <span class="fare-badge" id="fareDisplay">₹25</span></span>
-        </div>
-
-        <input type="range" id="kmSlider" min="1" max="25" step="0.5" value="5" oninput="manualSliderChange(this.value)">
-        <div style="font-size:0.75rem; color:#15803d; margin-top:4px;" id="calcNote">
-          * Live GPS + Destination ఎంచుకుంటే KM & ఛార్జ్ ఆటోమేటిక్‌గా మారుతాయి.
-        </div>
+  <!-- Customer 3-Column Grid -->
+  <div class="msh-grid">
+    <!-- Step 1 -->
+    <div class="msh-card msh-c1">
+      <div class="msh-step-h">1. వాహనం & దూరం (1–25 KM) ఎంచుకోండి</div>
+      <div class="msh-veh-row">
+        <div class="msh-veh active" data-veh="Bike" data-rate="5" data-min="20"><strong>🏍️ Bike</strong><br><small>₹5/km</small></div>
+        <div class="msh-veh" data-veh="Auto" data-rate="12" data-min="50"><strong>🛺 Auto</strong><br><small>₹12/km</small></div>
+        <div class="msh-veh" data-veh="Car" data-rate="18" data-min="100"><strong>🚗 Car</strong><br><small>₹18/km</small></div>
       </div>
+      <div class="msh-fare-bar">
+        <span>దూరం: <strong id="mshKmText">5 km</strong></span>
+        <span>ఛార్జ్: <span class="msh-badge" id="mshFareText">₹25</span></span>
+      </div>
+      <input type="range" id="mshSlider" min="1" max="25" step="0.5" value="5" style="width:100%; accent-color:#0f4c3a;">
+      <div id="mshCalcMsg" style="font-size:0.75rem; color:#15803d; margin-top:5px;">* Live GPS + Destination (లేదా Map) ఎంచుకుంటే KM & ఛార్జ్ ఆటోమేటిక్‌గా వస్తాయి.</div>
     </div>
 
-    <!-- STEP 2: Live GPS & Destination -->
-    <div class="step-box step-2">
-      <div>
-        <div class="step-heading">2. మీ Live GPS & వెళ్లాల్సిన ఊరు (Destination)</div>
-        
-        <div class="gps-row">
-          <input type="text" id="pickupStatus" class="form-input" style="margin-bottom:0;" placeholder="ప్రస్తుత లొకేషన్ కోసం Live GPS నొక్కండి" readonly>
-          <button type="button" class="btn-gps" id="gpsBtn" onclick="getLiveGPS()">📍 Live GPS</button>
-        </div>
+    <!-- Step 2 -->
+    <div class="msh-card msh-c2">
+      <div class="msh-step-h">2. మీ Live GPS & వెళ్లాల్సిన ఊరు (Destination)</div>
+      <div class="msh-row">
+        <input type="text" id="mshGpsBox" class="msh-input" style="margin:0;" placeholder="ప్రస్తుత లొకేషన్ కోసం Live GPS నొక్కండి" readonly>
+        <button type="button" class="msh-btn-sm" id="mshGpsBtn">📍 Live GPS</button>
+      </div>
 
-        <select id="destSelect" class="form-select" onchange="handleDestinationChange()">
-          <option value="">-- వెళ్లాల్సిన ఊరు (Destination) ఎంచుకోండి --</option>
+      <div class="msh-row">
+        <select id="mshDestSel" class="msh-select" style="margin:0;">
+          <option value="">-- ఊరు ఎంచుకోండి --</option>
           <option value="18.0815,83.1285">Boddavara (బొడ్డవార)</option>
           <option value="18.1050,83.1480">Kiltampalem (కిల్తంపాలెం)</option>
           <option value="18.1730,83.1880">Thatipudi (తాటిపూడి)</option>
-          <option value="18.1118,83.1415">S.Kota / Srungavarapukota (ఎస్.కోట)</option>
+          <option value="18.1118,83.1415">S.Kota (ఎస్.కోట)</option>
           <option value="18.0680,83.1290">Malliveedu (మల్లివీడు)</option>
-          <option value="18.0335,83.1485">L.Kota / Lakkavarapukota (ఎల్.కోట)</option>
+          <option value="18.0335,83.1485">L.Kota (ఎల్.కోట)</option>
           <option value="17.8930,83.1840">Kothavalasa (కొత్తవలస)</option>
           <option value="18.0460,83.2460">Jami (జామి)</option>
           <option value="17.9890,83.0760">Vepada (వేపాడ)</option>
-          <option value="custom">Other / Custom Location (ఇతర ఊరు)</option>
         </select>
-
-        <input type="text" id="customDestInput" class="form-input" placeholder="వెళ్లాల్సిన ఊరి పేరు రాయండి..." style="display:none;">
-        <input type="text" id="customMsgInput" class="form-input" placeholder="కస్టమ్ మెసేజ్ (ఉదా: 2 బ్యాగులు ఉన్నాయి / త్వరగా రావాలి)">
-
-        <label class="checkbox-row">
-          <input type="checkbox" id="emergencyCheck"> 🚨 Emergency Ride (అత్యవసర ప్రయాణం)
-        </label>
+        <button type="button" class="msh-btn-sm msh-btn-map" id="mshOpenMapBtn">🗺️ Map లో ఎంచుకోండి</button>
       </div>
+
+      <input type="text" id="mshNoteInput" class="msh-input" placeholder="కస్టమ్ మెసేజ్ / ఇతర ఊరు పేరు...">
+      <label style="font-size:0.82rem; font-weight:700; color:#dc2626; display:flex; align-items:center; gap:6px;">
+        <input type="checkbox" id="mshEmergCheck"> 🚨 Emergency Ride (అత్యవసర ప్రయాణం)
+      </label>
     </div>
 
-    <!-- STEP 3: Mediator Booking & 4 Riders Status -->
-    <div class="step-box step-3">
-      <div>
-        <div class="step-heading">3. అడ్మిన్ కన్ఫర్మేషన్ & 4 లోకల్ రైడర్లు</div>
-
-        <div class="advance-alert" id="advanceAlert">
-          ⚠️ 2వ బుకింగ్ అలర్ట్: కన్ఫర్మేషన్ కోసం ₹20 అడ్వాన్స్ పేమెంట్ (UPI: 8985240287) అవసరం కావచ్చు.
-        </div>
-
-        <button class="btn-action btn-whatsapp" onclick="sendRideWhatsApp()">
-          📲 Send Ride + GPS on WhatsApp
-        </button>
-
-        <div style="font-size:0.76rem; color:#475569; margin-bottom:6px; font-weight:600;">
-          📍 ఆక్టివ్ రైడర్లు (20 KM పరిధి - Admin Control):
-        </div>
-
-        <div class="riders-list" id="ridersListContainer"></div>
+    <!-- Step 3 -->
+    <div class="msh-card msh-c3">
+      <div class="msh-step-h">3. అడ్మిన్ కన్ఫర్మేషన్ & 4 లోకల్ రైడర్లు</div>
+      <div id="mshAdvBox" style="display:none; background:#fef2f2; border:1px solid #fca5a5; color:#991b1b; padding:7px; border-radius:8px; font-size:0.78rem; font-weight:600; margin-bottom:8px;">
+        ⚠️ 2వ బుకింగ్ అలర్ట్: ₹20 అడ్వాన్స్ పేమెంట్ (UPI: 8985240287) అవసరం కావచ్చు.
       </div>
+      <button type="button" class="msh-btn-wa" id="mshSendWaBtn">📲 Send Ride + GPS on WhatsApp</button>
+      <div style="font-size:0.76rem; color:#475569; font-weight:700;">📍 ఆక్టివ్ రైడర్లు (20 KM పరిధి - Admin Control):</div>
+      <div id="mshRidersList"></div>
     </div>
+  </div>
+</div>
 
+<!-- Interactive Map Modal -->
+<div class="msh-modal" id="mshMapModal">
+  <div class="msh-modal-inner">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <strong style="color:#0f4c3a;">🗺️ Map లో వెళ్లాల్సిన చోట Tap చేయండి</strong>
+      <button type="button" id="mshCloseMapBtn" style="border:none; background:#e2e8f0; border-radius:6px; padding:4px 10px; cursor:pointer; font-weight:700;">✕</button>
+    </div>
+    <p style="font-size:0.78rem; color:#64748b; margin:4px 0;">మ్యాప్‌ను జూమ్ చేసి మీ Destination పై నొక్కండి—KM & ఛార్జ్ ఆటోమేటిక్‌గా లెక్కించబడతాయి.</p>
+    <div id="mshLeafletMap"></div>
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+      <span id="mshMapPickedText" style="font-size:0.8rem; font-weight:600; color:#0f4c3a;">ఇంకా పిన్ ఎంచుకోలేదు</span>
+      <button type="button" class="msh-btn-sm" style="background:#16a34a;" id="mshConfirmMapBtn">✅ Confirm Destination</button>
+    </div>
   </div>
 </div>
 
 <script>
-  const ADMIN_WHATSAPP = "918985240287";
+(function() {
+  const ADMIN_WA = "918985240287";
   const ADMIN_PIN = "1234";
 
-  let selectedVehicle = "Bike";
-  let ratePerKm = 5;
-  let minFare = 20;
-  let currentKm = 5;
-  let userLat = null;
-  let userLng = null;
-
-  // Separate Admin States (Everything stays closed until clicked!)
-  let isAdminAuthenticated = false;
-  let showRiderNumbers = false;
+  let veh = "Bike", rate = 5, minFare = 20, km = 5;
+  let uLat = null, uLng = null;
+  let dLat = null, dLng = null, dName = "";
+  let adminUnlocked = false, showNumbers = false;
+  let mapInstance = null, mapMarker = null;
 
   const defaultRiders = [
     { name: "Prakash", vehicle: "BIKE", area: "Boddavara", phone: "8985240287", status: "online", updated: "Just now" },
@@ -1084,362 +354,286 @@
     { name: "Swami", vehicle: "BIKE", area: "Thatipudi", phone: "9000000003", status: "busy", updated: "25m ago" }
   ];
 
-  let ridersData = JSON.parse(localStorage.getItem("manahub_4_riders")) || defaultRiders;
-  let savedAdminRides = JSON.parse(localStorage.getItem("manahub_admin_rides")) || [];
+  let riders = JSON.parse(localStorage.getItem("msh_riders_v2")) || defaultRiders;
+  let adminRides = JSON.parse(localStorage.getItem("msh_admin_rides_v2")) || [];
 
-  // 1. Admin Lock / Unlock (Only opens the Control Menu Bar, NOT the sub-panels)
-  function toggleAdminMode() {
-    const lockBtn = document.getElementById("adminLockBtn");
-    const adminBar = document.getElementById("adminBar");
+  // Render 4 Riders immediately
+  function renderRiders() {
+    const box = document.getElementById("mshRidersList");
+    if (!box) return;
+    box.innerHTML = "";
+    riders.forEach(r => {
+      const dot = r.status === "online" ? "msh-on" : "msh-off";
+      const st = r.status === "online" ? "Available" : "Busy";
+      const act = (adminUnlocked && showNumbers)
+        ? `<a href="tel:${r.phone}" class="msh-call-btn">📞 ${r.phone}</a>`
+        : `<span class="msh-lock-tag">🔒 Admin Confirm Only</span>`;
+      box.innerHTML += `
+        <div class="msh-rider-item">
+          <div>
+            <strong><span class="msh-dot ${dot}"></span>${r.name} (${r.vehicle} • ${r.area})</strong>
+            <div style="font-size:0.74rem; color:#64748b;">${st} • ${r.updated}</div>
+          </div>
+          <div>${act}</div>
+        </div>`;
+    });
+  }
 
-    if (isAdminAuthenticated) {
-      // Lock back everything
-      isAdminAuthenticated = false;
-      showRiderNumbers = false;
-      lockBtn.innerText = "🔒 Admin Lock";
-      lockBtn.classList.remove("unlocked");
-      adminBar.style.display = "none";
-      document.getElementById("btnToggleNumbers").classList.remove("active");
-      document.getElementById("btnToggleNumbers").innerText = "📞 Show Rider Numbers";
-      closeAllAdminPanels();
+  function updateFare() {
+    let total = Math.round(km * rate);
+    if (total < minFare) total = minFare;
+    document.getElementById("mshKmText").innerText = km + " km";
+    document.getElementById("mshFareText").innerText = "₹" + total;
+    document.getElementById("mshSlider").value = Math.min(km, 25);
+  }
+
+  function calcDistance() {
+    if (uLat === null || dLat === null) return;
+    const R = 6371;
+    const p1 = uLat * Math.PI / 180, p2 = dLat * Math.PI / 180;
+    const dp = (dLat - uLat) * Math.PI / 180, dl = (dLng - uLng) * Math.PI / 180;
+    const a = Math.sin(dp/2)**2 + Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;
+    const straight = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    km = Math.max(2, Math.round(straight * 1.25 * 10) / 10);
+    updateFare();
+    document.getElementById("mshCalcMsg").innerHTML = km > 25
+      ? `<span style="color:#dc2626;">⚠️ దూరం ${km} km ఉంది (మా సర్వీస్ 20-25 KM లోపు మాత్రమే).</span>`
+      : `✅ ఆటోమేటిక్ రోడ్ దూరం: <b>${km} km</b> లెక్కించబడింది.`;
+  }
+
+  // Vehicle Selection
+  document.querySelectorAll("#mshRideModule .msh-veh").forEach(el => {
+    el.addEventListener("click", function() {
+      document.querySelectorAll("#mshRideModule .msh-veh").forEach(c => c.classList.remove("active"));
+      this.classList.add("active");
+      veh = this.dataset.veh;
+      rate = Number(this.dataset.rate);
+      minFare = Number(this.dataset.min);
+      updateFare();
+    });
+  });
+
+  // Slider
+  document.getElementById("mshSlider").addEventListener("input", function() {
+    km = parseFloat(this.value);
+    updateFare();
+  });
+
+  // Live GPS
+  document.getElementById("mshGpsBtn").addEventListener("click", function() {
+    const box = document.getElementById("mshGpsBox");
+    box.value = "GPS తీసుకుంటున్నాము...";
+    if (!navigator.geolocation) { alert("GPS సపోర్ట్ లేదు"); return; }
+    navigator.geolocation.getCurrentPosition(pos => {
+      uLat = pos.coords.latitude;
+      uLng = pos.coords.longitude;
+      box.value = `Live GPS Ready ✅ (${uLat.toFixed(4)}, ${uLng.toFixed(4)})`;
+      this.style.background = "#15803d";
+      calcDistance();
+    }, () => {
+      box.value = "Location On చేసి మళ్లీ నొక్కండి";
+      alert("దయచేసి ఫోన్‌లో Location ఆన్ చేయండి.");
+    }, { enableHighAccuracy: true });
+  });
+
+  // Dropdown Destination
+  document.getElementById("mshDestSel").addEventListener("change", function() {
+    if (!this.value) return;
+    const parts = this.value.split(",").map(Number);
+    dLat = parts[0]; dLng = parts[1];
+    dName = this.options[this.selectedIndex].text;
+    calcDistance();
+  });
+
+  // Interactive Map Modal
+  document.getElementById("mshOpenMapBtn").addEventListener("click", function() {
+    document.getElementById("mshMapModal").style.display = "flex";
+    setTimeout(() => {
+      if (!mapInstance && typeof L !== "undefined") {
+        const startLat = uLat || 18.1050;
+        const startLng = uLng || 83.1480;
+        mapInstance = L.map("mshLeafletMap").setView([startLat, startLng], 12);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "© OpenStreetMap"
+        }).addTo(mapInstance);
+
+        mapInstance.on("click", function(e) {
+          dLat = e.latlng.lat;
+          dLng = e.latlng.lng;
+          dName = `Map Pin (${dLat.toFixed(4)}, ${dLng.toFixed(4)})`;
+          if (mapMarker) mapMarker.setLatLng(e.latlng);
+          else mapMarker = L.marker(e.latlng).addTo(mapInstance);
+          document.getElementById("mshMapPickedText").innerText = "పిన్ ఎంచుకున్నారు ✅";
+        });
+      } else if (mapInstance) {
+        mapInstance.invalidateSize();
+      }
+    }, 200);
+  });
+
+  document.getElementById("mshCloseMapBtn").addEventListener("click", () => {
+    document.getElementById("mshMapModal").style.display = "none";
+  });
+
+  document.getElementById("mshConfirmMapBtn").addEventListener("click", () => {
+    if (dLat === null) { alert("దయచేసి మ్యాప్‌లో వెళ్లాల్సిన చోట నొక్కండి."); return; }
+    document.getElementById("mshMapModal").style.display = "none";
+    document.getElementById("mshNoteInput").value = dName;
+    calcDistance();
+  });
+
+  // Send WhatsApp
+  document.getElementById("mshSendWaBtn").addEventListener("click", function() {
+    const note = document.getElementById("mshNoteInput").value.trim();
+    const emerg = document.getElementById("mshEmergCheck").checked;
+    const fare = document.getElementById("mshFareText").innerText;
+    const pickLink = uLat ? `https://maps.google.com/?q=${uLat},${uLng}` : "GPS Not Attached";
+    const dropText = dLat ? `${dName} (https://maps.google.com/?q=${dLat},${dLng})` : (note || "Not Selected");
+
+    let reqs = parseInt(localStorage.getItem("msh_reqs_v2") || "0");
+    localStorage.setItem("msh_reqs_v2", reqs + 1);
+    if (reqs >= 1) document.getElementById("mshAdvBox").style.display = "block";
+
+    let msg = `🛵 *MANA SEVA HUB - RIDE REQUEST*\n`;
+    if (emerg) msg += `🚨 *EMERGENCY RIDE*\n`;
+    if (reqs >= 1) msg += `⚠️ *2nd Booking (Advance Applicable)*\n`;
+    msg += `🚘 *Vehicle:* ${veh}\n📍 *Pickup:* ${pickLink}\n🏁 *Destination:* ${dropText}\n📏 *Distance:* ${km} km\n💰 *Fare:* ${fare}\n`;
+    if (note) msg += `📝 *Note:* ${note}\n`;
+    msg += `దయచేసి దగ్గరలో ఉన్న రైడర్ నంబర్ పంపండి.`;
+
+    window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(msg)}`, "_blank");
+  });
+
+  // Admin Lock Toggle
+  document.getElementById("mshAdminBtn").addEventListener("click", function() {
+    const bar = document.getElementById("mshAdminBar");
+    if (adminUnlocked) {
+      adminUnlocked = false;
+      showNumbers = false;
+      this.innerText = "🔒 Admin Lock";
+      this.classList.remove("unlocked");
+      bar.style.display = "none";
+      document.getElementById("mshPanelRide").style.display = "none";
+      document.getElementById("mshPanelRiders").style.display = "none";
+      document.getElementById("mshBtnShowNums").classList.remove("active");
+      document.getElementById("mshBtnShowNums").innerText = "📞 Show Rider Numbers";
       renderRiders();
       return;
     }
-
-    const pin = prompt("Admin PIN ఎంటర్ చేయండి (Default: 1234):");
+    const pin = prompt("Admin PIN ఎంటర్ చేయండి (1234):");
     if (pin === ADMIN_PIN) {
-      isAdminAuthenticated = true;
-      lockBtn.innerText = "🔓 Admin Unlocked (Lock)";
-      lockBtn.classList.add("unlocked");
-      adminBar.style.display = "block"; // Only shows the button bar!
+      adminUnlocked = true;
+      this.innerText = "🔓 Admin Unlocked";
+      this.classList.add("unlocked");
+      bar.style.display = "block";
     } else if (pin !== null) {
       alert("తప్పు PIN!");
     }
-  }
+  });
 
-  // 2. Toggle ONLY Rider Numbers
-  function toggleRiderNumbers() {
-    if (!isAdminAuthenticated) return;
-    showRiderNumbers = !showRiderNumbers;
-    const btn = document.getElementById("btnToggleNumbers");
-    if (showRiderNumbers) {
-      btn.classList.add("active");
-      btn.innerText = "🙈 Hide Rider Numbers";
-    } else {
-      btn.classList.remove("active");
-      btn.innerText = "📞 Show Rider Numbers";
-    }
+  // Selective Admin Buttons
+  document.getElementById("mshBtnShowNums").addEventListener("click", function() {
+    showNumbers = !showNumbers;
+    this.classList.toggle("active", showNumbers);
+    this.innerText = showNumbers ? "🙈 Hide Rider Numbers" : "📞 Show Rider Numbers";
     renderRiders();
+  });
+
+  document.getElementById("mshBtnAddRide").addEventListener("click", function() {
+    const p = document.getElementById("mshPanelRide");
+    const open = p.style.display === "block";
+    document.getElementById("mshPanelRiders").style.display = "none";
+    document.getElementById("mshBtnEditRiders").classList.remove("active");
+    p.style.display = open ? "none" : "block";
+    this.classList.toggle("active", !open);
+
+    const sel = document.getElementById("mshAdmRiderSel");
+    sel.innerHTML = riders.map((r, i) => `<option value="${i}">${r.name} (${r.area})</option>`).join("");
+    renderAdminRides();
+  });
+
+  document.getElementById("mshBtnEditRiders").addEventListener("click", function() {
+    const p = document.getElementById("mshPanelRiders");
+    const open = p.style.display === "block";
+    document.getElementById("mshPanelRide").style.display = "none";
+    document.getElementById("mshBtnAddRide").classList.remove("active");
+    p.style.display = open ? "none" : "block";
+    this.classList.toggle("active", !open);
+    loadRiderSlot();
+  });
+
+  document.getElementById("mshClosePanels1").addEventListener("click", () => {
+    document.getElementById("mshPanelRide").style.display = "none";
+    document.getElementById("mshBtnAddRide").classList.remove("active");
+  });
+  document.getElementById("mshClosePanels2").addEventListener("click", () => {
+    document.getElementById("mshPanelRiders").style.display = "none";
+    document.getElementById("mshBtnEditRiders").classList.remove("active");
+  });
+
+  // Auto calc in Admin Ride Form
+  document.getElementById("mshAdmKm").addEventListener("input", function() {
+    const r = Number(document.getElementById("mshAdmVeh").value);
+    document.getElementById("mshAdmAmt").value = Math.round((Number(this.value) || 0) * r);
+  });
+
+  document.getElementById("mshSaveForwardRide").addEventListener("click", function() {
+    const cName = document.getElementById("mshAdmCust").value.trim() || "Customer";
+    const cPhone = document.getElementById("mshAdmPhone").value.trim() || "N/A";
+    const pick = document.getElementById("mshAdmPick").value.trim();
+    const drop = document.getElementById("mshAdmDrop").value.trim();
+    const rKm = document.getElementById("mshAdmKm").value || "0";
+    const rAmt = document.getElementById("mshAdmAmt").value || "0";
+    const rIdx = document.getElementById("mshAdmRiderSel").value;
+    const rider = riders[rIdx];
+
+    if (!pick || !drop) { alert("Pickup & Destination రాయండి"); return; }
+
+    adminRides.unshift({ cName, cPhone, pick, drop, rKm, rAmt, rider: rider.name });
+    localStorage.setItem("msh_admin_rides_v2", JSON.stringify(adminRides));
+    renderAdminRides();
+
+    const msg = `🛵 *NEW RIDE (Mana Seva Hub)*\n👤 Customer: ${cName} (${cPhone})\n📍 Pickup: ${pick}\n🏁 Drop: ${drop}\n📏 KM: ${rKm} km | 💰 Cash: ₹${rAmt}`;
+    const ph = rider.phone.replace(/\D/g, "");
+    window.open(`https://wa.me/${ph.length === 10 ? "91" + ph : ph}?text=${encodeURIComponent(msg)}`, "_blank");
+  });
+
+  function renderAdminRides() {
+    const box = document.getElementById("mshSavedRidesBox");
+    box.innerHTML = adminRides.map(x => `<div style="background:#fff; padding:6px 8px; border-radius:6px; margin-top:4px; border-left:3px solid #0f4c3a;"><b>${x.cName}</b> (${x.pick} ➔ ${x.drop}) • ₹${x.rAmt} • Rider: ${x.rider}</div>`).join("");
   }
 
-  // 3. Open ONLY the clicked Admin Panel (Ride Form OR Manage Riders)
-  function openAdminPanel(panelId, btnEl) {
-    if (!isAdminAuthenticated) return;
-    const targetPanel = document.getElementById(panelId);
-    const isAlreadyOpen = targetPanel.style.display === "block";
-
-    closeAllAdminPanels();
-
-    if (!isAlreadyOpen) {
-      targetPanel.style.display = "block";
-      btnEl.classList.add("active");
-      if (panelId === "panelAddRide") {
-        populateRiderDropdown();
-        renderSavedAdminRides();
-      } else if (panelId === "panelManageRiders") {
-        loadSlotToForm();
-      }
-    }
+  function loadRiderSlot() {
+    const i = Number(document.getElementById("mshSlotSel").value);
+    const r = riders[i];
+    document.getElementById("mshRName").value = r.name;
+    document.getElementById("mshRVeh").value = r.vehicle;
+    document.getElementById("mshRPhone").value = r.phone;
+    document.getElementById("mshRArea").value = r.area;
+    document.getElementById("mshRStat").value = r.status;
   }
+  document.getElementById("mshSlotSel").addEventListener("change", loadRiderSlot);
 
-  function closeAllAdminPanels() {
-    document.querySelectorAll(".admin-panel").forEach(p => p.style.display = "none");
-    document.getElementById("btnTabAddRide").classList.remove("active");
-    document.getElementById("btnTabManageRiders").classList.remove("active");
-  }
-
-  // Admin Ride Form Functions
-  function populateRiderDropdown() {
-    const sel = document.getElementById("admAssignRider");
-    sel.innerHTML = "";
-    ridersData.forEach((r, idx) => {
-      sel.innerHTML += `<option value="${idx}">${r.name} (${r.vehicle} - ${r.area})</option>`;
-    });
-  }
-
-  function calcAdminRideFare() {
-    const veh = document.getElementById("admVehicle").value;
-    const km = parseFloat(document.getElementById("admKm").value) || 0;
-    let rate = 5;
-    if (veh.includes("Auto")) rate = 12;
-    if (veh.includes("Car")) rate = 18;
-    document.getElementById("admAmount").value = Math.round(km * rate);
-  }
-
-  function saveAdminRide(forwardToWhatsApp = false) {
-    const custName = document.getElementById("admCustName").value.trim() || "Customer";
-    const custPhone = document.getElementById("admCustPhone").value.trim() || "N/A";
-    const pickup = document.getElementById("admPickup").value.trim();
-    const drop = document.getElementById("admDrop").value.trim();
-    const vehicle = document.getElementById("admVehicle").value;
-    const km = document.getElementById("admKm").value || "0";
-    const amount = document.getElementById("admAmount").value || "0";
-    const riderIdx = document.getElementById("admAssignRider").value;
-    const rider = ridersData[riderIdx];
-
-    if (!pickup || !drop) {
-      alert("దయచేసి Pickup మరియు Destination ఊర్లు రాయండి.");
-      return;
-    }
-
-    const newRide = {
-      id: Date.now(),
-      custName, custPhone, pickup, drop, vehicle, km, amount,
-      riderName: rider.name,
-      riderPhone: rider.phone,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-
-    savedAdminRides.unshift(newRide);
-    localStorage.setItem("manahub_admin_rides", JSON.stringify(savedAdminRides));
-    renderSavedAdminRides();
-
-    if (forwardToWhatsApp) {
-      const msg = `🛵 *NEW RIDE ASSIGNED (Mana Seva Hub)*\n` +
-                  `👤 *Customer:* ${custName} (${custPhone})\n` +
-                  `📍 *Pickup:* ${pickup}\n` +
-                  `🏁 *Drop:* ${drop}\n` +
-                  `🚘 *Vehicle:* ${vehicle} (${km} km)\n` +
-                  `💰 *Collect Cash:* ₹${amount}`;
-      const cleanRiderPhone = rider.phone.replace(/\D/g, "");
-      const waPhone = cleanRiderPhone.length === 10 ? "91" + cleanRiderPhone : cleanRiderPhone;
-      window.open(`https://wa.me/${waPhone}?text=${encodeURIComponent(msg)}`, "_blank");
-    } else {
-      alert("రైడ్ బుకింగ్ సేవ్ అయింది!");
-    }
-  }
-
-  function sendAdminRideToRider() {
-    saveAdminRide(true);
-  }
-
-  function deleteAdminRide(id) {
-    savedAdminRides = savedAdminRides.filter(r => r.id !== id);
-    localStorage.setItem("manahub_admin_rides", JSON.stringify(savedAdminRides));
-    renderSavedAdminRides();
-  }
-
-  function renderSavedAdminRides() {
-    const list = document.getElementById("adminSavedRidesList");
-    if (savedAdminRides.length === 0) {
-      list.innerHTML = `<div style="font-size:0.8rem; color:#64748b;">ఇంకా అడ్మిన్ రైడ్ ఎంట్రీలు లేవు.</div>`;
-      return;
-    }
-    list.innerHTML = `<strong style="font-size:0.82rem; color:#0f4c3a;">📋 సేవ్ చేసిన రైడ్స్ (${savedAdminRides.length}):</strong>`;
-    savedAdminRides.forEach(r => {
-      list.innerHTML += `
-        <div class="ride-log-item">
-          <div>
-            <strong>${r.custName} (${r.custPhone})</strong> • ${r.pickup} ➔ ${r.drop}<br>
-            <span style="color:#475569;">${r.vehicle} | ${r.km} km | <b>₹${r.amount}</b> | Rider: ${r.riderName} (${r.time})</span>
-          </div>
-          <button onclick="deleteAdminRide(${r.id})" style="background:#fee2e2; color:#dc2626; border:none; border-radius:6px; padding:4px 8px; cursor:pointer; font-weight:700;">Delete</button>
-        </div>
-      `;
-    });
-  }
-
-  // Manage 4 Riders Functions
-  function loadSlotToForm() {
-    const slot = parseInt(document.getElementById("riderSlotSelect").value);
-    const r = ridersData[slot];
-    document.getElementById("riderNameInput").value = r.name;
-    document.getElementById("riderVehInput").value = r.vehicle;
-    document.getElementById("riderPhoneInput").value = r.phone;
-    document.getElementById("riderLocInput").value = r.area;
-    document.getElementById("riderStatusInput").value = r.status;
-  }
-
-  function saveRiderSlot() {
-    const slot = parseInt(document.getElementById("riderSlotSelect").value);
-    const name = document.getElementById("riderNameInput").value.trim();
-    const vehicle = document.getElementById("riderVehInput").value;
-    const phone = document.getElementById("riderPhoneInput").value.trim();
-    const area = document.getElementById("riderLocInput").value.trim();
-    const status = document.getElementById("riderStatusInput").value;
-
-    if (!name || !phone || !area) {
-      alert("దయచేసి పేరు, ఫోన్ నంబర్ మరియు లొకేషన్ రాయండి.");
-      return;
-    }
-
-    ridersData[slot] = {
-      name, vehicle, area, phone, status,
+  document.getElementById("mshSaveRiderBtn").addEventListener("click", function() {
+    const i = Number(document.getElementById("mshSlotSel").value);
+    riders[i] = {
+      name: document.getElementById("mshRName").value.trim() || "Rider",
+      vehicle: document.getElementById("mshRVeh").value,
+      phone: document.getElementById("mshRPhone").value.trim() || "8985240287",
+      area: document.getElementById("mshRArea").value.trim() || "S.Kota",
+      status: document.getElementById("mshRStat").value,
       updated: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
-
-    localStorage.setItem("manahub_4_riders", JSON.stringify(ridersData));
+    localStorage.setItem("msh_riders_v2", JSON.stringify(riders));
     renderRiders();
-    alert(`Slot ${slot + 1} రైడర్ వివరాలు అప్‌డేట్ అయ్యాయి!`);
+    alert("Rider Updated ✅");
+  });
+
+  // Init
+  if (parseInt(localStorage.getItem("msh_reqs_v2") || "0") >= 1) {
+    document.getElementById("mshAdvBox").style.display = "block";
   }
-
-  // Customer Ride Calculator & WhatsApp
-  function checkBookingCount() {
-    let count = parseInt(localStorage.getItem("manahub_ride_requests") || "0");
-    if (count >= 1) document.getElementById("advanceAlert").style.display = "block";
-  }
-
-  function selectVehicle(name, rate, minimum, el) {
-    selectedVehicle = name;
-    ratePerKm = rate;
-    minFare = minimum;
-    document.querySelectorAll(".veh-card").forEach(c => c.classList.remove("active"));
-    el.classList.add("active");
-    updateFareUI();
-  }
-
-  function manualSliderChange(val) {
-    currentKm = parseFloat(val);
-    updateFareUI();
-  }
-
-  function updateFareUI() {
-    let total = Math.round(currentKm * ratePerKm);
-    if (total < minFare) total = minFare;
-    document.getElementById("kmDisplay").innerText = currentKm + " km";
-    document.getElementById("fareDisplay").innerText = "₹" + total;
-    document.getElementById("kmSlider").value = Math.min(currentKm, 25);
-  }
-
-  function getLiveGPS() {
-    const statusBox = document.getElementById("pickupStatus");
-    const gpsBtn = document.getElementById("gpsBtn");
-    statusBox.value = "GPS లొకేషన్ తీసుకుంటున్నాము...";
-
-    if (!navigator.geolocation) {
-      alert("మీ ఫోన్‌లో GPS సపోర్ట్ లేదు.");
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        userLat = pos.coords.latitude;
-        userLng = pos.coords.longitude;
-        statusBox.value = `Live GPS Attached ✅ (${userLat.toFixed(4)}, ${userLng.toFixed(4)})`;
-        gpsBtn.classList.add("attached");
-        gpsBtn.innerText = "✅ GPS Ready";
-        calculateAutoDistance();
-      },
-      () => {
-        statusBox.value = "GPS అనుమతి ఇవ్వలేదు (Location On చేయండి)";
-        alert("దయచేసి ఫోన్‌లో Location (GPS) ఆన్ చేసి మళ్లీ నొక్కండి.");
-      },
-      { enableHighAccuracy: true, timeout: 10000 }
-    );
-  }
-
-  function handleDestinationChange() {
-    const val = document.getElementById("destSelect").value;
-    const customBox = document.getElementById("customDestInput");
-    if (val === "custom") {
-      customBox.style.display = "block";
-      document.getElementById("calcNote").innerText = "* కస్టమ్ ఊరు ఎంచుకున్నారు: కింద స్లైడర్‌తో KM సెట్ చేయండి.";
-    } else {
-      customBox.style.display = "none";
-      calculateAutoDistance();
-    }
-  }
-
-  function calculateAutoDistance() {
-    const val = document.getElementById("destSelect").value;
-    if (!userLat || !userLng || !val || val === "custom") return;
-
-    const [destLat, destLng] = val.split(",").map(Number);
-    const R = 6371;
-    const dLat = (destLat - userLat) * Math.PI / 180;
-    const dLon = (destLng - userLng) * Math.PI / 180;
-    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.cos(userLat * Math.PI / 180) * Math.cos(destLat * Math.PI / 180) *
-              Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const straightKm = R * c;
-
-    let roadKm = Math.max(2, Math.round(straightKm * 1.25 * 10) / 10);
-    currentKm = roadKm;
-    updateFareUI();
-
-    if (roadKm > 25) {
-      document.getElementById("calcNote").innerHTML = `<span style="color:#dc2626;">⚠️ దూరం ${roadKm} km ఉంది (మా సర్వీస్ 20-25 KM లోపు మాత్రమే).</span>`;
-    } else {
-      document.getElementById("calcNote").innerText = `✅ ఆటోమేటిక్ రోడ్ దూరం: ${roadKm} km లెక్కించబడింది.`;
-    }
-  }
-
-  function sendRideWhatsApp() {
-    const destSelect = document.getElementById("destSelect");
-    let destName = "Not Selected";
-    if (destSelect.value === "custom") {
-      destName = document.getElementById("customDestInput").value.trim() || "Custom Location";
-    } else if (destSelect.value !== "") {
-      destName = destSelect.options[destSelect.selectedIndex].text;
-    }
-
-    const customMsg = document.getElementById("customMsgInput").value.trim();
-    const isEmergency = document.getElementById("emergencyCheck").checked;
-    const fareText = document.getElementById("fareDisplay").innerText;
-    const gpsLink = (userLat && userLng)
-      ? `https://maps.google.com/?q=${userLat},${userLng}`
-      : "GPS Not Attached (Manual KM)";
-
-    let reqCount = parseInt(localStorage.getItem("manahub_ride_requests") || "0");
-    const isSecondRequest = reqCount >= 1;
-    localStorage.setItem("manahub_ride_requests", reqCount + 1);
-    checkBookingCount();
-
-    let message = `🛵 *MANA SEVA HUB - RIDE REQUEST*\n`;
-    if (isEmergency) message += `🚨 *EMERGENCY RIDE REQUEST*\n`;
-    if (isSecondRequest) message += `⚠️ *2nd Request (Advance Applicable)*\n`;
-    message += `--------------------------\n`;
-    message += `🚘 *Vehicle:* ${selectedVehicle}\n`;
-    message += `📍 *Pickup GPS:* ${gpsLink}\n`;
-    message += `🏁 *Destination:* ${destName}\n`;
-    message += `📏 *Distance:* ${currentKm} km\n`;
-    message += `💰 *Estimated Fare:* ${fareText}\n`;
-    if (customMsg) message += `📝 *Note:* ${customMsg}\n`;
-    message += `--------------------------\n`;
-    message += `దయచేసి దగ్గరలో ఉన్న రైడర్ నంబర్ పంపండి.`;
-
-    window.open(`https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(message)}`, "_blank");
-  }
-
-  function renderRiders() {
-    const container = document.getElementById("ridersListContainer");
-    container.innerHTML = "";
-
-    ridersData.forEach((r) => {
-      const dotClass = r.status === "online" ? "dot-online" : "dot-busy";
-      const statusText = r.status === "online" ? "Available" : "Busy";
-      // Numbers ONLY show if Admin is unlocked AND "Show Rider Numbers" button is clicked!
-      const rightAction = (isAdminAuthenticated && showRiderNumbers)
-        ? `<a href="tel:${r.phone}" class="btn-call-mini">📞 ${r.phone}</a>`
-        : `<span class="locked-tag">🔒 Admin Confirm Only</span>`;
-
-      container.innerHTML += `
-        <div class="rider-item">
-          <div class="rider-info">
-            <strong><span class="status-dot ${dotClass}"></span>${r.name} (${r.vehicle} • ${r.area})</strong>
-            <span class="rider-meta">${statusText} • Updated: ${r.updated}</span>
-          </div>
-          <div>${rightAction}</div>
-        </div>
-      `;
-    });
-  }
-
-  checkBookingCount();
-  updateFareUI();
+  updateFare();
   renderRiders();
+})();
 </script>
-
-</body>
-</html>
