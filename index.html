@@ -112,7 +112,7 @@
   .msh-badge { background: var(--primary); color: #fff; padding: 3px 10px; border-radius: 6px; font-size: 1rem; }
 
   .msh-row { display: flex; gap: 6px; margin-bottom: 8px; }
-  .msh-input, .msh-select {
+  .msh-input, .msh-select, .msh-textarea {
     width: 100%;
     padding: 8px 10px;
     border-radius: 8px;
@@ -144,7 +144,46 @@
     font-weight: 700;
     font-size: 0.9rem;
     cursor: pointer;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+  }
+
+  /* Privacy / Public Selector Box */
+  .msh-privacy-box {
+    background: #fff;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+  }
+  .msh-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  /* Public Advance Board */
+  .msh-public-board {
+    margin-top: 14px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .msh-pub-item {
+    background: #fff;
+    border-left: 4px solid #2563eb;
+    padding: 8px 10px;
+    border-radius: 6px;
+    margin-top: 6px;
+    font-size: 0.82rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
   }
 
   /* Riders List */
@@ -190,8 +229,8 @@
   <!-- Header -->
   <div class="msh-header">
     <div>
-      <h2 class="msh-title">🛵 Rapido-Style Easy Ride (15–20 KM Local • Bike ₹5/km • Auto • Car)</h2>
-      <p class="msh-sub">అడ్వాన్స్ & ఎమర్జెన్సీ ట్రాన్స్‌పోర్ట్ (Boddavara • Kiltampalem • Thatipudi • S.Kota • L.Kota • Kothavalasa)</p>
+      <h2 class="msh-title">🛵 Rapido-Style Easy Ride (Boddavara 20 KM Radius • Bike ₹5/km • Auto • Car)</h2>
+      <p class="msh-sub">S.Kota • Dharmavaram • Araku Ghat Side • VZM & Kothavalasa Side (Advance & Emergency Transport)</p>
     </div>
     <button type="button" class="msh-btn-lock" id="mshAdminBtn">🔒 Admin Lock</button>
   </div>
@@ -279,7 +318,7 @@
 
     <!-- Step 2 -->
     <div class="msh-card msh-c2">
-      <div class="msh-step-h">2. మీ Live GPS & వెళ్లాల్సిన ఊరు (Destination)</div>
+      <div class="msh-step-h">2. మీ Live GPS & వెళ్లాల్సిన ఊరు (4 దిక్కుల లొకేషన్లు)</div>
       <div class="msh-row">
         <input type="text" id="mshGpsBox" class="msh-input" style="margin:0;" placeholder="ప్రస్తుత లొకేషన్ కోసం Live GPS నొక్కండి" readonly>
         <button type="button" class="msh-btn-sm" id="mshGpsBtn">📍 Live GPS</button>
@@ -287,22 +326,48 @@
 
       <div class="msh-row">
         <select id="mshDestSel" class="msh-select" style="margin:0;">
-          <option value="">-- ఊరు ఎంచుకోండి --</option>
-          <option value="18.0815,83.1285">Boddavara (బొడ్డవార)</option>
-          <option value="18.1050,83.1480">Kiltampalem (కిల్తంపాలెం)</option>
-          <option value="18.1730,83.1880">Thatipudi (తాటిపూడి)</option>
-          <option value="18.1118,83.1415">S.Kota (ఎస్.కోట)</option>
-          <option value="18.0680,83.1290">Malliveedu (మల్లివీడు)</option>
-          <option value="18.0335,83.1485">L.Kota (ఎల్.కోట)</option>
-          <option value="17.8930,83.1840">Kothavalasa (కొత్తవలస)</option>
-          <option value="18.0460,83.2460">Jami (జామి)</option>
-          <option value="17.9890,83.0760">Vepada (వేపాడ)</option>
+          <option value="">-- వెళ్లాల్సిన ఊరు ఎంచుకోండి (20 KM) --</option>
+          <optgroup label="📍 Local / Boddavara Center">
+            <option value="18.0815,83.1285">Boddavara (బొడ్డవార)</option>
+            <option value="18.0890,83.1210">Ithannapalem (ఇతన్నపాలెం)</option>
+            <option value="18.1050,83.1480">Kiltampalem (కిల్తంపాలెం)</option>
+            <option value="18.0680,83.1290">Malliveedu (మల్లివీడు)</option>
+          </optgroup>
+          <optgroup label="➡️ S.Kota & Dharmavaram Side">
+            <option value="18.1118,83.1415">Srungavarapukota / S.Kota (ఎస్.కోట)</option>
+            <option value="18.1320,83.1250">Dharmavaram (ధర్మవరం)</option>
+            <option value="18.1240,83.1120">Punyagiri (పుణ్యగిరి)</option>
+            <option value="17.9890,83.0760">Vepada (వేపాడ)</option>
+            <option value="18.0150,83.0950">Vallampudi (వల్లంపూడి)</option>
+          </optgroup>
+          <optgroup label="⛰️ Araku / Ghat Road Side (20 KM)">
+            <option value="18.1730,83.1880">Tatipudi (తాటిపూడి)</option>
+            <option value="18.2150,83.1450">Kasipatnam (కాశీపట్నం)</option>
+            <option value="18.2350,83.1150">Ananthagiri Ghat Start (అనంతగిరి రోడ్)</option>
+          </optgroup>
+          <optgroup label="🏙️ VZM & Kothavalasa Side">
+            <option value="18.0460,83.2460">Jami - VZM Route (జామి)</option>
+            <option value="18.0750,83.2750">Alamanda - VZM Side (అలమండ)</option>
+            <option value="18.0335,83.1485">Lakkavarapukota / L.Kota (ఎల్.కోట)</option>
+            <option value="17.8930,83.1840">Kothavalasa (కొత్తవలస)</option>
+          </optgroup>
         </select>
-        <button type="button" class="msh-btn-sm msh-btn-map" id="mshOpenMapBtn">🗺️ Map లో ఎంచుకోండి</button>
+        <button type="button" class="msh-btn-sm msh-btn-map" id="mshOpenMapBtn">🗺️ Map</button>
       </div>
 
-      <input type="text" id="mshNoteInput" class="msh-input" placeholder="కస్టమ్ మెసేజ్ / ఇతర ఊరు పేరు...">
-      <label style="font-size:0.82rem; font-weight:700; color:#dc2626; display:flex; align-items:center; gap:6px;">
+      <textarea id="mshNoteInput" class="msh-textarea" rows="2" placeholder="అడ్వాన్స్ టైమ్ & వివరాలు రాయండి (ఉదా: రేపు ఉదయం 7:30 కి బొడ్డవార నుండి S.Kota వెళ్ళాలి...)"></textarea>
+
+      <!-- Private vs Public Advance Ride Choice -->
+      <div class="msh-privacy-box">
+        <label class="msh-radio-label" style="color:#0f4c3a;">
+          <input type="radio" name="mshMsgPrivacy" value="private" checked> 🔒 Private to Admin Only (నాకు మాత్రమే కనిపిస్తుంది - Safe)
+        </label>
+        <label class="msh-radio-label" style="color:#1d4ed8; margin-bottom:0;">
+          <input type="radio" name="mshMsgPrivacy" value="public"> 📢 Public Advance Notice (అందరికీ కనిపిస్తుంది - ఆ టైమ్‌కి రైడర్ రెడీగా ఉంటారు)
+        </label>
+      </div>
+
+      <label style="font-size:0.8rem; font-weight:700; color:#dc2626; display:flex; align-items:center; gap:6px;">
         <input type="checkbox" id="mshEmergCheck"> 🚨 Emergency Ride (అత్యవసర ప్రయాణం)
       </label>
     </div>
@@ -313,10 +378,19 @@
       <div id="mshAdvBox" style="display:none; background:#fef2f2; border:1px solid #fca5a5; color:#991b1b; padding:7px; border-radius:8px; font-size:0.78rem; font-weight:600; margin-bottom:8px;">
         ⚠️ 2వ బుకింగ్ అలర్ట్: ₹20 అడ్వాన్స్ పేమెంట్ (UPI: 8985240287) అవసరం కావచ్చు.
       </div>
-      <button type="button" class="msh-btn-wa" id="mshSendWaBtn">📲 Send Ride + GPS on WhatsApp</button>
+      <button type="button" class="msh-btn-wa" id="mshSendWaBtn">📲 Send Ride Request</button>
       <div style="font-size:0.76rem; color:#475569; font-weight:700;">📍 ఆక్టివ్ రైడర్లు (20 KM పరిధి - Admin Control):</div>
       <div id="mshRidersList"></div>
     </div>
+  </div>
+
+  <!-- Public Advance Ride Schedule Board (Shows ONLY Public Advance Messages) -->
+  <div class="msh-public-board" id="mshPublicBoard">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <strong style="font-size:0.88rem; color:#1e40af;">📢 Public Advance Ride Schedule (ముందుగా బుక్ చేసుకున్న ప్రయాణాలు)</strong>
+      <span style="font-size:0.75rem; color:#475569;">(ఫోన్ నంబర్లు గోప్యంగా ఉంటాయి)</span>
+    </div>
+    <div id="mshPublicList"></div>
   </div>
 </div>
 
@@ -354,10 +428,10 @@
     { name: "Swami", vehicle: "BIKE", area: "Thatipudi", phone: "9000000003", status: "busy", updated: "25m ago" }
   ];
 
-  let riders = JSON.parse(localStorage.getItem("msh_riders_v2")) || defaultRiders;
-  let adminRides = JSON.parse(localStorage.getItem("msh_admin_rides_v2")) || [];
+  let riders = JSON.parse(localStorage.getItem("msh_riders_v3")) || defaultRiders;
+  let adminRides = JSON.parse(localStorage.getItem("msh_admin_rides_v3")) || [];
+  let publicNotices = JSON.parse(localStorage.getItem("msh_public_notices_v3")) || [];
 
-  // Render 4 Riders immediately
   function renderRiders() {
     const box = document.getElementById("mshRidersList");
     if (!box) return;
@@ -378,6 +452,30 @@
         </div>`;
     });
   }
+
+  function renderPublicNotices() {
+    const list = document.getElementById("mshPublicList");
+    if (!list) return;
+    if (publicNotices.length === 0) {
+      list.innerHTML = `<div style="font-size:0.78rem; color:#64748b; margin-top:4px;">ప్రస్తుతం పబ్లిక్ అడ్వాన్స్ రైడ్ నోటీసులు లేవు. (కస్టమర్లు Public ఆప్షన్ ఎంచుకుంటే ఇక్కడ కనిపిస్తాయి)</div>`;
+      return;
+    }
+    list.innerHTML = publicNotices.map((n, idx) => `
+      <div class="msh-pub-item">
+        <div>
+          <strong>🚘 ${n.veh} • ${n.dest} (${n.km} km • ${n.fare})</strong><br>
+          <span>📝 ${n.note}</span> <small style="color:#64748b;">(${n.time})</small>
+        </div>
+        ${adminUnlocked ? `<button type="button" onclick="window.mshDeletePublic(${idx})" style="background:#fee2e2; color:#dc2626; border:none; border-radius:6px; padding:4px 8px; cursor:pointer; font-weight:700;">Delete</button>` : ""}
+      </div>
+    `).join("");
+  }
+
+  window.mshDeletePublic = function(idx) {
+    publicNotices.splice(idx, 1);
+    localStorage.setItem("msh_public_notices_v3", JSON.stringify(publicNotices));
+    renderPublicNotices();
+  };
 
   function updateFare() {
     let total = Math.round(km * rate);
@@ -401,7 +499,6 @@
       : `✅ ఆటోమేటిక్ రోడ్ దూరం: <b>${km} km</b> లెక్కించబడింది.`;
   }
 
-  // Vehicle Selection
   document.querySelectorAll("#mshRideModule .msh-veh").forEach(el => {
     el.addEventListener("click", function() {
       document.querySelectorAll("#mshRideModule .msh-veh").forEach(c => c.classList.remove("active"));
@@ -413,13 +510,11 @@
     });
   });
 
-  // Slider
   document.getElementById("mshSlider").addEventListener("input", function() {
     km = parseFloat(this.value);
     updateFare();
   });
 
-  // Live GPS
   document.getElementById("mshGpsBtn").addEventListener("click", function() {
     const box = document.getElementById("mshGpsBox");
     box.value = "GPS తీసుకుంటున్నాము...";
@@ -436,7 +531,6 @@
     }, { enableHighAccuracy: true });
   });
 
-  // Dropdown Destination
   document.getElementById("mshDestSel").addEventListener("change", function() {
     if (!this.value) return;
     const parts = this.value.split(",").map(Number);
@@ -445,13 +539,13 @@
     calcDistance();
   });
 
-  // Interactive Map Modal
+  // Map Modal
   document.getElementById("mshOpenMapBtn").addEventListener("click", function() {
     document.getElementById("mshMapModal").style.display = "flex";
     setTimeout(() => {
       if (!mapInstance && typeof L !== "undefined") {
-        const startLat = uLat || 18.1050;
-        const startLng = uLng || 83.1480;
+        const startLat = uLat || 18.0815; // Boddavara Center
+        const startLng = uLng || 83.1285;
         mapInstance = L.map("mshLeafletMap").setView([startLat, startLng], 12);
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution: "© OpenStreetMap"
@@ -478,27 +572,46 @@
   document.getElementById("mshConfirmMapBtn").addEventListener("click", () => {
     if (dLat === null) { alert("దయచేసి మ్యాప్‌లో వెళ్లాల్సిన చోట నొక్కండి."); return; }
     document.getElementById("mshMapModal").style.display = "none";
-    document.getElementById("mshNoteInput").value = dName;
+    const noteBox = document.getElementById("mshNoteInput");
+    if (!noteBox.value.trim()) noteBox.value = dName;
     calcDistance();
   });
 
-  // Send WhatsApp
+  // Send Ride Request (Private OR Public + WhatsApp)
   document.getElementById("mshSendWaBtn").addEventListener("click", function() {
     const note = document.getElementById("mshNoteInput").value.trim();
     const emerg = document.getElementById("mshEmergCheck").checked;
     const fare = document.getElementById("mshFareText").innerText;
+    const privacyMode = document.querySelector('input[name="mshMsgPrivacy"]:checked').value;
     const pickLink = uLat ? `https://maps.google.com/?q=${uLat},${uLng}` : "GPS Not Attached";
-    const dropText = dLat ? `${dName} (https://maps.google.com/?q=${dLat},${dLng})` : (note || "Not Selected");
+    const dropLabel = dName || note || "Not Selected";
+    const dropText = dLat ? `${dName} (https://maps.google.com/?q=${dLat},${dLng})` : dropLabel;
 
-    let reqs = parseInt(localStorage.getItem("msh_reqs_v2") || "0");
-    localStorage.setItem("msh_reqs_v2", reqs + 1);
+    // If Public selected, post to Public Advance Board on website
+    if (privacyMode === "public") {
+      publicNotices.unshift({
+        veh,
+        dest: dropLabel,
+        km,
+        fare,
+        note: note || "Advance Ride Requested",
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      });
+      if (publicNotices.length > 10) publicNotices.pop();
+      localStorage.setItem("msh_public_notices_v3", JSON.stringify(publicNotices));
+      renderPublicNotices();
+    }
+
+    let reqs = parseInt(localStorage.getItem("msh_reqs_v3") || "0");
+    localStorage.setItem("msh_reqs_v3", reqs + 1);
     if (reqs >= 1) document.getElementById("mshAdvBox").style.display = "block";
 
     let msg = `🛵 *MANA SEVA HUB - RIDE REQUEST*\n`;
+    msg += privacyMode === "private" ? `🔒 *Mode: PRIVATE (Admin Only)*\n` : `📢 *Mode: PUBLIC ADVANCE NOTICE*\n`;
     if (emerg) msg += `🚨 *EMERGENCY RIDE*\n`;
     if (reqs >= 1) msg += `⚠️ *2nd Booking (Advance Applicable)*\n`;
     msg += `🚘 *Vehicle:* ${veh}\n📍 *Pickup:* ${pickLink}\n🏁 *Destination:* ${dropText}\n📏 *Distance:* ${km} km\n💰 *Fare:* ${fare}\n`;
-    if (note) msg += `📝 *Note:* ${note}\n`;
+    if (note) msg += `📝 *Time/Details:* ${note}\n`;
     msg += `దయచేసి దగ్గరలో ఉన్న రైడర్ నంబర్ పంపండి.`;
 
     window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(msg)}`, "_blank");
@@ -518,6 +631,7 @@
       document.getElementById("mshBtnShowNums").classList.remove("active");
       document.getElementById("mshBtnShowNums").innerText = "📞 Show Rider Numbers";
       renderRiders();
+      renderPublicNotices();
       return;
     }
     const pin = prompt("Admin PIN ఎంటర్ చేయండి (1234):");
@@ -526,12 +640,12 @@
       this.innerText = "🔓 Admin Unlocked";
       this.classList.add("unlocked");
       bar.style.display = "block";
+      renderPublicNotices();
     } else if (pin !== null) {
       alert("తప్పు PIN!");
     }
   });
 
-  // Selective Admin Buttons
   document.getElementById("mshBtnShowNums").addEventListener("click", function() {
     showNumbers = !showNumbers;
     this.classList.toggle("active", showNumbers);
@@ -571,7 +685,6 @@
     document.getElementById("mshBtnEditRiders").classList.remove("active");
   });
 
-  // Auto calc in Admin Ride Form
   document.getElementById("mshAdmKm").addEventListener("input", function() {
     const r = Number(document.getElementById("mshAdmVeh").value);
     document.getElementById("mshAdmAmt").value = Math.round((Number(this.value) || 0) * r);
@@ -590,7 +703,7 @@
     if (!pick || !drop) { alert("Pickup & Destination రాయండి"); return; }
 
     adminRides.unshift({ cName, cPhone, pick, drop, rKm, rAmt, rider: rider.name });
-    localStorage.setItem("msh_admin_rides_v2", JSON.stringify(adminRides));
+    localStorage.setItem("msh_admin_rides_v3", JSON.stringify(adminRides));
     renderAdminRides();
 
     const msg = `🛵 *NEW RIDE (Mana Seva Hub)*\n👤 Customer: ${cName} (${cPhone})\n📍 Pickup: ${pick}\n🏁 Drop: ${drop}\n📏 KM: ${rKm} km | 💰 Cash: ₹${rAmt}`;
@@ -624,16 +737,16 @@
       status: document.getElementById("mshRStat").value,
       updated: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
-    localStorage.setItem("msh_riders_v2", JSON.stringify(riders));
+    localStorage.setItem("msh_riders_v3", JSON.stringify(riders));
     renderRiders();
     alert("Rider Updated ✅");
   });
 
-  // Init
-  if (parseInt(localStorage.getItem("msh_reqs_v2") || "0") >= 1) {
+  if (parseInt(localStorage.getItem("msh_reqs_v3") || "0") >= 1) {
     document.getElementById("mshAdvBox").style.display = "block";
   }
   updateFare();
   renderRiders();
+  renderPublicNotices();
 })();
 </script>
