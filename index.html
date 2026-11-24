@@ -1,658 +1,630 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mana Rapido & Seva Hub • Prakash (@hipraka)</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-  <!-- Real Interactive Map (Leaflet CSS & JS - Free & Fast) -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@600;700;800&family=Instrument+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@500;700&family=Noto+Sans+Telugu:wght@400;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
-  <script>
-    tailwind.config = {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HopGo — Real-Time Ride &amp; Full Lock Control</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    /** @type {import('tailwindcss').Config} */
+    globalThis.tailwind = globalThis.tailwind || {};
+    globalThis.tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            'emerald-deep': '#022C22',
-            'royal-emerald': '#064E3B',
-            'emerald-mint': '#D1FAE5',
-            'saffron-gold': '#F59E0B',
-            'saffron-tint': '#FEF3C7',
-            'warm-ivory': '#F4F1EA',
-            'dark-ink': '#0F172A'
+            'success': '#15803D',
+            'on-success': '#FFFFFF',
+            'success-container': '#DCFCE7',
+            'on-success-container': '#14532D',
+            'light-primary': '#785A00',
+            'light-on-primary': '#FFFFFF',
+            'light-primary-container': '#EAB308',
+            'light-on-primary-container': '#251A00',
+            'light-secondary': '#725B23',
+            'light-on-secondary': '#FFFFFF',
+            'light-secondary-container': '#FCDC97',
+            'light-on-secondary-container': '#3F2E00',
+            'light-tertiary': '#00658E',
+            'light-on-tertiary': '#FFFFFF',
+            'light-tertiary-container': '#C7E7FF',
+            'light-on-tertiary-container': '#00344C',
+            'light-error': '#BA1A1A',
+            'light-on-error': '#FFFFFF',
+            'light-error-container': '#FFDAD6',
+            'light-on-error-container': '#93000A',
+            'light-background': '#FFF8F2',
+            'light-on-background': '#201B11',
+            'light-surface': '#FFF8F2',
+            'light-surface-dim': '#E3D9C9',
+            'light-surface-bright': '#FFF8F2',
+            'light-surface-container-lowest': '#FFFFFF',
+            'light-surface-container-low': '#FDF2E2',
+            'light-surface-container': '#F7ECDC',
+            'light-surface-container-high': '#F2E7D7',
+            'light-surface-container-highest': '#ECE1D1',
+            'light-on-surface': '#201B11',
+            'light-surface-variant': '#F0E1C7',
+            'light-on-surface-variant': '#4F4633',
+            'light-outline': '#817660',
+            'light-outline-variant': '#D3C5AC',
+            'light-inverse-surface': '#353025',
+            'light-inverse-on-surface': '#FAEFDF',
+            'light-inverse-primary': '#F7BE1D',
+          },
+          borderRadius: {
+            'sm': '6px',
+            'DEFAULT': '12px',
+            'md': '12px',
+            'lg': '16px',
+            'xl': '24px',
+            'full': '9999px',
+          },
+          spacing: {
+            'gutter-xs': '4px',
+            'gutter-sm': '8px',
+            'gutter-md': '16px',
+            'gutter-lg': '24px',
+            'gutter-xl': '32px',
           },
           fontFamily: {
-            'headline': ['"Wix Madefor Display"', '"Noto Sans Telugu"', 'sans-serif'],
-            'body': ['"Instrument Sans"', '"Noto Sans Telugu"', 'sans-serif'],
-            'mono': ['"Spline Sans Mono"', 'monospace']
-          }
-        }
-      }
+            'display': ['"Mulish"', 'sans-serif'],
+            'headline': ['"Mulish"', 'sans-serif'],
+            'title': ['"Instrument Sans"', 'sans-serif'],
+            'body': ['"Instrument Sans"', 'sans-serif'],
+            'label': ['"Instrument Sans"', 'sans-serif'],
+            'mono': ['"Spline Sans Mono"', 'monospace'],
+          },
+          fontSize: {
+            'headline-lg-mobile': ['24px', { lineHeight: '30px', letterSpacing: '-0.2px', fontWeight: '700' }],
+            'title-lg': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+            'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+            'body-lg': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '400' }],
+            'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+            'label-lg': ['15px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
+            'label-md': ['13px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '600' }],
+            'label-sm': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '500' }],
+            'mono-lg': ['22px', { lineHeight: '28px', letterSpacing: '2px', fontWeight: '700' }],
+            'mono-md': ['14px', { lineHeight: '20px', letterSpacing: '0.5px', fontWeight: '600' }],
+          },
+        },
+      },
     };
   </script>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Mulish:wght@600;700;800&family=Spline+Sans+Mono:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet" />
   <style>
-    body { font-family: "Instrument Sans", "Noto Sans Telugu", sans-serif; background-color: #F4F1EA; color: #0F172A; }
-    .material-symbols-outlined { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; vertical-align: middle; }
-    #live-map { height: 290px; width: 100%; border-radius: 1rem; z-index: 10; }
-    @media (min-width: 1024px) { #live-map { height: 360px; } }
-    .glass-card { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(12px); border: 1px solid #E2DDD2; box-shadow: 0 10px 25px -5px rgba(2, 44, 34, 0.08); }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .material-symbols-outlined {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+    @keyframes pulseMarker {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.18); opacity: 1; }
+    }
+    .pulse-iq { animation: pulseMarker 1.8s infinite ease-in-out; }
   </style>
 </head>
-<body class="min-h-screen w-full antialiased overflow-x-hidden">
+<body class="bg-light-surface text-light-on-surface antialiased">
+  <div class="min-h-screen w-full max-w-[390px] mx-auto bg-light-surface flex flex-col relative shadow-xl">
 
-  <!-- ==========================================================================
-       1. TOP PREMIUM APP HEADER (Live Server Status + Admin Cash Control)
-       ========================================================================== -->
-  <header class="sticky top-0 z-40 w-full bg-gradient-to-r from-emerald-deep via-royal-emerald to-emerald-deep text-white border-b border-saffron-gold/40 shadow-lg px-3.5 sm:px-6 lg:px-10 py-3">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2.5">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl bg-saffron-gold text-emerald-deep font-headline font-extrabold text-xl flex items-center justify-center shadow-md">M</div>
-        <div>
+    <!-- Upper Live Map Zone -->
+    <section class="relative w-full h-[350px] bg-light-surface-container overflow-hidden flex-shrink-0">
+      <img
+        src="https://lh3.googleusercontent.com/aida/ALJJyrCOJdoPi5G1hgkKuvSq1z41jRrbxUdyNZgDjMSgwjCK7N9rIMOTm-_mpLn0WeAQj03hjVhOZFwttRly1083Y61SZzJDpIpqTy0-KIk6sMdmsKkTXuBFqxNpbVwJf2l2zMpnM3DTK29NYfbq5k8O1GFyirM193tEOBDSsrXs7ZDw0x-HA1CaMeLUu9hzEmEBnZNJSyXUm9KS8i0B2WPwT1xPJLfX6iTEv0j4pXzudzjmCw2LoSCCRG3I"
+        alt="Live city street map around Madhapur Metro"
+        class="w-full h-full object-cover"
+      />
+
+      <!-- Top Floating Bar -->
+      <header class="absolute top-0 left-0 right-0 p-gutter-md flex items-center justify-between gap-gutter-sm z-20">
+        <button
+          id="open-control-btn"
+          type="button"
+          aria-label="Open Lock & Owner Control"
+          class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-light-surface-container-lowest border border-light-outline-variant text-light-on-surface shadow-sm hover:bg-light-surface-container-low active:scale-95 transition"
+        >
+          <span class="material-symbols-outlined text-[20px]">lock</span>
+        </button>
+
+        <div class="inline-flex items-center gap-gutter-xs px-gutter-md py-gutter-xs rounded-full bg-light-surface-container-lowest border border-light-outline-variant shadow-sm">
+          <span class="material-symbols-outlined text-[18px] text-light-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+          <span class="font-label text-label-md text-light-on-surface">HopGo IQ</span>
+          <span id="lock-badge" class="ml-1 px-1.5 py-0.5 text-[10px] font-mono rounded-full bg-success-container text-on-success-container">LOCKED</span>
+        </div>
+
+        <button
+          id="open-dispatch-btn"
+          type="button"
+          aria-label="Active Ride & Delivery Code"
+          class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-light-surface-container-lowest border border-light-outline-variant text-light-on-surface shadow-sm hover:bg-light-surface-container-low active:scale-95 transition"
+        >
+          <span class="material-symbols-outlined text-[20px] text-light-tertiary">verified_user</span>
+        </button>
+      </header>
+
+      <!-- Live Moving Captains -->
+      <div id="captain-bike" class="absolute top-[112px] left-[68px] w-9 h-9 rounded-full bg-light-primary-container text-light-on-primary-container shadow-md flex items-center justify-center border-2 border-light-surface-container-lowest pulse-iq transition-all duration-500">
+        <span class="material-symbols-outlined text-[18px]">two_wheeler</span>
+      </div>
+      <div id="captain-auto" class="absolute top-[154px] right-[62px] w-9 h-9 rounded-full bg-light-surface-container-lowest text-light-on-surface shadow-md flex items-center justify-center border border-light-outline-variant transition-all duration-500">
+        <span class="material-symbols-outlined text-[18px]">electric_rickshaw</span>
+      </div>
+
+      <!-- Center Pickup Pin + IQ Score -->
+      <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+        <div class="px-gutter-md py-gutter-xs rounded-full bg-light-inverse-surface text-light-inverse-on-surface shadow-md flex items-center gap-gutter-xs">
+          <span class="w-2 h-2 rounded-full bg-light-primary-container"></span>
+          <span id="map-pickup-label" class="font-label text-label-md">Pickup: Madhapur Metro Gate 2</span>
+        </div>
+        <div class="w-1 h-3 bg-light-inverse-surface"></div>
+        <div class="w-4 h-4 rounded-full bg-light-primary-container border-2 border-light-inverse-surface shadow-sm"></div>
+        <span id="iq-eta-pill" class="mt-1.5 px-2 py-0.5 rounded-full bg-light-tertiary-container text-light-on-tertiary-container text-[11px] font-mono shadow-sm">
+          IQ Route: Low Traffic • 98% Match
+        </span>
+      </div>
+
+      <!-- Recenter GPS Button -->
+      <button
+        id="recenter-gps-btn"
+        type="button"
+        aria-label="Recenter live GPS"
+        class="absolute bottom-gutter-md right-gutter-md inline-flex items-center justify-center w-11 h-11 rounded-full bg-light-surface-container-lowest border border-light-outline-variant text-light-on-surface shadow-sm hover:bg-light-surface-container-low active:scale-95 transition z-10"
+      >
+        <span class="material-symbols-outlined text-[20px] text-light-tertiary">my_location</span>
+      </button>
+    </section>
+
+    <!-- Bottom Booking Sheet -->
+    <main class="flex-1 bg-light-surface-container-lowest rounded-t-xl border-t border-light-outline-variant px-gutter-md pt-gutter-md pb-gutter-lg flex flex-col gap-gutter-md -mt-4 relative z-20">
+      <div class="w-10 h-1 rounded-full bg-light-outline-variant mx-auto"></div>
+
+      <!-- Status & Live Fleet Summary -->
+      <div class="flex items-center justify-between gap-gutter-sm">
+        <div class="flex flex-col gap-gutter-xs">
+          <h1 class="font-headline text-headline-lg-mobile text-light-on-surface">Where to today?</h1>
+          <p id="fleet-status-text" class="font-body text-body-md text-light-on-surface-variant">
+            3 bikes &amp; 2 autos within 2 min • Offline rides blocked
+          </p>
+        </div>
+        <span id="offline-status-chip" class="inline-flex items-center gap-gutter-xs px-gutter-sm py-gutter-xs rounded-full bg-success-container text-on-success-container flex-shrink-0">
+          <span class="material-symbols-outlined text-[16px]">shield_lock</span>
+          <span class="font-label text-label-sm">No Offline</span>
+        </span>
+      </div>
+
+      <!-- Pickup + Drop Search Box -->
+      <div class="p-gutter-sm rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-gutter-sm">
+        <div class="flex items-center gap-gutter-sm px-gutter-sm py-gutter-xs">
+          <span class="material-symbols-outlined text-[18px] text-success" style="font-variation-settings: 'FILL' 1;">trip_origin</span>
+          <div class="flex-1 min-w-0">
+            <span class="block font-label text-label-sm text-light-on-surface-variant">Pickup landmark</span>
+            <span id="pickup-text" class="block font-title text-title-md text-light-on-surface truncate">Madhapur Metro Gate 2</span>
+          </div>
+          <button id="edit-pickup-btn" type="button" class="px-gutter-sm py-gutter-xs rounded-full bg-light-surface-container-lowest border border-light-outline-variant font-label text-label-sm text-light-primary">
+            Edit
+          </button>
+        </div>
+
+        <div class="h-px bg-light-outline-variant mx-gutter-sm"></div>
+
+        <div class="flex items-center gap-gutter-sm px-gutter-sm py-gutter-xs">
+          <span class="material-symbols-outlined text-[20px] text-light-primary">location_on</span>
+          <input
+            id="drop-input"
+            type="search"
+            placeholder="Search drop area or landmark"
+            class="flex-1 bg-transparent border-none p-0 font-body text-body-lg text-light-on-surface placeholder:text-light-outline focus:ring-0"
+          />
+          <button
+            id="voice-btn"
+            type="button"
+            aria-label="Speak destination"
+            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-light-primary-container text-light-on-primary-container hover:brightness-95 active:scale-95 transition flex-shrink-0"
+          >
+            <span class="material-symbols-outlined text-[20px]">mic</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- One-Tap Saved Daily Routes -->
+      <div class="flex flex-col gap-gutter-sm">
+        <div class="flex items-center justify-between">
+          <span class="font-label text-label-md text-light-on-surface-variant">One-tap daily rides</span>
+          <span class="font-label text-label-sm text-light-primary">IQ Upfront Fare</span>
+        </div>
+
+        <div class="grid grid-cols-3 gap-gutter-sm">
+          <button type="button" data-route="Mindspace Building 12B" data-fare="₹42" data-eta="12 min" class="route-chip p-gutter-sm rounded-lg bg-light-surface-container-low border border-light-outline-variant hover:border-light-primary flex flex-col items-start gap-gutter-xs text-left transition">
+            <span class="material-symbols-outlined text-[20px] text-light-primary">work</span>
+            <span class="font-label text-label-md text-light-on-surface">Work</span>
+            <span class="font-label text-label-sm text-light-on-surface-variant tabular-nums">12 min • ₹42</span>
+          </button>
+
+          <button type="button" data-route="Kondapur Botanical Garden" data-fare="₹48" data-eta="15 min" class="route-chip p-gutter-sm rounded-lg bg-light-surface-container-low border border-light-outline-variant hover:border-light-primary flex flex-col items-start gap-gutter-xs text-left transition">
+            <span class="material-symbols-outlined text-[20px] text-light-primary">home</span>
+            <span class="font-label text-label-md text-light-on-surface">Home</span>
+            <span class="font-label text-label-sm text-light-on-surface-variant tabular-nums">15 min • ₹48</span>
+          </button>
+
+          <button type="button" data-route="Raidurg Metro Station" data-fare="₹25" data-eta="7 min" class="route-chip p-gutter-sm rounded-lg bg-light-surface-container-low border border-light-outline-variant hover:border-light-primary flex flex-col items-start gap-gutter-xs text-left transition">
+            <span class="material-symbols-outlined text-[20px] text-light-tertiary">directions_subway</span>
+            <span class="font-label text-label-md text-light-on-surface">Metro</span>
+            <span class="font-label text-label-sm text-light-on-surface-variant tabular-nums">7 min • ₹25</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recent Drops -->
+      <div class="flex flex-col gap-gutter-xs">
+        <span class="font-label text-label-md text-light-on-surface-variant">Recent drops</span>
+        <button type="button" data-route="Mindspace Building 12B" data-fare="₹42" data-eta="12 min" class="route-chip w-full p-gutter-sm rounded-md hover:bg-light-surface-container-low flex items-center justify-between gap-gutter-sm text-left transition">
+          <div class="flex items-center gap-gutter-sm min-w-0">
+            <div class="w-9 h-9 rounded-full bg-light-surface-container flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-[18px] text-light-on-surface-variant">history</span>
+            </div>
+            <div class="min-w-0">
+              <span class="block font-title text-title-md text-light-on-surface truncate">Mindspace Building 12B</span>
+              <span class="block font-body text-body-md text-light-on-surface-variant truncate">HITEC City • 3.8 km</span>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-light-outline">chevron_right</span>
+        </button>
+      </div>
+
+      <!-- Primary Action -->
+      <button
+        id="confirm-drop-btn"
+        type="button"
+        class="w-full inline-flex items-center justify-center gap-gutter-sm px-gutter-lg py-gutter-md rounded-lg bg-light-primary-container text-light-on-primary-container font-label font-semibold shadow-sm hover:brightness-95 active:scale-[0.98] transition"
+      >
+        <span id="confirm-cta-text" class="font-label text-label-lg">See Rides to Mindspace</span>
+        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+      </button>
+    </main>
+
+    <!-- MODAL 1: OWNER LOCK & CONTROL PANEL (PIN Protected) -->
+    <div id="control-modal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-end sm:items-center justify-center p-3">
+      <div class="w-full max-w-[390px] rounded-xl bg-light-surface-container-lowest border border-light-outline-variant p-4 flex flex-col gap-3 shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <h1 class="font-headline text-base sm:text-xl font-extrabold tracking-tight text-white">Mana Rapido <span class="text-saffron-gold">Pro</span></h1>
-            <span class="px-2 py-0.5 rounded-full bg-[#15803D] text-white font-mono text-[10px] font-bold flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-tint animate-ping"></span>
-              <span>10 SERVERS LIVE</span>
-            </span>
+            <span class="material-symbols-outlined text-light-primary">admin_panel_settings</span>
+            <h2 class="font-headline text-lg font-bold">Owner Full Lock Control</h2>
           </div>
-          <p class="text-[11px] text-emerald-tint">Prakash (@hipraka) • Boddavara • S.Kota • Thatipudi • VZM • Vizag</p>
+          <button id="close-control-btn" type="button" class="w-8 h-8 rounded-full bg-light-surface-container flex items-center justify-center">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
         </div>
-      </div>
 
-      <div class="flex items-center gap-2">
-        <button id="open-cash-modal-btn" type="button" class="px-3.5 py-1.5 rounded-full bg-saffron-gold text-emerald-deep text-xs font-extrabold shadow-md flex items-center gap-1 hover:brightness-105 transition">
-          <span class="material-symbols-outlined text-sm">account_balance_wallet</span>
-          <span>Cash Control</span>
-        </button>
-        <button id="open-rider-join-btn" type="button" class="px-3.5 py-1.5 rounded-full bg-white/15 border border-white/30 text-white text-xs font-bold hover:bg-white/25 transition">
-          + Join Rider
-        </button>
-        <a href="tel:+918985240287" class="w-9 h-9 rounded-full bg-[#15803D] text-white flex items-center justify-center shadow" title="Direct Call">
-          <span class="material-symbols-outlined text-base">call</span>
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- ==========================================================================
-       2. MAIN DASHBOARD (Interactive Live Map + AI Dispatch + 10-Rider Server)
-       ========================================================================== -->
-  <main class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-10 py-5 pb-24 flex flex-col gap-5">
-
-    <!-- TOP GRID: LEFT = LIVE GPS MAP | RIGHT = SMART BOOKING CONSOLE -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-
-      <!-- LEFT (7 Columns on Laptop): REAL-TIME INTERACTIVE GPS MAP & TELEMETRY -->
-      <section class="lg:col-span-7 glass-card rounded-3xl p-4 sm:p-5 flex flex-col justify-between gap-3">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h2 class="font-headline text-base sm:text-lg font-bold text-royal-emerald flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-saffron-gold">satellite_alt</span>
-              <span>Live GPS Route &amp; Real-Time Tracking Map</span>
-            </h2>
-            <p class="text-xs text-slate-600">మ్యాప్ మీద లైవ్ దూరం, రూట్ &amp; వాహనం కదలికను చూడండి</p>
-          </div>
-          <div class="flex items-center gap-1.5">
-            <button id="btn-detect-gps" type="button" class="px-3 py-1.5 rounded-full bg-royal-emerald text-white text-xs font-bold flex items-center gap-1 shadow-sm">
-              <span class="material-symbols-outlined text-xs">my_location</span>
-              <span>My Live GPS</span>
-            </button>
-            <button id="btn-external-gmaps" type="button" class="px-3 py-1.5 rounded-full bg-blue-700 text-white text-xs font-bold flex items-center gap-1 shadow-sm">
-              <span class="material-symbols-outlined text-xs">navigation</span>
-              <span>Google Maps</span>
+        <!-- PIN Gate -->
+        <div id="pin-gate" class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
+          <p class="text-xs text-light-on-surface-variant">
+            Enter Owner PIN to change locks, remove/edit controls, or view full customer numbers. (Default PIN: <span class="font-mono font-bold">4829</span>)
+          </p>
+          <div class="flex gap-2">
+            <input
+              id="owner-pin-input"
+              type="password"
+              maxlength="4"
+              placeholder="4-digit PIN"
+              class="flex-1 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-center tracking-widest"
+            />
+            <button id="unlock-pin-btn" type="button" class="px-4 py-2 rounded-lg bg-light-primary-container text-light-on-primary-container font-label text-label-md">
+              Unlock
             </button>
           </div>
+          <p id="pin-error" class="hidden text-xs text-light-error font-medium">Wrong PIN! Access denied.</p>
         </div>
 
-        <!-- LIVE LEAFLET MAP CONTAINER -->
-        <div class="relative rounded-2xl overflow-hidden border-2 border-royal-emerald/20 shadow-inner">
-          <div id="live-map"></div>
-          <!-- Floating Live Telemetry Pill on Map -->
-          <div class="absolute bottom-3 left-3 right-3 z-20 rounded-2xl bg-emerald-deep/95 backdrop-blur-md text-white px-3.5 py-2 border border-saffron-gold/40 flex flex-wrap items-center justify-between gap-2 text-xs">
-            <div class="flex items-center gap-3 font-mono">
-              <span>📏 Distance: <strong id="hud-km" class="text-saffron-gold text-sm">4.2 km</strong></span>
-              <span>⏱️ ETA: <strong id="hud-eta" class="text-emerald-tint">9 mins</strong></span>
-            </div>
-            <span id="hud-ai-badge" class="px-2.5 py-0.5 rounded-full bg-saffron-gold/20 border border-saffron-gold text-saffron-gold text-[10px] font-bold">
-              🤖 AI Engine: Optimal Route Ready
-            </span>
-          </div>
-        </div>
-
-        <!-- Quick Route Presets Strip -->
-        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1">
-          <span class="text-[11px] font-bold text-slate-500 shrink-0">Popular Routes:</span>
-          <button type="button" data-from="boddavara" data-to="skota" class="quick-route shrink-0 px-3 py-1 rounded-full bg-emerald-tint/60 hover:bg-emerald-tint text-royal-emerald text-xs font-bold">Boddavara → S.Kota</button>
-          <button type="button" data-from="boddavara" data-to="thatipudi" class="quick-route shrink-0 px-3 py-1 rounded-full bg-emerald-tint/60 hover:bg-emerald-tint text-royal-emerald text-xs font-bold">Boddavara → Thatipudi</button>
-          <button type="button" data-from="kiltampalem" data-to="skota" class="quick-route shrink-0 px-3 py-1 rounded-full bg-emerald-tint/60 hover:bg-emerald-tint text-royal-emerald text-xs font-bold">Kiltampalem → S.Kota</button>
-          <button type="button" data-from="skota" data-to="vizag" class="quick-route shrink-0 px-3 py-1 rounded-full bg-emerald-tint/60 hover:bg-emerald-tint text-royal-emerald text-xs font-bold">S.Kota → Vizag</button>
-        </div>
-      </section>
-
-      <!-- RIGHT (5 Columns on Laptop): AI FARE CALCULATOR & INSTANT DISPATCH BOOKING -->
-      <section class="lg:col-span-5 glass-card rounded-3xl p-4 sm:p-5 flex flex-col justify-between gap-3.5">
-        <div>
-          <div class="flex items-center justify-between mb-2">
-            <h2 class="font-headline text-base sm:text-lg font-bold text-royal-emerald">⚡ Instant Ride &amp; Parcel Booking</h2>
-            <select id="ride-type-mode" class="rounded-full border border-saffron-gold bg-saffron-tint text-[#78350F] text-[11px] font-bold px-2.5 py-0.5">
-              <option value="day">☀️ Day Ride (1.0x)</option>
-              <option value="night">🌙 Night / Emergency (1.2x)</option>
-              <option value="parcel">📦 Express Parcel (0.9x)</option>
-            </select>
+        <!-- Unlocked Controls -->
+        <div id="owner-controls-body" class="hidden flex-col gap-3">
+          <div class="flex items-center justify-between p-2.5 rounded-lg bg-success-container text-on-success-container text-xs font-medium">
+            <span>Owner Verified • Full Control Active</span>
+            <button id="relock-btn" type="button" class="underline font-bold">Lock Now</button>
           </div>
 
-          <!-- Pickup & Drop Selectors -->
-          <div class="flex flex-col gap-2.5">
-            <div class="rounded-2xl bg-[#F8F6F0] border border-[#E2DDD2] p-2.5">
-              <label class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 block mb-1">🟢 Pickup Point (ఎక్కడి నుండి)</label>
-              <div class="grid grid-cols-2 gap-1.5">
-                <select id="sel-pickup" class="rounded-xl border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-bold">
-                  <option value="boddavara">Boddavara</option>
-                  <option value="kiltampalem">Kiltampalem</option>
-                  <option value="thatipudi">Thatipudi Dam</option>
-                  <option value="skota">S.Kota Junction</option>
-                  <option value="vzm">Vizianagaram (VZM)</option>
-                  <option value="vizag">Vizag (RTC Complex)</option>
-                  <option value="gps">📡 Live GPS Location</option>
-                </select>
-                <input id="inp-pickup-note" type="text" placeholder="వీధి / ల్యాండ్‌మార్క్" class="rounded-xl border border-slate-300 bg-white px-2.5 py-1.5 text-xs">
-              </div>
-            </div>
-
-            <div class="rounded-2xl bg-[#F8F6F0] border border-[#E2DDD2] p-2.5">
-              <label class="text-[10px] font-bold uppercase tracking-wider text-rose-700 block mb-1">🔴 Drop Point (ఎక్కడికి వెళ్లాలి)</label>
-              <div class="grid grid-cols-2 gap-1.5">
-                <select id="sel-drop" class="rounded-xl border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-bold">
-                  <option value="skota">S.Kota Junction</option>
-                  <option value="thatipudi">Thatipudi Dam</option>
-                  <option value="boddavara">Boddavara</option>
-                  <option value="kiltampalem">Kiltampalem</option>
-                  <option value="vzm">Vizianagaram (VZM)</option>
-                  <option value="vizag">Vizag (RTC Complex)</option>
-                  <option value="araku">Araku Valley</option>
-                </select>
-                <input id="inp-drop-note" type="text" placeholder="డ్రాప్ అడ్రస్" class="rounded-xl border border-slate-300 bg-white px-2.5 py-1.5 text-xs">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Vehicle Selection Cards -->
-        <div class="grid grid-cols-3 gap-2">
-          <button type="button" data-veh="bike" data-rate="5" data-base="10" class="veh-card p-2.5 rounded-2xl bg-royal-emerald text-white border-2 border-royal-emerald text-center shadow-sm transition">
-            <span class="text-2xl block">🏍️</span>
-            <span class="text-xs font-extrabold block">Bike</span>
-            <span class="font-mono text-[10px] opacity-90">₹5/km</span>
-          </button>
-          <button type="button" data-veh="auto" data-rate="12" data-base="20" class="veh-card p-2.5 rounded-2xl bg-white text-slate-800 border-2 border-slate-200 text-center hover:border-royal-emerald transition">
-            <span class="text-2xl block">🛺</span>
-            <span class="text-xs font-extrabold block">Auto</span>
-            <span class="font-mono text-[10px] text-slate-500">₹12/km</span>
-          </button>
-          <button type="button" data-veh="car" data-rate="18" data-base="50" class="veh-card p-2.5 rounded-2xl bg-white text-slate-800 border-2 border-slate-200 text-center hover:border-royal-emerald transition">
-            <span class="text-2xl block">🚗</span>
-            <span class="text-xs font-extrabold block">Car</span>
-            <span class="font-mono text-[10px] text-slate-500">₹18/km</span>
-          </button>
-        </div>
-
-        <!-- Manual Distance Fine-Tune Slider + Total Cash Fare Box -->
-        <div class="rounded-2xl bg-gradient-to-r from-saffron-tint to-amber-50 border border-saffron-gold p-3 flex flex-col gap-1.5">
-          <div class="flex items-center justify-between">
+          <!-- Block Offline Rides -->
+          <label class="flex items-center justify-between p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant cursor-pointer">
             <div>
-              <span class="text-[11px] font-bold text-[#78350F] block">💵 Total Cash Fare (కస్టమర్ చెల్లించాల్సింది):</span>
-              <span id="fare-formula-text" class="font-mono text-[10px] text-slate-700">Base ₹10 + (4.2 km × ₹5)</span>
+              <span class="block font-title text-sm font-semibold">Block Offline Rides Completely</span>
+              <span class="block text-xs text-light-on-surface-variant">No offline ride booking allowed when ON</span>
             </div>
-            <span id="total-fare-display" class="px-3.5 py-1 rounded-2xl bg-royal-emerald text-white font-mono text-lg font-extrabold shadow">₹31</span>
-          </div>
-          <input id="manual-km-slider" type="range" min="1" max="80" step="0.5" value="4.2" class="w-full accent-royal-emerald">
-        </div>
+            <input id="toggle-block-offline" type="checkbox" checked class="rounded text-light-primary focus:ring-light-primary" />
+          </label>
 
-        <!-- Customer Mobile & Action Buttons -->
-        <div class="flex flex-col gap-2">
-          <input id="inp-cust-phone" type="tel" maxlength="10" placeholder="కస్టమర్ 10-అంకెల ఫోన్ నంబర్ ఎంటర్ చేయండి" class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 font-mono text-xs font-semibold">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <button id="btn-confirm-ride" type="button" class="py-2.5 rounded-full bg-royal-emerald text-white text-xs font-extrabold shadow-md hover:bg-emerald-deep transition flex items-center justify-center gap-1">
-              <span class="material-symbols-outlined text-sm">check_circle</span>
-              <span>Confirm Ride (Cash)</span>
-            </button>
-            <button id="btn-whatsapp-ride" type="button" class="py-2.5 rounded-full bg-saffron-gold text-emerald-deep text-xs font-extrabold shadow-md hover:brightness-105 transition flex items-center justify-center gap-1">
-              <span class="material-symbols-outlined text-sm">send</span>
-              <span>Book + GPS on WhatsApp</span>
+          <!-- Delivery / Ride OTP Required -->
+          <label class="flex items-center justify-between p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant cursor-pointer">
+            <div>
+              <span class="block font-title text-sm font-semibold">Mandatory Delivery / Ride Code</span>
+              <span class="block text-xs text-light-on-surface-variant">Rider cannot start/complete without 4-digit code</span>
+            </div>
+            <input id="toggle-delivery-code" type="checkbox" checked class="rounded text-light-primary focus:ring-light-primary" />
+          </label>
+
+          <!-- Customer Number Visibility (Owner Only vs Rider Hidden) -->
+          <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <span class="font-title text-sm font-semibold">Customer Phone Visibility</span>
+              <span class="text-[11px] px-2 py-0.5 rounded-full bg-light-tertiary-container text-light-on-tertiary-container font-mono">OWNER ONLY</span>
+            </div>
+            <p class="text-xs text-light-on-surface-variant">
+              Owner sees real customer number; Rider always sees masked number.
+            </p>
+            <div class="flex items-center justify-between text-xs pt-1 border-t border-light-outline-variant/50">
+              <span>Customer Actual Number (Owner):</span>
+              <span id="owner-customer-phone" class="font-mono font-bold text-light-on-surface">+91 98480 22190</span>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span>Rider App View:</span>
+              <span class="font-mono text-light-on-surface-variant">+91 ••••• ••190 (Hidden)</span>
+            </div>
+          </div>
+
+          <!-- Edit / Delete / Reset Rules -->
+          <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
+            <span class="font-title text-sm font-semibold">Remove / Edit Ride Rules</span>
+            <div class="flex gap-2">
+              <input
+                id="new-delivery-code"
+                type="text"
+                maxlength="4"
+                value="7391"
+                class="w-24 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-center text-sm"
+              />
+              <button id="update-code-btn" type="button" class="flex-1 py-2 px-3 rounded-lg bg-light-surface-container border border-light-outline-variant text-xs font-semibold">
+                Update Delivery Code
+              </button>
+            </div>
+            <button id="remove-all-rides-btn" type="button" class="w-full py-2 px-3 rounded-lg bg-light-error-container text-light-on-error-container text-xs font-semibold">
+              Remove All Active / Pending Rides
             </button>
           </div>
         </div>
-      </section>
+      </div>
     </div>
 
-    <!-- ========================================================================
-         3. LIVE ASSIGNED RIDER TRACKER BAR + 10-NODE REALTIME SERVER CLUSTER
-         ======================================================================== -->
-    <section class="glass-card rounded-3xl p-4 sm:p-5 flex flex-col gap-4">
-      <!-- Assigned Rider Highlight Strip -->
-      <div class="rounded-2xl bg-emerald-deep text-white p-3.5 flex flex-wrap items-center justify-between gap-3 border border-saffron-gold/40">
-        <div class="flex items-center gap-3">
-          <div id="active-rider-avatar" class="w-11 h-11 rounded-2xl bg-saffron-gold text-emerald-deep font-headline font-extrabold text-lg flex items-center justify-center">P</div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-tint font-mono text-[10px] font-bold">ACTIVE DISPATCH RIDER</span>
-              <span id="active-rider-node" class="font-mono text-[10px] text-saffron-gold">NODE #S1</span>
-            </div>
-            <h3 id="active-rider-title" class="text-sm sm:text-base font-bold mt-0.5">Prakash • BIKE (Boddavara)</h3>
+    <!-- MODAL 2: LIVE DISPATCH, DELIVERY CODE & RIDER/OWNER PRIVACY VIEW -->
+    <div id="dispatch-modal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-end sm:items-center justify-center p-3">
+      <div class="w-full max-w-[390px] rounded-xl bg-light-surface-container-lowest border border-light-outline-variant p-4 flex flex-col gap-3 shadow-2xl">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-success">electric_bike</span>
+            <h2 class="font-headline text-lg font-bold">Live Ride &amp; Delivery Code</h2>
           </div>
-        </div>
-        <div class="flex items-center gap-2">
-          <button id="btn-simulate-trip" type="button" class="px-3.5 py-2 rounded-full bg-white/15 border border-white/25 text-white text-xs font-bold flex items-center gap-1">
-            <span class="material-symbols-outlined text-sm text-saffron-gold">play_circle</span>
-            <span>Simulate Live Tracking</span>
+          <button id="close-dispatch-btn" type="button" class="w-8 h-8 rounded-full bg-light-surface-container flex items-center justify-center">
+            <span class="material-symbols-outlined text-[18px]">close</span>
           </button>
-          <a id="active-rider-call" href="tel:+918985240287" class="px-4 py-2 rounded-full bg-[#15803D] text-white text-xs font-extrabold flex items-center gap-1 shadow">
-            <span class="material-symbols-outlined text-sm">call</span>
-            <span id="active-rider-phone">8985240287</span>
-          </a>
+        </div>
+
+        <div id="dispatch-alert" class="hidden p-2.5 rounded-lg bg-light-error-container text-light-on-error-container text-xs font-semibold"></div>
+
+        <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-1.5">
+          <div class="flex justify-between text-xs text-light-on-surface-variant">
+            <span>Drop Destination</span>
+            <span id="dispatch-dest" class="font-semibold text-light-on-surface">Mindspace Building 12B</span>
+          </div>
+          <div class="flex justify-between text-xs text-light-on-surface-variant">
+            <span>IQ Fare &amp; ETA</span>
+            <span id="dispatch-fare-eta" class="font-mono font-bold text-light-on-surface">₹42 • 12 min</span>
+          </div>
+          <div class="flex justify-between text-xs text-light-on-surface-variant">
+            <span>Rider Number View</span>
+            <span class="font-mono text-light-tertiary font-semibold">+91 ••••• ••190 (Masked)</span>
+          </div>
+          <div class="flex justify-between text-xs text-light-on-surface-variant">
+            <span>Owner Customer Number</span>
+            <span id="dispatch-owner-phone" class="font-mono font-bold text-light-on-surface">+91 98480 22190</span>
+          </div>
+        </div>
+
+        <!-- 4-Digit Delivery / Ride Verification Code -->
+        <div class="p-3 rounded-lg bg-light-secondary-container/50 border border-light-outline-variant flex items-center justify-between">
+          <div>
+            <span class="block text-xs font-semibold text-light-on-surface">Delivery / Ride Start Code</span>
+            <span class="block text-[11px] text-light-on-surface-variant">Share only at pickup/drop</span>
+          </div>
+          <span id="active-delivery-code" class="font-mono text-mono-lg text-light-on-surface bg-light-surface-container-lowest px-3 py-1 rounded-lg border border-light-outline-variant">
+            7391
+          </span>
+        </div>
+
+        <div class="flex gap-2">
+          <button id="simulate-offline-ride-btn" type="button" class="flex-1 py-2.5 px-3 rounded-lg border border-light-outline-variant bg-light-surface-container-low text-xs font-semibold">
+            Test Offline Ride
+          </button>
+          <button id="confirm-live-ride-btn" type="button" class="flex-1 py-2.5 px-3 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-bold">
+            Confirm Live Ride
+          </button>
         </div>
       </div>
-
-      <!-- 10 Realtime Servers Grid -->
-      <div class="flex flex-wrap items-center justify-between gap-2">
-        <div>
-          <h3 class="font-headline text-sm sm:text-base font-bold text-royal-emerald">📡 10-Node Real-Time Rider Server Cluster</h3>
-          <p class="text-[11px] text-slate-600">ఏ రైడర్ కార్డు మీద నొక్కినా వెంటనే సెలెక్ట్ అవుతారు • స్టేటస్ మార్చడానికి ONLINE/BUSY నొక్కండి</p>
-        </div>
-        <span id="server-online-summary" class="px-3 py-1 rounded-full bg-emerald-tint text-royal-emerald font-mono text-xs font-bold">10 / 10 Servers Online</span>
-      </div>
-
-      <div id="servers-10-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5"></div>
-    </section>
-
-    <!-- ========================================================================
-         4. FULL CASH CONTROL & COMMISSION LEDGER (Admin PIN: 1430)
-         ======================================================================== -->
-    <section id="cash-ledger-section" hidden class="rounded-3xl bg-emerald-deep text-white p-4 sm:p-6 shadow-2xl border-2 border-saffron-gold flex flex-col gap-4">
-      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/15 pb-3">
-        <div>
-          <h2 class="font-headline text-base sm:text-xl font-extrabold text-saffron-gold">💰 Full Cash Control &amp; Daily Commission Ledger</h2>
-          <p class="text-xs text-emerald-tint">కస్టమర్ కట్టిన క్యాష్, రైడర్ వాటా (90%) మరియు Admin కమిషన్ (10%) పూర్తి నియంత్రణ</p>
-        </div>
-        <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
-          <div class="px-3 py-1.5 rounded-xl bg-white/10">Total Cash: <strong id="stat-total-cash" class="text-saffron-gold text-sm">₹0</strong></div>
-          <div class="px-3 py-1.5 rounded-xl bg-emerald-500/20">Rider 90%: <strong id="stat-rider-share" class="text-white text-sm">₹0</strong></div>
-          <div class="px-3 py-1.5 rounded-xl bg-saffron-gold/20 border border-saffron-gold">Admin 10%: <strong id="stat-admin-share" class="text-saffron-gold text-sm">₹0</strong></div>
-          <button id="btn-reset-cash" type="button" class="px-3 py-1.5 rounded-xl bg-red-600 text-white text-xs font-bold">Reset Day</button>
-        </div>
-      </div>
-
-      <div id="cash-ledger-list" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 max-h-72 overflow-y-auto pr-1"></div>
-    </section>
-
-  </main>
-
-  <!-- ==========================================================================
-       JOIN AS RIDER MODAL (Free Registration into 10-Rider Server)
-       ========================================================================== -->
-  <dialog id="modal-join-rider" class="w-[calc(100%-24px)] max-w-md rounded-3xl bg-white p-5 shadow-2xl border border-slate-200 backdrop:bg-emerald-deep/80">
-    <div class="flex items-center justify-between mb-3">
-      <h3 class="font-headline text-base font-bold text-royal-emerald">🏍️ Join 10-Rider Server (Free)</h3>
-      <button type="button" onclick="document.getElementById('modal-join-rider').close()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">✕</button>
     </div>
-    <form id="form-join-rider" class="flex flex-col gap-2.5">
-      <input id="new-rider-name" type="text" required placeholder="రైడర్ పేరు (ఉదా: Karthik)" class="rounded-xl border border-slate-300 px-3 py-2 text-xs">
-      <select id="new-rider-veh" class="rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold">
-        <option value="bike">🏍️ Bike (₹5/km)</option>
-        <option value="auto">🛺 Auto (₹12/km)</option>
-        <option value="car">🚗 Car (₹18/km)</option>
-      </select>
-      <input id="new-rider-area" type="text" required placeholder="ఏరియా (Boddavara / S.Kota / Thatipudi)" class="rounded-xl border border-slate-300 px-3 py-2 text-xs">
-      <input id="new-rider-phone" type="tel" required maxlength="10" placeholder="10-అంకెల ఫోన్ నంబర్" class="rounded-xl border border-slate-300 px-3 py-2 font-mono text-xs">
-      <button type="submit" class="w-full py-2.5 rounded-full bg-royal-emerald text-white text-xs font-extrabold">Add to Live Server</button>
-    </form>
-  </dialog>
+  </div>
 
-  <div id="toast-box" hidden class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-5 py-2 rounded-full bg-emerald-deep text-white border border-saffron-gold shadow-2xl text-xs font-bold"></div>
-
-  <!-- ==========================================================================
-       COMPLETE INTERACTIVE ENGINE (Leaflet GPS Map + AI Fare + 10 Servers + Cash)
-       ========================================================================== -->
   <script>
     (function () {
-      const OWNER_PHONE = "918985240287";
-      const ADMIN_PIN = "1430";
+      const OWNER_PIN = '4829';
+      let deliveryCode = '7391';
+      let blockOfflineRides = true;
+      let requireDeliveryCode = true;
+      let selectedDest = 'Mindspace Building 12B';
+      let selectedFare = '₹42';
+      let selectedEta = '12 min';
 
-      function showToast(msg) {
-        const el = document.getElementById('toast-box');
-        el.textContent = msg; el.hidden = false;
-        clearTimeout(window._tTimer);
-        window._tTimer = setTimeout(() => { el.hidden = true; }, 2800);
+      const dropInput = document.getElementById('drop-input');
+      const ctaText = document.getElementById('confirm-cta-text');
+      const voiceBtn = document.getElementById('voice-btn');
+      const routeChips = document.querySelectorAll('.route-chip');
+
+      const controlModal = document.getElementById('control-modal');
+      const dispatchModal = document.getElementById('dispatch-modal');
+      const pinGate = document.getElementById('pin-gate');
+      const ownerBody = document.getElementById('owner-controls-body');
+      const pinInput = document.getElementById('owner-pin-input');
+      const pinError = document.getElementById('pin-error');
+
+      const toggleOffline = document.getElementById('toggle-block-offline');
+      const toggleCode = document.getElementById('toggle-delivery-code');
+      const offlineChip = document.getElementById('offline-status-chip');
+      const fleetText = document.getElementById('fleet-status-text');
+      const dispatchAlert = document.getElementById('dispatch-alert');
+
+      function syncUI() {
+        offlineChip.innerHTML = blockOfflineRides
+          ? '<span class="material-symbols-outlined text-[16px]">shield_lock</span><span class="font-label text-label-sm">No Offline</span>'
+          : '<span class="material-symbols-outlined text-[16px]">warning</span><span class="font-label text-label-sm">Offline ON</span>';
+
+        offlineChip.className = blockOfflineRides
+          ? 'inline-flex items-center gap-gutter-xs px-gutter-sm py-gutter-xs rounded-full bg-success-container text-on-success-container flex-shrink-0'
+          : 'inline-flex items-center gap-gutter-xs px-gutter-sm py-gutter-xs rounded-full bg-light-error-container text-light-on-error-container flex-shrink-0';
+
+        fleetText.textContent = blockOfflineRides
+          ? '3 bikes & 2 autos within 2 min • Offline rides blocked'
+          : '3 bikes & 2 autos within 2 min • Offline rides enabled';
+
+        document.getElementById('active-delivery-code').textContent = requireDeliveryCode ? deliveryCode : 'OFF';
+        document.getElementById('new-delivery-code').value = deliveryCode;
+        document.getElementById('dispatch-dest').textContent = selectedDest;
+        document.getElementById('dispatch-fare-eta').textContent = `${selectedFare} • ${selectedEta}`;
       }
 
-      /* 1. REAL COORDINATES DATABASE */
-      const PLACES = {
-        boddavara: { name: 'Boddavara', lat: 18.0815, lng: 83.1492 },
-        kiltampalem: { name: 'Kiltampalem', lat: 18.0950, lng: 83.1620 },
-        thatipudi: { name: 'Thatipudi Dam', lat: 18.1724, lng: 83.1965 },
-        skota: { name: 'S.Kota Junction', lat: 18.1118, lng: 83.1462 },
-        vzm: { name: 'Vizianagaram (VZM)', lat: 18.1067, lng: 83.3956 },
-        vizag: { name: 'Vizag (RTC Complex)', lat: 17.7286, lng: 83.3068 },
-        araku: { name: 'Araku Valley', lat: 18.3273, lng: 82.8775 }
-      };
-
-      /* 2. INITIALIZE REAL INTERACTIVE LEAFLET MAP */
-      const map = L.map('live-map', { zoomControl: true }).setView([18.1000, 83.1550], 12);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap'
-      }).addTo(map);
-
-      let pickupMarker = L.marker([18.0815, 83.1492]).addTo(map).bindPopup('🟢 Pickup: Boddavara');
-      let dropMarker = L.marker([18.1118, 83.1462]).addTo(map).bindPopup('🔴 Drop: S.Kota');
-      let routeLine = L.polyline([[18.0815, 83.1492], [18.1118, 83.1462]], { color: '#064E3B', weight: 5, dashArray: '8, 6' }).addTo(map);
-      let liveVehicleMarker = null;
-      let customLiveGps = null;
-
-      function haversineKm(lat1, lon1, lat2, lon2) {
-        const R = 6371;
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
-        return Math.max(1.5, Number((R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 1.25).toFixed(1)));
-      }
-
-      /* 3. 10-NODE RIDER SERVER STATE */
-      const INITIAL_10_SERVERS = [
-        { id: 'S1', name: 'Prakash', veh: 'bike', area: 'Boddavara', phone: '8985240287', online: true },
-        { id: 'S2', name: 'Raju', veh: 'bike', area: 'S.Kota', phone: '9848011223', online: true },
-        { id: 'S3', name: 'Kiran', veh: 'auto', area: 'Thatipudi', phone: '9848033445', online: true },
-        { id: 'S4', name: 'Suresh', veh: 'car', area: 'VZM', phone: '9848044556', online: true },
-        { id: 'S5', name: 'Venkatesh', veh: 'bike', area: 'Kiltampalem', phone: '9848055667', online: true },
-        { id: 'S6', name: 'Naidu Auto', veh: 'auto', area: 'S.Kota', phone: '9848066778', online: true },
-        { id: 'S7', name: 'Charan', veh: 'bike', area: 'Boddavara', phone: '9848077889', online: true },
-        { id: 'S8', name: 'Srinu Cab', veh: 'car', area: 'Vizag', phone: '9848088990', online: true },
-        { id: 'S9', name: 'Mahesh', veh: 'bike', area: 'Thatipudi', phone: '9848099001', online: true },
-        { id: 'S10', name: 'Ravi Auto', veh: 'auto', area: 'Kiltampalem', phone: '9848010101', online: true }
-      ];
-
-      let servers = JSON.parse(localStorage.getItem('mrp_servers_v1') || 'null') || INITIAL_10_SERVERS;
-      let ledger = JSON.parse(localStorage.getItem('mrp_ledger_v1') || '[]');
-      let selectedServerId = servers[0].id;
-      let currentVeh = 'bike', currentRate = 5, currentBase = 10;
-
-      function saveServers() { localStorage.setItem('mrp_servers_v1', JSON.stringify(servers)); }
-      function saveLedger() { localStorage.setItem('mrp_ledger_v1', JSON.stringify(ledger)); }
-
-      /* 4. UPDATE MAP + AI FARE + TELEMETRY */
-      const selPickup = document.getElementById('sel-pickup');
-      const selDrop = document.getElementById('sel-drop');
-      const sliderKm = document.getElementById('manual-km-slider');
-
-      function getCoords() {
-        const p = (selPickup.value === 'gps' && customLiveGps) ? customLiveGps : (PLACES[selPickup.value] || PLACES.boddavara);
-        const d = PLACES[selDrop.value] || PLACES.skota;
-        return { p, d };
-      }
-
-      function recalcRouteOnMap() {
-        const { p, d } = getCoords();
-        const km = haversineKm(p.lat, p.lng, d.lat, d.lng);
-        sliderKm.value = Math.min(80, km);
-
-        pickupMarker.setLatLng([p.lat, p.lng]).setPopupContent(`🟢 Pickup: ${p.name}`);
-        dropMarker.setLatLng([d.lat, d.lng]).setPopupContent(`🔴 Drop: ${d.name}`);
-        routeLine.setLatLngs([[p.lat, p.lng], [d.lat, d.lng]]);
-        map.fitBounds(routeLine.getBounds(), { padding: [45, 45] });
-
-        updateAiPricing();
-      }
-
-      function getCalculatedFare() {
-        const km = Number(sliderKm.value) || 1;
-        const mode = document.getElementById('ride-type-mode').value;
-        const mult = mode === 'night' ? 1.2 : (mode === 'parcel' ? 0.9 : 1.0);
-        return Math.max(15, Math.round((currentBase + km * currentRate) * mult));
-      }
-
-      function updateAiPricing() {
-        const km = Number(sliderKm.value) || 1;
-        const fare = getCalculatedFare();
-        const speed = currentVeh === 'bike' ? 36 : (currentVeh === 'auto' ? 28 : 44);
-        const eta = Math.max(4, Math.round((km / speed) * 60 + 2));
-
-        document.getElementById('hud-km').textContent = km + ' km';
-        document.getElementById('hud-eta').textContent = eta + ' mins';
-        document.getElementById('total-fare-display').textContent = '₹' + fare;
-        document.getElementById('fare-formula-text').textContent = `Base ₹${currentBase} + (${km} km × ₹${currentRate}) = ₹${fare}`;
-      }
-
-      selPickup.addEventListener('change', () => {
-        if (selPickup.value === 'gps') document.getElementById('btn-detect-gps').click();
-        else recalcRouteOnMap();
-      });
-      selDrop.addEventListener('change', recalcRouteOnMap);
-      sliderKm.addEventListener('input', updateAiPricing);
-      document.getElementById('ride-type-mode').addEventListener('change', updateAiPricing);
-
-      /* Quick Route Pills */
-      document.querySelectorAll('.quick-route').forEach(btn => {
-        btn.addEventListener('click', () => {
-          selPickup.value = btn.dataset.from;
-          selDrop.value = btn.dataset.to;
-          recalcRouteOnMap();
+      routeChips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          selectedDest = chip.getAttribute('data-route') || 'Mindspace Building 12B';
+          selectedFare = chip.getAttribute('data-fare') || '₹42';
+          selectedEta = chip.getAttribute('data-eta') || '12 min';
+          dropInput.value = selectedDest;
+          ctaText.textContent = 'See Rides to ' + selectedDest.split(' ')[0];
+          syncUI();
         });
       });
 
-      /* Vehicle Selection */
-      document.querySelectorAll('.veh-card').forEach(card => {
-        card.addEventListener('click', () => {
-          document.querySelectorAll('.veh-card').forEach(c => {
-            c.classList.remove('bg-royal-emerald', 'text-white', 'border-royal-emerald');
-            c.classList.add('bg-white', 'text-slate-800', 'border-slate-200');
-          });
-          card.classList.add('bg-royal-emerald', 'text-white', 'border-royal-emerald');
-          card.classList.remove('bg-white', 'text-slate-800', 'border-slate-200');
-
-          currentVeh = card.dataset.veh;
-          currentRate = Number(card.dataset.rate);
-          currentBase = Number(card.dataset.base);
-
-          const match = servers.find(s => s.veh === currentVeh && s.online) || servers[0];
-          if (match) selectServerNode(match.id);
-          updateAiPricing();
-        });
+      dropInput.addEventListener('input', () => {
+        const val = dropInput.value.trim();
+        if (val) selectedDest = val;
+        ctaText.textContent = val ? 'See Rides to ' + val.split(' ')[0] : 'See Rides & Fares';
       });
 
-      /* Live GPS Detection */
-      document.getElementById('btn-detect-gps').addEventListener('click', () => {
-        if (!navigator.geolocation) return showToast('మీ ఫోన్లో GPS సపోర్ట్ లేదు');
-        showToast('📡 మీ Live GPS తీసుకుంటోంది...');
-        navigator.geolocation.getCurrentPosition(pos => {
-          customLiveGps = { name: 'My Live GPS', lat: pos.coords.latitude, lng: pos.coords.longitude };
-          selPickup.value = 'gps';
-          recalcRouteOnMap();
-          showToast('✅ Live GPS మ్యాప్‌కు కనెక్ట్ అయింది!');
-        }, () => showToast('దయచేసి ఫోన్లో Location (GPS) ఆన్ చేయండి'));
+      voiceBtn.addEventListener('click', () => {
+        dropInput.value = 'Listening... say landmark';
+        setTimeout(() => {
+          selectedDest = 'Mindspace Building 12B';
+          dropInput.value = selectedDest;
+          ctaText.textContent = 'See Rides to Mindspace';
+        }, 800);
       });
 
-      /* External Google Maps Navigation */
-      document.getElementById('btn-external-gmaps').addEventListener('click', () => {
-        const { p, d } = getCoords();
-        window.open(`https://www.google.com/maps/dir/?api=1&origin=${p.lat},${p.lng}&destination=${d.lat},${d.lng}&travelmode=driving`, '_blank');
+      // Live captain IQ movement simulation
+      const bike = document.getElementById('captain-bike');
+      const auto = document.getElementById('captain-auto');
+      let tick = 0;
+      setInterval(() => {
+        tick = (tick + 1) % 2;
+        bike.style.top = tick ? '104px' : '116px';
+        bike.style.left = tick ? '84px' : '72px';
+        auto.style.top = tick ? '146px' : '156px';
+        auto.style.right = tick ? '74px' : '64px';
+      }, 2200);
+
+      document.getElementById('recenter-gps-btn').addEventListener('click', () => {
+        document.getElementById('iq-eta-pill').textContent = 'GPS Locked • Madhapur Gate 2 (99% IQ)';
       });
 
-      /* Simulate Moving Rider Animation on Map */
-      document.getElementById('btn-simulate-trip').addEventListener('click', () => {
-        const { p, d } = getCoords();
-        if (liveVehicleMarker) map.removeLayer(liveVehicleMarker);
-        const iconHtml = `<div style="background:#F59E0B;border:2px solid #022C22;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 4px 10px rgba(0,0,0,0.4);">🏍️</div>`;
-        const vehIcon = L.divIcon({ html: iconHtml, className: '', iconSize: [28, 28] });
-        liveVehicleMarker = L.marker([p.lat, p.lng], { icon: vehIcon }).addTo(map);
-        showToast('🛰️ Live Vehicle Tracking Started!');
-
-        let step = 0;
-        const steps = 40;
-        clearInterval(window._simTimer);
-        window._simTimer = setInterval(() => {
-          step++;
-          const lat = p.lat + (d.lat - p.lat) * (step / steps);
-          const lng = p.lng + (d.lng - p.lng) * (step / steps);
-          liveVehicleMarker.setLatLng([lat, lng]);
-          if (step >= steps) {
-            clearInterval(window._simTimer);
-            showToast('🏁 Destination Reached!');
-          }
-        }, 250);
+      document.getElementById('confirm-drop-btn').addEventListener('click', () => {
+        dispatchAlert.classList.add('hidden');
+        syncUI();
+        dispatchModal.classList.remove('hidden');
       });
 
-      /* 5. RENDER 10-NODE RIDER SERVER CLUSTER */
-      function selectServerNode(id) {
-        selectedServerId = id;
-        const s = servers.find(x => x.id === id) || servers[0];
-        document.getElementById('active-rider-avatar').textContent = s.name.charAt(0).toUpperCase();
-        document.getElementById('active-rider-node').textContent = `NODE #${s.id}`;
-        document.getElementById('active-rider-title').textContent = `${s.name} • ${s.veh.toUpperCase()} (${s.area})`;
-        document.getElementById('active-rider-phone').textContent = s.phone;
-        document.getElementById('active-rider-call').href = 'tel:+91' + s.phone;
-        render10Servers();
-      }
-
-      function render10Servers() {
-        const onlineCount = servers.filter(s => s.online).length;
-        document.getElementById('server-online-summary').textContent = `${onlineCount} / ${servers.length} Servers Online`;
-        const grid = document.getElementById('servers-10-grid');
-        grid.innerHTML = servers.map(s => {
-          const active = s.id === selectedServerId;
-          const emoji = s.veh === 'bike' ? '🏍️' : (s.veh === 'auto' ? '🛺' : '🚗');
-          return `
-            <div onclick="window.pickServer('${s.id}')" class="cursor-pointer rounded-2xl p-2.5 border-2 transition ${active ? 'bg-emerald-tint/60 border-royal-emerald shadow-sm' : 'bg-white border-slate-200 hover:border-royal-emerald/50'} flex flex-col justify-between gap-1.5">
-              <div class="flex items-center justify-between">
-                <span class="font-mono text-[10px] font-bold text-slate-500">${s.id} ${emoji}</span>
-                <button type="button" onclick="event.stopPropagation(); window.flipServerStatus('${s.id}')" class="px-2 py-0.5 rounded-full text-[9px] font-extrabold ${s.online ? 'bg-[#15803D] text-white' : 'bg-red-600 text-white'}">
-                  ${s.online ? 'ONLINE' : 'ON TRIP'}
-                </button>
-              </div>
-              <div>
-                <p class="text-xs font-extrabold text-slate-900 truncate">${s.name}</p>
-                <p class="text-[10px] text-slate-500 truncate">${s.area}</p>
-              </div>
-            </div>
-          `;
-        }).join('');
-      }
-      window.pickServer = selectServerNode;
-      window.flipServerStatus = function (id) {
-        const s = servers.find(x => x.id === id);
-        if (s) { s.online = !s.online; saveServers(); render10Servers(); }
-      };
-
-      /* 6. CONFIRM RIDE & FULL CASH CONTROL LEDGER */
-      function createTripEntry() {
-        const phone = document.getElementById('inp-cust-phone').value.trim();
-        if (phone.length < 10) { showToast('⚠️ కస్టమర్ 10-అంకెల ఫోన్ నంబర్ ఇవ్వండి!'); return null; }
-
-        const { p, d } = getCoords();
-        const s = servers.find(x => x.id === selectedServerId) || servers[0];
-        const fare = getCalculatedFare();
-        const adminFee = Math.round(fare * 0.10);
-        const riderPay = fare - adminFee;
-
-        const entry = {
-          id: 'TRP-' + Math.floor(1000 + Math.random() * 9000),
-          time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
-          route: `${p.name} → ${d.name}`,
-          km: sliderKm.value,
-          rider: `${s.name} (${s.veh.toUpperCase()})`,
-          custPhone: phone,
-          fare: fare,
-          riderPay: riderPay,
-          adminFee: adminFee,
-          paid: false
-        };
-        ledger.unshift(entry);
-        saveLedger();
-        renderCashLedger();
-        return entry;
-      }
-
-      document.getElementById('btn-confirm-ride').addEventListener('click', () => {
-        const trip = createTripEntry();
-        if (trip) showToast(`✅ Ride Booked (${trip.id}) • Cash: ₹${trip.fare}`);
+      document.getElementById('open-dispatch-btn').addEventListener('click', () => {
+        dispatchAlert.classList.add('hidden');
+        syncUI();
+        dispatchModal.classList.remove('hidden');
       });
 
-      document.getElementById('btn-whatsapp-ride').addEventListener('click', () => {
-        const trip = createTripEntry();
-        if (!trip) return;
-        const { p, d } = getCoords();
-        const gmapsLink = `https://www.google.com/maps/dir/?api=1&origin=${p.lat},${p.lng}&destination=${d.lat},${d.lng}`;
-        const msg = `🏍️ *MANA RAPIDO PRO (${trip.id})*\n• Route: ${trip.route} (${trip.km} km)\n• Rider: ${trip.rider}\n• Customer: ${trip.custPhone}\n• Cash Fare: ₹${trip.fare}\n• Live Map: ${gmapsLink}`;
-        window.open(`https://wa.me/${OWNER_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
+      document.getElementById('close-dispatch-btn').addEventListener('click', () => {
+        dispatchModal.classList.add('hidden');
       });
 
-      /* Cash Control Toggle (Admin PIN: 1430) */
-      document.getElementById('open-cash-modal-btn').addEventListener('click', () => {
-        const sec = document.getElementById('cash-ledger-section');
-        if (!sec.hidden) { sec.hidden = true; return; }
-        const pin = prompt('Cash Control System కోసం Admin Password (1430) ఎంటర్ చేయండి:');
-        if (pin === ADMIN_PIN) {
-          sec.hidden = false;
-          renderCashLedger();
-          sec.scrollIntoView({ behavior: 'smooth' });
-        } else if (pin !== null) showToast('❌ తప్పు Admin Password!');
-      });
-
-      function renderCashLedger() {
-        const total = ledger.reduce((a, b) => a + b.fare, 0);
-        const riderSum = ledger.reduce((a, b) => a + b.riderPay, 0);
-        const adminSum = ledger.reduce((a, b) => a + b.adminFee, 0);
-
-        document.getElementById('stat-total-cash').textContent = '₹' + total;
-        document.getElementById('stat-rider-share').textContent = '₹' + riderSum;
-        document.getElementById('stat-admin-share').textContent = '₹' + adminSum;
-
-        const list = document.getElementById('cash-ledger-list');
-        if (!ledger.length) {
-          list.innerHTML = `<p class="text-emerald-tint/70 text-xs py-3">ఈరోజు ఇంకా రైడ్స్ బుక్ అవ్వలేదు.</p>`;
-          return;
+      document.getElementById('simulate-offline-ride-btn').addEventListener('click', () => {
+        if (blockOfflineRides) {
+          dispatchAlert.textContent = 'BLOCKED: Offline ride not allowed! Owner lock is active.';
+          dispatchAlert.classList.remove('hidden');
+        } else {
+          dispatchAlert.textContent = 'Offline ride allowed (Owner turned Offline ON).';
+          dispatchAlert.classList.remove('hidden');
         }
-        list.innerHTML = ledger.map((t, i) => `
-          <div class="rounded-2xl bg-white/10 border border-white/15 p-3 flex items-center justify-between gap-2 text-xs">
-            <div>
-              <span class="font-mono font-bold text-saffron-gold">${t.id}</span> • <span>${t.time}</span> • <strong>${t.route}</strong> (${t.km}km)
-              <p class="text-[11px] text-emerald-tint mt-0.5">Rider: ${t.rider} | Cust: ${t.custPhone} | Cash: <strong>₹${t.fare}</strong> (Admin: ₹${t.adminFee})</p>
-            </div>
-            <button type="button" onclick="window.togglePaid(${i})" class="shrink-0 px-3 py-1 rounded-full text-[10px] font-extrabold ${t.paid ? 'bg-[#15803D] text-white' : 'bg-saffron-gold text-emerald-deep'}">
-              ${t.paid ? '✅ SETTLED' : '⏳ COLLECT CASH'}
-            </button>
-          </div>
-        `).join('');
-      }
-      window.togglePaid = function (i) {
-        ledger[i].paid = !ledger[i].paid;
-        saveLedger(); renderCashLedger();
-      };
-      document.getElementById('btn-reset-cash').addEventListener('click', () => {
-        if (confirm('ఈరోజు Cash Ledger క్లియర్ చేయాలా?')) { ledger = []; saveLedger(); renderCashLedger(); }
       });
 
-      /* Join New Rider Modal */
-      document.getElementById('open-rider-join-btn').addEventListener('click', () => document.getElementById('modal-join-rider').showModal());
-      document.getElementById('form-join-rider').addEventListener('submit', e => {
-        e.preventDefault();
-        const name = document.getElementById('new-rider-name').value.trim();
-        const veh = document.getElementById('new-rider-veh').value;
-        const area = document.getElementById('new-rider-area').value.trim();
-        const phone = document.getElementById('new-rider-phone').value.trim();
-        servers.unshift({ id: 'S' + (servers.length + 1), name, veh, area, phone, online: true });
-        saveServers();
-        selectServerNode(servers[0].id);
-        document.getElementById('modal-join-rider').close();
-        e.target.reset();
-        showToast(`🎉 ${name} గారు 10-Rider Server లో చేరారు!`);
+      document.getElementById('confirm-live-ride-btn').addEventListener('click', () => {
+        dispatchAlert.className = 'p-2.5 rounded-lg bg-success-container text-on-success-container text-xs font-semibold';
+        dispatchAlert.textContent = requireDeliveryCode
+          ? `Live ride booked! Delivery/Start Code: ${deliveryCode}`
+          : 'Live ride booked without code.';
+        dispatchAlert.classList.remove('hidden');
       });
 
-      /* Initial Boot */
-      recalcRouteOnMap();
-      render10Servers();
+      // Owner Lock Modal
+      document.getElementById('open-control-btn').addEventListener('click', () => {
+        controlModal.classList.remove('hidden');
+      });
+
+      document.getElementById('close-control-btn').addEventListener('click', () => {
+        controlModal.classList.add('hidden');
+      });
+
+      document.getElementById('unlock-pin-btn').addEventListener('click', () => {
+        if (pinInput.value.trim() === OWNER_PIN) {
+          pinError.classList.add('hidden');
+          pinGate.classList.add('hidden');
+          ownerBody.classList.remove('hidden');
+          ownerBody.classList.add('flex');
+        } else {
+          pinError.classList.remove('hidden');
+        }
+      });
+
+      document.getElementById('relock-btn').addEventListener('click', () => {
+        pinInput.value = '';
+        ownerBody.classList.add('hidden');
+        ownerBody.classList.remove('flex');
+        pinGate.classList.remove('hidden');
+      });
+
+      toggleOffline.addEventListener('change', (e) => {
+        blockOfflineRides = e.target.checked;
+        syncUI();
+      });
+
+      toggleCode.addEventListener('change', (e) => {
+        requireDeliveryCode = e.target.checked;
+        syncUI();
+      });
+
+      document.getElementById('update-code-btn').addEventListener('click', () => {
+        const nextCode = document.getElementById('new-delivery-code').value.trim();
+        if (/^\d{4}$/.test(nextCode)) {
+          deliveryCode = nextCode;
+          syncUI();
+        }
+      });
+
+      document.getElementById('remove-all-rides-btn').addEventListener('click', () => {
+        selectedDest = 'Mindspace Building 12B';
+        dropInput.value = '';
+        ctaText.textContent = 'See Rides & Fares';
+        dispatchAlert.className = 'p-2.5 rounded-lg bg-light-surface-container text-light-on-surface text-xs font-semibold';
+        dispatchAlert.textContent = 'All active/pending rides cleared by Owner.';
+        syncUI();
+      });
+
+      syncUI();
     })();
   </script>
 </body>
