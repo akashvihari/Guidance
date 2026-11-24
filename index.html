@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HopGo IQ — Multi-Village Ride, Rider, Ladies Safety &amp; Owner Lock</title>
+  <title>HopGo IQ — Live Route, GST/Commission, Zero Offline &amp; Owner Vault</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script id="tailwind-config">
     /** @type {import('tailwindcss').Config} */
@@ -89,62 +89,77 @@
   <!-- FULL DISPLAY AUTO GRID -->
   <div class="w-full min-h-screen grid grid-cols-1 lg:grid-cols-12">
 
-    <!-- LEFT / TOP LIVE MAP & MULTI-VILLAGE TRACKER -->
-    <section class="relative w-full min-h-[320px] lg:min-h-screen lg:col-span-7 bg-light-surface-container overflow-hidden flex flex-col justify-between">
+    <!-- LEFT / TOP LIVE MAP + CLEAR ROUTE + LIVE MESSAGES -->
+    <section class="relative w-full min-h-[380px] lg:min-h-screen lg:col-span-7 bg-light-surface-container overflow-hidden flex flex-col justify-between">
       <img
         src="https://lh3.googleusercontent.com/aida/ALJJyrCOJdoPi5G1hgkKuvSq1z41jRrbxUdyNZgDjMSgwjCK7N9rIMOTm-_mpLn0WeAQj03hjVhOZFwttRly1083Y61SZzJDpIpqTy0-KIk6sMdmsKkTXuBFqxNpbVwJf2l2zMpnM3DTK29NYfbq5k8O1GFyirM193tEOBDSsrXs7ZDw0x-HA1CaMeLUu9hzEmEBnZNJSyXUm9KS8i0B2WPwT1xPJLfX6iTEv0j4pXzudzjmCw2LoSCCRG3I"
-        alt="Live route and GPS map"
+        alt="Live map with route tracking"
         class="absolute inset-0 w-full h-full object-cover"
       />
 
-      <!-- Top Role Switcher & Lock Status -->
+      <!-- Top Bar: Brand, Strict Zero-Offline Lock & View Switcher -->
       <header class="relative z-20 p-3 sm:p-4 flex flex-wrap items-center justify-between gap-2">
         <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-light-surface-container-lowest border border-light-outline-variant shadow-sm">
           <span class="material-symbols-outlined text-[18px] text-light-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
-          <span class="text-xs font-bold">HopGo IQ</span>
-          <span id="offline-status-badge" class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-success-container text-on-success-container">NO OFFLINE</span>
+          <span class="text-xs font-extrabold">HopGo IQ</span>
+          <span id="zero-offline-badge" class="px-2 py-0.5 text-[10px] font-mono font-bold rounded-full bg-success-container text-on-success-container">
+            0 OFFLINE LOCK
+          </span>
         </div>
 
         <div class="inline-flex items-center p-1 rounded-full bg-light-surface-container-lowest border border-light-outline-variant shadow-sm">
-          <button id="tab-customer" type="button" class="px-3 py-1 rounded-full text-xs font-bold bg-light-primary-container text-light-on-primary-container transition">
-            Customer Ride
+          <button id="nav-customer" type="button" class="px-3 py-1 rounded-full text-xs font-bold bg-light-primary-container text-light-on-primary-container transition">
+            Book Ride
           </button>
-          <button id="tab-rider" type="button" class="px-3 py-1 rounded-full text-xs font-semibold text-light-on-surface-variant hover:bg-light-surface-container-low transition">
-            Rider Screen
+          <button id="nav-rider" type="button" class="px-3 py-1 rounded-full text-xs font-semibold text-light-on-surface-variant hover:bg-light-surface-container-low transition">
+            Rider &amp; Reg
           </button>
-          <button id="tab-owner" type="button" class="px-3 py-1 rounded-full text-xs font-semibold text-light-on-surface-variant hover:bg-light-surface-container-low transition flex items-center gap-1">
+          <button id="nav-owner" type="button" class="px-3 py-1 rounded-full text-xs font-semibold text-light-on-surface-variant hover:bg-light-surface-container-low transition flex items-center gap-1">
             <span class="material-symbols-outlined text-[14px]">lock</span>
-            Owner Vault
+            Owner Lock
           </button>
         </div>
       </header>
 
-      <!-- Center Live Route Pin -->
-      <div class="relative z-10 my-auto flex flex-col items-center justify-center pointer-events-none px-3">
-        <div class="px-3.5 py-1.5 rounded-full bg-light-inverse-surface text-light-inverse-on-surface shadow-md flex flex-wrap items-center justify-center gap-1.5 text-xs font-semibold">
-          <span class="w-2 h-2 rounded-full bg-success"></span>
-          <span id="map-from">Boddavara</span>
-          <span class="text-light-primary-container font-bold">→</span>
-          <span id="map-to">Thatipudi</span>
-          <span class="px-1.5 py-0.5 rounded bg-light-primary-container text-light-on-primary-container font-mono text-[11px]" id="map-fare">₹25</span>
+      <!-- Visual Route SVG Overlay on Map -->
+      <div class="relative z-10 my-auto px-4 flex flex-col items-center">
+        <svg viewBox="0 0 320 90" class="w-full max-w-[340px] h-20 drop-shadow">
+          <path d="M 30 68 Q 160 12 290 26" fill="none" stroke="#201B11" stroke-width="5" stroke-dasharray="7 5" stroke-linecap="round" />
+          <path d="M 30 68 Q 160 12 290 26" fill="none" stroke="#EAB308" stroke-width="3" stroke-linecap="round" />
+          <circle cx="30" cy="68" r="8" fill="#15803D" stroke="#FFFFFF" stroke-width="2.5" />
+          <circle cx="290" cy="26" r="8" fill="#BA1A1A" stroke="#FFFFFF" stroke-width="2.5" />
+        </svg>
+
+        <div class="px-3.5 py-2 rounded-xl bg-light-inverse-surface text-light-inverse-on-surface shadow-lg flex flex-wrap items-center justify-center gap-2 text-xs">
+          <span class="font-bold text-success-container">FROM: <span id="map-from-txt" class="text-white">Boddavara</span></span>
+          <span class="text-light-primary-container font-extrabold">━━▶</span>
+          <span class="font-bold text-light-secondary-container">TO: <span id="map-to-txt" class="text-white">Thatipudi</span></span>
+          <span id="map-total-pill" class="px-2 py-0.5 rounded bg-light-primary-container text-light-on-primary-container font-mono font-bold">₹25</span>
         </div>
-        <div class="w-1 h-3 bg-light-inverse-surface"></div>
-        <div class="w-4 h-4 rounded-full bg-light-primary-container border-2 border-light-inverse-surface shadow"></div>
       </div>
 
-      <!-- Bottom GPS & Ladies SOS Bar -->
-      <div class="relative z-20 p-3 sm:p-4 flex items-center justify-between gap-2">
-        <div id="gps-status-pill" class="px-3 py-1.5 rounded-full bg-light-tertiary-container text-light-on-tertiary-container text-xs font-mono shadow-sm truncate">
-          IQ GPS: Ready • Multi-Village Active
+      <!-- Bottom Live Messages Feed & GPS Control -->
+      <div class="relative z-20 p-3 sm:p-4 flex flex-col gap-2">
+        <div class="p-2.5 rounded-xl bg-light-surface-container-lowest/95 border border-light-outline-variant shadow-md flex flex-col gap-1 max-h-28 overflow-y-auto">
+          <div class="flex items-center justify-between text-[11px] font-bold text-light-primary">
+            <span class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">forum</span>
+              LIVE MESSAGES &amp; STATUS
+            </span>
+            <span id="live-gps-coords" class="font-mono text-[10px] text-light-tertiary">GPS: 18.1167°N, 83.2415°E</span>
+          </div>
+          <div id="live-msg-box" class="text-xs text-light-on-surface flex flex-col gap-0.5">
+            <div>• System ready: Zero offline rides enforced. Upfront fare &amp; GST shown before booking.</div>
+          </div>
         </div>
-        <div class="flex items-center gap-2">
-          <button id="sos-btn" type="button" class="px-3 py-2 rounded-full bg-light-error text-light-on-error text-xs font-bold shadow flex items-center gap-1">
-            <span class="material-symbols-outlined text-[16px]">emergency</span>
-            Ladies SOS
+
+        <div class="flex items-center justify-between gap-2">
+          <button id="test-offline-block-btn" type="button" class="px-3 py-1.5 rounded-full bg-light-error-container text-light-on-error-container text-xs font-bold shadow">
+            Test Offline Ride Block
           </button>
-          <button id="gps-btn" type="button" class="px-3 py-2 rounded-full bg-success text-on-success text-xs font-bold shadow flex items-center gap-1">
-            <span class="material-symbols-outlined text-[16px]">my_location</span>
-            Live GPS
+          <button id="refresh-gps-btn" type="button" class="px-3 py-1.5 rounded-full bg-success text-on-success text-xs font-bold shadow flex items-center gap-1">
+            <span class="material-symbols-outlined text-[15px]">my_location</span>
+            Sync Live GPS
           </button>
         </div>
       </div>
@@ -153,221 +168,257 @@
     <!-- RIGHT / BOTTOM AUTO-GRID WORKSPACE -->
     <main class="w-full lg:col-span-5 bg-light-surface-container-lowest border-t lg:border-t-0 lg:border-l border-light-outline-variant p-3 sm:p-4 flex flex-col justify-between gap-3">
 
-      <!-- 1. CUSTOMER BOOKING VIEW -->
-      <div id="view-customer" class="flex flex-col gap-3">
-        <div class="flex items-center justify-between gap-2">
+      <!-- TAB 1: CUSTOMER BOOKING (Upfront Fare + GST + Admin Commission + Slide Destination) -->
+      <div id="panel-customer" class="flex flex-col gap-2.5">
+        <div class="flex items-center justify-between">
           <div>
-            <h1 class="font-headline text-xl sm:text-2xl font-extrabold text-light-on-surface">
-              Rapido-Style Easy Ride
-            </h1>
-            <p class="text-xs text-light-on-surface-variant">
-              Any village / any person • Bike ₹5/km • Auto ₹12/km • Car ₹18/km
-            </p>
+            <h1 class="font-headline text-xl font-extrabold">HopGo Live Ride &amp; Delivery</h1>
+            <p class="text-xs text-light-on-surface-variant">Upfront rate, GST &amp; admin share shown first • Agree &amp; book</p>
           </div>
-          <button id="join-rider-btn" type="button" class="px-2.5 py-1.5 rounded-full bg-light-primary-container text-light-on-primary-container text-xs font-bold flex-shrink-0">
-            + Join Rider
-          </button>
+          <span class="px-2.5 py-1 rounded-full bg-light-tertiary-container text-light-on-tertiary-container text-[11px] font-mono font-bold">
+            TXN VERIFIED
+          </span>
         </div>
 
-        <!-- Vehicle & Distance Grid -->
-        <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2.5">
+        <!-- Vehicle & KM -->
+        <div class="p-3 rounded-xl bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
           <div class="grid grid-cols-3 gap-2">
-            <button type="button" data-vehicle="Bike" data-rate="5" class="veh-btn p-2 rounded-lg bg-success text-on-success border border-success flex flex-col items-center text-xs font-bold transition">
+            <button type="button" data-veh="Bike" data-rate="5" class="veh-card p-2 rounded-lg bg-success text-on-success border border-success text-xs font-bold flex flex-col items-center">
               <span>🏍️ Bike</span>
-              <span class="text-[11px] opacity-90">₹5/km</span>
+              <span class="text-[11px]">₹5/km</span>
             </button>
-            <button type="button" data-vehicle="Auto" data-rate="12" class="veh-btn p-2 rounded-lg bg-light-surface-container-lowest text-light-on-surface border border-light-outline-variant flex flex-col items-center text-xs font-bold transition">
+            <button type="button" data-veh="Auto" data-rate="12" class="veh-card p-2 rounded-lg bg-light-surface-container-lowest text-light-on-surface border border-light-outline-variant text-xs font-bold flex flex-col items-center">
               <span>🛺 Auto</span>
               <span class="text-[11px] text-light-on-surface-variant">₹12/km</span>
             </button>
-            <button type="button" data-vehicle="Car" data-rate="18" class="veh-btn p-2 rounded-lg bg-light-surface-container-lowest text-light-on-surface border border-light-outline-variant flex flex-col items-center text-xs font-bold transition">
+            <button type="button" data-veh="Car" data-rate="18" class="veh-card p-2 rounded-lg bg-light-surface-container-lowest text-light-on-surface border border-light-outline-variant text-xs font-bold flex flex-col items-center">
               <span>🚗 Car</span>
               <span class="text-[11px] text-light-on-surface-variant">₹18/km</span>
             </button>
           </div>
 
-          <div class="flex items-center justify-between text-xs font-bold pt-1">
-            <span>Distance: <span id="km-label" class="font-mono text-sm">5</span> km</span>
-            <span>Est. Fare: <span id="fare-label" class="px-2 py-0.5 rounded bg-success-container text-on-success-container font-mono text-sm">₹25</span></span>
+          <div class="flex items-center justify-between text-xs font-bold">
+            <span>Distance: <span id="dist-km-val" class="font-mono text-sm">5</span> km</span>
+            <span class="text-light-primary">Base: <span id="base-fare-val" class="font-mono">₹25</span></span>
           </div>
-          <input id="km-slider" type="range" min="1" max="25" value="5" class="w-full accent-success" />
+          <input id="dist-slider" type="range" min="1" max="25" value="5" class="w-full accent-success" />
         </div>
 
-        <!-- FROM (Any Village) & TO + Customer Phone -->
-        <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div>
-              <label for="cust-from" class="block text-[11px] font-bold text-light-on-surface-variant">FROM (Any Village / Area)</label>
-              <input id="cust-from" type="text" value="Boddavara" placeholder="Ex: Boddavara / S.Kota" class="mt-0.5 w-full rounded-lg border-light-outline-variant bg-light-surface-container-lowest text-xs font-semibold" />
-            </div>
-            <div>
-              <label for="cust-to" class="block text-[11px] font-bold text-light-on-surface-variant">TO (Drop Place)</label>
-              <input id="cust-to" type="text" value="Thatipudi" placeholder="Ex: Thatipudi / Vizag" class="mt-0.5 w-full rounded-lg border-light-outline-variant bg-light-surface-container-lowest text-xs font-semibold" />
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div>
-              <label for="cust-name" class="block text-[11px] font-bold text-light-on-surface-variant">Passenger / User Name</label>
-              <input id="cust-name" type="text" value="Sita Devi" placeholder="Customer name" class="mt-0.5 w-full rounded-lg border-light-outline-variant bg-light-surface-container-lowest text-xs" />
-            </div>
-            <div>
-              <label for="cust-phone" class="block text-[11px] font-bold text-light-on-surface-variant">10-Digit Phone (Owner Only)</label>
-              <input id="cust-phone" type="tel" maxlength="10" value="9848022190" placeholder="10-digit mobile" class="mt-0.5 w-full rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-xs" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Unique Per-Ride Delivery / Start Code -->
-        <div class="p-2.5 rounded-lg bg-light-surface-container border border-light-outline-variant flex items-center justify-between">
+        <!-- Pickup Address + Slide Destination -->
+        <div class="p-3 rounded-xl bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
           <div>
-            <span class="block text-xs font-bold">Ride Delivery / Start Code</span>
-            <span class="block text-[11px] text-light-on-surface-variant">Auto-generated per ride • Share at pickup/drop</span>
+            <label for="pickup-addr-input" class="block text-[11px] font-bold text-light-on-surface-variant">
+              FROM / Pickup Address &amp; Village
+            </label>
+            <input id="pickup-addr-input" type="text" value="Boddavara Main Road, S.Kota" class="mt-0.5 w-full rounded-lg border-light-outline-variant bg-light-surface-container-lowest text-xs font-semibold" />
           </div>
-          <span id="cust-ride-code" class="font-mono text-lg font-bold px-3 py-1 rounded bg-light-surface-container-lowest border border-light-outline-variant">8429</span>
-        </div>
 
-        <!-- Primary Actions -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <button id="book-live-btn" type="button" class="py-2.5 px-3 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm">
-            <span class="material-symbols-outlined text-[18px]">bolt</span>
-            Book Live Ride
-          </button>
-          <button id="whatsapp-book-btn" type="button" class="py-2.5 px-3 rounded-lg bg-success text-on-success text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm">
-            <span class="material-symbols-outlined text-[18px]">chat</span>
-            WhatsApp + GPS
-          </button>
-        </div>
-
-        <p id="customer-msg" class="text-xs font-semibold text-success min-h-[18px]"></p>
-      </div>
-
-      <!-- 2. RIDER SCREEN (Incoming Ride + FROM/TO + Masked Customer Number + Delivery OTP) -->
-      <div id="view-rider" class="hidden flex-col gap-3">
-        <div class="flex items-center justify-between gap-2">
           <div>
-            <h2 class="font-headline text-lg font-bold">Rider Live Duty Console</h2>
-            <p class="text-xs text-light-on-surface-variant">See FROM → TO, accept ride &amp; verify Delivery Code</p>
+            <div class="flex items-center justify-between text-[11px] font-bold text-light-on-surface-variant">
+              <label for="dest-slide-range">Slide Destination Selector</label>
+              <span id="slide-dest-badge" class="text-light-primary font-mono">Thatipudi</span>
+            </div>
+            <input id="dest-slide-range" type="range" min="0" max="4" value="1" class="mt-1 w-full accent-light-primary" />
+            <input id="dest-place-input" type="text" value="Thatipudi" placeholder="Or type any destination" class="mt-1 w-full rounded-lg border-light-outline-variant bg-light-surface-container-lowest text-xs font-semibold" />
           </div>
-          <span id="rider-status-badge" class="px-2.5 py-1 rounded-full bg-light-secondary-container text-light-on-secondary-container text-xs font-bold">
-            WAITING
-          </span>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label for="passenger-name" class="block text-[11px] font-bold text-light-on-surface-variant">Customer Name</label>
+              <input id="passenger-name" type="text" value="Lakshmi" class="mt-0.5 w-full rounded-lg border-light-outline-variant bg-light-surface-container-lowest text-xs" />
+            </div>
+            <div>
+              <label for="passenger-phone" class="block text-[11px] font-bold text-light-on-surface-variant">Phone (Owner Only)</label>
+              <input id="passenger-phone" type="tel" maxlength="10" value="9848022190" class="mt-0.5 w-full rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-xs" />
+            </div>
+          </div>
         </div>
 
-        <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-1.5">
-          <div class="flex justify-between text-xs">
-            <span class="font-bold text-success">FROM (Pickup)</span>
-            <span id="rider-veh-summary" class="font-mono font-bold">Bike • 5 km • ₹25</span>
+        <!-- Upfront Breakdown: Base + GST + Admin Commission + Total -->
+        <div class="p-3 rounded-xl bg-light-surface-container border border-light-outline-variant flex flex-col gap-1 text-xs">
+          <div class="flex justify-between font-bold text-light-on-surface">
+            <span>Advance Fare Breakdown (Before Booking)</span>
+            <span id="txn-id-preview" class="font-mono text-[11px] text-light-tertiary">#TXN-9041</span>
           </div>
-          <p id="rider-from" class="text-sm font-bold text-light-on-surface">Boddavara</p>
-
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-light-primary text-[16px]">arrow_downward</span>
-            <div class="h-px flex-1 bg-light-outline-variant"></div>
+          <div class="flex justify-between text-light-on-surface-variant">
+            <span>Base Distance Fare</span>
+            <span id="bd-base" class="font-mono">₹25.00</span>
           </div>
-
-          <span class="text-xs font-bold text-light-primary">TO (Drop)</span>
-          <p id="rider-to" class="text-sm font-bold text-light-on-surface">Thatipudi</p>
+          <div class="flex justify-between text-light-on-surface-variant">
+            <span>GST (<span id="bd-gst-pct">5</span>%)</span>
+            <span id="bd-gst" class="font-mono">₹1.25</span>
+          </div>
+          <div class="flex justify-between text-light-on-surface-variant">
+            <span>Admin Commission (<span id="bd-comm-pct">15</span>%)</span>
+            <span id="bd-comm" class="font-mono">₹3.75</span>
+          </div>
+          <div class="pt-1 border-t border-light-outline-variant/60 flex justify-between font-extrabold text-sm text-light-on-surface">
+            <span>Total Payable (If Okay)</span>
+            <span id="bd-total" class="font-mono text-success">₹30.00</span>
+          </div>
+          <div class="flex justify-between text-[11px] font-mono">
+            <span>Delivery / Start Code: <strong id="cust-code-box">5184</strong></span>
+            <span id="rider-masked-info">Rider Phone View: +91 ••••• ••90</span>
+          </div>
         </div>
 
-        <!-- Customer Phone Strictly Hidden for Rider -->
-        <div class="p-3 rounded-lg bg-light-surface-container border border-light-outline-variant flex items-center justify-between">
-          <div>
-            <span class="block text-xs font-bold">Customer Number (Rider View)</span>
-            <span class="block text-[11px] text-light-on-surface-variant">Protected for ladies &amp; privacy • Owner only</span>
-          </div>
-          <span id="rider-masked-phone" class="font-mono text-xs font-bold px-2.5 py-1 rounded bg-light-surface-container-lowest border border-light-outline-variant">
-            +91 ••••• ••190
-          </span>
-        </div>
-
-        <!-- Delivery Code Verification -->
-        <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
-          <label for="rider-code-input" class="text-xs font-bold">Enter 4-Digit Delivery / Start Code</label>
-          <div class="flex gap-2">
-            <input id="rider-code-input" type="text" maxlength="4" placeholder="4-digit code" class="flex-1 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-xs tracking-widest" />
-            <button id="rider-verify-code-btn" type="button" class="px-3.5 py-2 rounded-lg bg-success text-on-success text-xs font-bold">
-              Verify &amp; Go
-            </button>
-          </div>
-          <p id="rider-feedback" class="text-xs font-semibold min-h-[16px]"></p>
-        </div>
+        <!-- Consent + Book + Delivered Confirmation -->
+        <label class="flex items-center gap-2 text-xs font-semibold cursor-pointer">
+          <input id="agree-terms-chk" type="checkbox" checked class="rounded text-success" />
+          <span>I agree to fare, GST &amp; admin commission terms</span>
+        </label>
 
         <div class="grid grid-cols-2 gap-2">
-          <button id="rider-decline-btn" type="button" class="py-2 rounded-lg bg-light-error-container text-light-on-error-container text-xs font-bold">
-            Decline
+          <button id="confirm-book-btn" type="button" class="py-2.5 px-3 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-extrabold flex items-center justify-center gap-1 shadow">
+            <span class="material-symbols-outlined text-[16px]">check_circle</span>
+            Okay &amp; Book Ride
           </button>
-          <button id="rider-accept-btn" type="button" class="py-2 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-bold">
-            Accept Ride
+          <button id="mark-delivered-btn" type="button" class="py-2.5 px-3 rounded-lg bg-success text-on-success text-xs font-extrabold flex items-center justify-center gap-1 shadow">
+            <span class="material-symbols-outlined text-[16px]">local_shipping</span>
+            Mark DELIVERED
           </button>
         </div>
       </div>
 
-      <!-- 3. OWNER FULL LOCK VAULT (PIN 4829 • ONLY Owner sees real customer numbers) -->
-      <div id="view-owner" class="hidden flex-col gap-3">
+      <!-- TAB 2: RIDER REGISTRATION + INCOMING RIDE ACCEPT + DELIVERY OTP -->
+      <div id="panel-rider" class="hidden flex-col gap-3">
         <div class="flex items-center justify-between">
           <div>
-            <h2 class="font-headline text-lg font-bold">Owner Master Lock Vault</h2>
-            <p class="text-xs text-light-on-surface-variant">Real customer numbers visible ONLY to Owner</p>
+            <h2 class="font-headline text-lg font-bold">Rider Console &amp; Registration</h2>
+            <p class="text-xs text-light-on-surface-variant">Register rider, accept ride &amp; verify delivery code</p>
+          </div>
+          <span id="rider-state-chip" class="px-2.5 py-1 rounded-full bg-light-secondary-container text-light-on-secondary-container text-xs font-bold">
+            PENDING
+          </span>
+        </div>
+
+        <!-- Rider Registration Form -->
+        <div class="p-3 rounded-xl bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
+          <span class="text-xs font-bold text-light-primary">New Rider Registration</span>
+          <div class="grid grid-cols-2 gap-2">
+            <input id="reg-rider-name" type="text" placeholder="Rider Name" class="rounded-lg border-light-outline-variant bg-light-surface-container-lowest text-xs" />
+            <input id="reg-rider-phone" type="tel" maxlength="10" placeholder="Rider 10-digit Phone" class="rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-xs" />
+          </div>
+          <div class="flex gap-2">
+            <select id="reg-rider-veh" class="flex-1 rounded-lg border-light-outline-variant bg-light-surface-container-lowest text-xs font-semibold">
+              <option value="Bike (₹5/km)">Bike (₹5/km)</option>
+              <option value="Auto (₹12/km)">Auto (₹12/km)</option>
+              <option value="Car (₹18/km)">Car (₹18/km)</option>
+            </select>
+            <button id="register-rider-btn" type="button" class="px-3 py-2 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-bold">
+              Register
+            </button>
+          </div>
+          <p id="rider-reg-msg" class="text-[11px] font-semibold text-success"></p>
+        </div>
+
+        <!-- Incoming Ride Card (FROM -> TO, Customer Number Hidden) -->
+        <div class="p-3 rounded-xl bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-1.5 text-xs">
+          <div class="flex justify-between font-bold">
+            <span class="text-success">FROM: <span id="r-from-txt" class="text-light-on-surface">Boddavara Main Road, S.Kota</span></span>
+            <span id="r-total-txt" class="font-mono">₹30.00</span>
+          </div>
+          <div class="font-bold text-light-primary">
+            TO: <span id="r-to-txt" class="text-light-on-surface">Thatipudi</span>
+          </div>
+          <div class="flex justify-between pt-1 border-t border-light-outline-variant/50">
+            <span>Customer Phone (Hidden from Rider):</span>
+            <span class="font-mono font-bold">+91 ••••• ••90</span>
+          </div>
+        </div>
+
+        <!-- Delivery Code & Accept/Reject -->
+        <div class="p-3 rounded-xl bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
+          <div class="flex gap-2">
+            <input id="r-otp-input" type="text" maxlength="4" placeholder="4-digit Delivery Code" class="flex-1 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-xs tracking-widest" />
+            <button id="r-verify-otp-btn" type="button" class="px-3 py-2 rounded-lg bg-success text-on-success text-xs font-bold">
+              Verify Code
+            </button>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <button id="r-reject-btn" type="button" class="py-2 rounded-lg bg-light-error-container text-light-on-error-container text-xs font-bold">
+              Reject Ride
+            </button>
+            <button id="r-accept-btn" type="button" class="py-2 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-bold">
+              Accept Ride
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: OWNER LOCK VAULT (PIN 4829 • ONLY Owner sees customer numbers, GST/Comm edit, Riders & Txns) -->
+      <div id="panel-owner" class="hidden flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="font-headline text-lg font-bold">Owner Vault &amp; Control</h2>
+            <p class="text-xs text-light-on-surface-variant">PIN 4829 • ONLY Owner sees customer numbers &amp; full control</p>
           </div>
           <span class="px-2.5 py-1 rounded-full bg-light-primary-container text-light-on-primary-container text-xs font-mono font-bold">
             PIN: 4829
           </span>
         </div>
 
-        <div id="owner-lock-box" class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
-          <label for="owner-pin" class="text-xs font-bold">Enter Owner PIN (4829)</label>
+        <div id="owner-pin-card" class="p-3 rounded-xl bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
+          <label for="owner-pin-entry" class="text-xs font-bold">Enter Owner PIN (4829)</label>
           <div class="flex gap-2">
-            <input id="owner-pin" type="password" maxlength="4" placeholder="••••" class="flex-1 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-center tracking-widest" />
-            <button id="owner-unlock-btn" type="button" class="px-4 py-2 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-bold">
+            <input id="owner-pin-entry" type="password" maxlength="4" placeholder="4829" class="flex-1 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-center tracking-widest" />
+            <button id="owner-pin-submit" type="button" class="px-4 py-2 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-bold">
               Unlock
             </button>
           </div>
-          <p id="owner-err" class="hidden text-xs font-bold text-light-error">Wrong PIN!</p>
+          <p id="owner-pin-wrong" class="hidden text-xs font-bold text-light-error">Wrong PIN! Use 4829.</p>
         </div>
 
-        <div id="owner-vault-panel" class="hidden flex-col gap-2.5">
-          <div class="p-2.5 rounded-lg bg-success-container text-on-success-container flex items-center justify-between text-xs font-bold">
-            <span>OWNER UNLOCKED • FULL CONTROL</span>
-            <button id="owner-lock-now" type="button" class="underline">Lock</button>
+        <div id="owner-dashboard" class="hidden flex-col gap-2.5 text-xs">
+          <div class="p-2.5 rounded-lg bg-success-container text-on-success-container flex items-center justify-between font-bold">
+            <span>OWNER VERIFIED • FULL LOCK CONTROL</span>
+            <button id="owner-lock-btn" type="button" class="underline">Lock</button>
           </div>
 
-          <!-- ONLY OWNER SEES ACTUAL CUSTOMER NUMBERS -->
-          <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-1.5">
-            <span class="text-xs font-bold text-light-primary">Customer Phone Numbers (OWNER ONLY)</span>
-            <div class="flex justify-between text-xs py-1 border-b border-light-outline-variant/50">
-              <span id="owner-active-cust-name">Sita Devi (Active Ride):</span>
-              <span id="owner-active-cust-phone" class="font-mono font-bold">+91 9848022190</span>
-            </div>
-            <div id="owner-ride-history" class="text-[11px] text-light-on-surface-variant flex flex-col gap-1 pt-1">
-              <span>No extra bookings logged yet.</span>
+          <!-- ONLY OWNER SEES ACTUAL CUSTOMER NUMBER -->
+          <div class="p-3 rounded-xl bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-1">
+            <span class="font-bold text-light-primary">Customer Actual Number (OWNER ONLY)</span>
+            <div class="flex justify-between">
+              <span id="o-cust-label">Lakshmi (Current):</span>
+              <span id="o-cust-phone" class="font-mono font-bold">+91 9848022190</span>
             </div>
           </div>
 
-          <label class="flex items-center justify-between p-2.5 rounded-lg bg-light-surface-container-low border border-light-outline-variant text-xs font-bold cursor-pointer">
-            <span>Block All Offline Rides</span>
-            <input id="owner-offline-toggle" type="checkbox" checked class="rounded text-light-primary" />
-          </label>
-
-          <div class="p-2.5 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
-            <span class="text-xs font-bold">Set Custom Delivery Code / Remove Rides</span>
-            <div class="flex gap-2">
-              <input id="owner-custom-code" type="text" maxlength="4" value="8429" class="w-24 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-center text-xs" />
-              <button id="owner-apply-code" type="button" class="flex-1 py-1.5 px-3 rounded-lg bg-light-surface-container border border-light-outline-variant text-xs font-bold">
-                Update Code
-              </button>
+          <!-- Edit GST %, Admin Commission % & Delivery Code -->
+          <div class="p-3 rounded-xl bg-light-surface-container-low border border-light-outline-variant grid grid-cols-3 gap-2">
+            <div>
+              <label class="block text-[10px] font-bold">GST %</label>
+              <input id="o-gst-input" type="number" min="0" max="28" value="5" class="w-full rounded border-light-outline-variant bg-light-surface-container-lowest font-mono text-xs p-1" />
             </div>
-            <button id="owner-clear-all" type="button" class="w-full py-2 px-3 rounded-lg bg-light-error-container text-light-on-error-container text-xs font-bold">
-              Remove / Reset All Rides
+            <div>
+              <label class="block text-[10px] font-bold">Admin %</label>
+              <input id="o-comm-input" type="number" min="0" max="50" value="15" class="w-full rounded border-light-outline-variant bg-light-surface-container-lowest font-mono text-xs p-1" />
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold">4-Digit Code</label>
+              <input id="o-code-input" type="text" maxlength="4" value="5184" class="w-full rounded border-light-outline-variant bg-light-surface-container-lowest font-mono text-xs p-1" />
+            </div>
+            <button id="o-save-rules" type="button" class="col-span-3 py-1.5 rounded-lg bg-light-primary-container text-light-on-primary-container font-bold">
+              Save GST, Commission &amp; Delivery Code
             </button>
+          </div>
+
+          <!-- Registered Riders & Transactions Log -->
+          <div class="p-3 rounded-xl bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-1.5 max-h-36 overflow-y-auto">
+            <div class="flex justify-between font-bold">
+              <span>Registered Riders &amp; Transactions</span>
+              <button id="o-clear-txns" type="button" class="text-light-error underline">Clear Logs</button>
+            </div>
+            <div id="o-riders-list" class="text-[11px] text-light-on-surface-variant">Riders: Default Captain #1 (Active)</div>
+            <div id="o-txns-list" class="text-[11px] font-mono text-light-on-surface">No completed transactions yet.</div>
           </div>
         </div>
       </div>
 
       <!-- Footer -->
       <footer class="pt-2 border-t border-light-outline-variant flex items-center justify-between text-[11px] text-light-on-surface-variant">
-        <span>Delivery Code: <strong id="footer-code" class="font-mono text-light-on-surface">8429</strong></span>
-        <span id="footer-status" class="font-semibold text-light-on-surface">Ready • Multi-Village Grid</span>
+        <span>0 Offline Rides • <strong id="footer-txn" class="font-mono text-light-on-surface">#TXN-9041</strong></span>
+        <span id="footer-delivery-badge" class="font-bold text-light-on-surface">Code: 5184</span>
       </footer>
     </main>
   </div>
@@ -375,231 +426,254 @@
   <script>
     (function () {
       const OWNER_PIN = '4829';
-      let vehicle = 'Bike';
+      const slideDestinations = [
+        'Kiltampalem',
+        'Thatipudi',
+        'S.Kota Junction',
+        'Vizianagaram',
+        'Madhapur Metro'
+      ];
+
+      let veh = 'Bike';
       let rate = 5;
       let km = 5;
-      let rideCode = '8429';
-      let blockOffline = true;
-      let gpsCoords = '18.1167° N, 83.2415° E';
-      let rideLogs = [];
+      let gstPct = 5;
+      let commPct = 15;
+      let deliveryCode = '5184';
+      let txnId = '#TXN-9041';
+      let gpsCoords = '18.1167°N, 83.2415°E';
+      let registeredRiders = ['Default Captain #1 (Bike)'];
+      let transactions = [];
 
-      const tabs = {
-        customer: { btn: document.getElementById('tab-customer'), view: document.getElementById('view-customer') },
-        rider: { btn: document.getElementById('tab-rider'), view: document.getElementById('view-rider') },
-        owner: { btn: document.getElementById('tab-owner'), view: document.getElementById('view-owner') }
+      const navs = {
+        customer: { btn: document.getElementById('nav-customer'), panel: document.getElementById('panel-customer') },
+        rider: { btn: document.getElementById('nav-rider'), panel: document.getElementById('panel-rider') },
+        owner: { btn: document.getElementById('nav-owner'), panel: document.getElementById('panel-owner') }
       };
 
-      function switchTab(name) {
-        Object.entries(tabs).forEach(([k, obj]) => {
-          obj.view.classList.add('hidden');
-          obj.view.classList.remove('flex');
+      function addLiveMessage(text) {
+        const box = document.getElementById('live-msg-box');
+        const line = document.createElement('div');
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        line.textContent = `• [${time}] ${text}`;
+        box.prepend(line);
+      }
+
+      function switchNav(key) {
+        Object.entries(navs).forEach(([k, obj]) => {
+          obj.panel.classList.add('hidden');
+          obj.panel.classList.remove('flex');
           obj.btn.className = k === 'owner'
             ? 'px-3 py-1 rounded-full text-xs font-semibold text-light-on-surface-variant hover:bg-light-surface-container-low transition flex items-center gap-1'
             : 'px-3 py-1 rounded-full text-xs font-semibold text-light-on-surface-variant hover:bg-light-surface-container-low transition';
         });
-        tabs[name].view.classList.remove('hidden');
-        tabs[name].view.classList.add('flex');
-        tabs[name].btn.className = name === 'owner'
+        navs[key].panel.classList.remove('hidden');
+        navs[key].panel.classList.add('flex');
+        navs[key].btn.className = key === 'owner'
           ? 'px-3 py-1 rounded-full text-xs font-bold bg-light-primary-container text-light-on-primary-container transition flex items-center gap-1'
           : 'px-3 py-1 rounded-full text-xs font-bold bg-light-primary-container text-light-on-primary-container transition';
-        refreshUI();
       }
 
-      function refreshUI() {
-        const fromVal = document.getElementById('cust-from').value.trim() || 'Boddavara';
-        const toVal = document.getElementById('cust-to').value.trim() || 'Thatipudi';
-        const custName = document.getElementById('cust-name').value.trim() || 'Passenger';
-        const rawPhone = (document.getElementById('cust-phone').value.trim() || '9848022190').replace(/\D/g, '');
-        const fare = km * rate;
+      function calcAndSync() {
+        const fromAddr = document.getElementById('pickup-addr-input').value.trim() || 'Boddavara';
+        const toPlace = document.getElementById('dest-place-input').value.trim() || 'Thatipudi';
+        const custName = document.getElementById('passenger-name').value.trim() || 'Customer';
+        const cleanPhone = (document.getElementById('passenger-phone').value.trim() || '9848022190').replace(/\D/g, '');
 
-        document.getElementById('km-label').textContent = km;
-        document.getElementById('fare-label').textContent = '₹' + fare;
-        document.getElementById('map-from').textContent = fromVal;
-        document.getElementById('map-to').textContent = toVal;
-        document.getElementById('map-fare').textContent = '₹' + fare;
+        const base = km * rate;
+        const gstAmt = +(base * (gstPct / 100)).toFixed(2);
+        const commAmt = +(base * (commPct / 100)).toFixed(2);
+        const total = +(base + gstAmt + commAmt).toFixed(2);
 
-        document.getElementById('rider-from').textContent = fromVal;
-        document.getElementById('rider-to').textContent = toVal;
-        document.getElementById('rider-veh-summary').textContent = `${vehicle} • ${km} km • ₹${fare}`;
+        document.getElementById('dist-km-val').textContent = km;
+        document.getElementById('base-fare-val').textContent = '₹' + base;
+        document.getElementById('map-from-txt').textContent = fromAddr;
+        document.getElementById('map-to-txt').textContent = toPlace;
+        document.getElementById('map-total-pill').textContent = '₹' + total;
 
-        const last2 = rawPhone.slice(-2) || '90';
-        document.getElementById('rider-masked-phone').textContent = `+91 ••••• ••${last2}`;
+        document.getElementById('bd-base').textContent = '₹' + base.toFixed(2);
+        document.getElementById('bd-gst-pct').textContent = gstPct;
+        document.getElementById('bd-gst').textContent = '₹' + gstAmt.toFixed(2);
+        document.getElementById('bd-comm-pct').textContent = commPct;
+        document.getElementById('bd-comm').textContent = '₹' + commAmt.toFixed(2);
+        document.getElementById('bd-total').textContent = '₹' + total.toFixed(2);
 
-        document.getElementById('cust-ride-code').textContent = rideCode;
-        document.getElementById('footer-code').textContent = rideCode;
-        document.getElementById('owner-custom-code').value = rideCode;
+        const last2 = cleanPhone.slice(-2) || '90';
+        document.getElementById('rider-masked-info').textContent = `Rider Phone View: +91 ••••• ••${last2}`;
+        document.getElementById('cust-code-box').textContent = deliveryCode;
+        document.getElementById('txn-id-preview').textContent = txnId;
+        document.getElementById('footer-txn').textContent = txnId;
+        document.getElementById('footer-delivery-badge').textContent = `Code: ${deliveryCode}`;
 
-        document.getElementById('owner-active-cust-name').textContent = `${custName} (${fromVal} → ${toVal}):`;
-        document.getElementById('owner-active-cust-phone').textContent = `+91 ${rawPhone}`;
+        document.getElementById('r-from-txt').textContent = fromAddr;
+        document.getElementById('r-to-txt').textContent = toPlace;
+        document.getElementById('r-total-txt').textContent = `${veh} • ${km}km • ₹${total.toFixed(2)}`;
 
-        const badge = document.getElementById('offline-status-badge');
-        badge.textContent = blockOffline ? 'NO OFFLINE' : 'OFFLINE ON';
-        badge.className = blockOffline
-          ? 'px-2 py-0.5 text-[10px] font-mono rounded-full bg-success-container text-on-success-container'
-          : 'px-2 py-0.5 text-[10px] font-mono rounded-full bg-light-error-container text-light-on-error-container';
-
-        const histEl = document.getElementById('owner-ride-history');
-        if (rideLogs.length) {
-          histEl.innerHTML = rideLogs
-            .slice(-3)
-            .map((r) => `<div>• ${r.name} (+91 ${r.phone}) | ${r.from} → ${r.to} | ₹${r.fare} | Code ${r.code}</div>`)
-            .join('');
-        } else {
-          histEl.innerHTML = '<span>No extra bookings logged yet.</span>';
-        }
+        document.getElementById('o-cust-label').textContent = `${custName} (${fromAddr} → ${toPlace}):`;
+        document.getElementById('o-cust-phone').textContent = `+91 ${cleanPhone}`;
+        document.getElementById('o-gst-input').value = gstPct;
+        document.getElementById('o-comm-input').value = commPct;
+        document.getElementById('o-code-input').value = deliveryCode;
+        document.getElementById('o-riders-list').textContent = 'Riders: ' + registeredRiders.join(' | ');
+        document.getElementById('o-txns-list').innerHTML = transactions.length
+          ? transactions.slice(-4).map((t) => `<div>${t}</div>`).join('')
+          : 'No completed transactions yet.';
       }
 
-      tabs.customer.btn.addEventListener('click', () => switchTab('customer'));
-      tabs.rider.btn.addEventListener('click', () => switchTab('rider'));
-      tabs.owner.btn.addEventListener('click', () => switchTab('owner'));
+      navs.customer.btn.addEventListener('click', () => switchNav('customer'));
+      navs.rider.btn.addEventListener('click', () => switchNav('rider'));
+      navs.owner.btn.addEventListener('click', () => switchNav('owner'));
 
-      document.querySelectorAll('.veh-btn').forEach((btn) => {
+      document.querySelectorAll('.veh-card').forEach((btn) => {
         btn.addEventListener('click', () => {
-          document.querySelectorAll('.veh-btn').forEach((b) => {
-            b.className = 'veh-btn p-2 rounded-lg bg-light-surface-container-lowest text-light-on-surface border border-light-outline-variant flex flex-col items-center text-xs font-bold transition';
+          document.querySelectorAll('.veh-card').forEach((b) => {
+            b.className = 'veh-card p-2 rounded-lg bg-light-surface-container-lowest text-light-on-surface border border-light-outline-variant text-xs font-bold flex flex-col items-center';
           });
-          btn.className = 'veh-btn p-2 rounded-lg bg-success text-on-success border border-success flex flex-col items-center text-xs font-bold transition';
-          vehicle = btn.getAttribute('data-vehicle');
+          btn.className = 'veh-card p-2 rounded-lg bg-success text-on-success border border-success text-xs font-bold flex flex-col items-center';
+          veh = btn.getAttribute('data-veh');
           rate = Number(btn.getAttribute('data-rate'));
-          refreshUI();
+          calcAndSync();
         });
       });
 
-      document.getElementById('km-slider').addEventListener('input', (e) => {
+      document.getElementById('dist-slider').addEventListener('input', (e) => {
         km = Number(e.target.value);
-        refreshUI();
+        calcAndSync();
       });
 
-      ['cust-from', 'cust-to', 'cust-name', 'cust-phone'].forEach((id) => {
-        document.getElementById(id).addEventListener('input', refreshUI);
+      document.getElementById('dest-slide-range').addEventListener('input', (e) => {
+        const chosen = slideDestinations[Number(e.target.value)] || 'Thatipudi';
+        document.getElementById('slide-dest-badge').textContent = chosen;
+        document.getElementById('dest-place-input').value = chosen;
+        calcAndSync();
       });
 
-      document.getElementById('gps-btn').addEventListener('click', () => {
+      ['pickup-addr-input', 'dest-place-input', 'passenger-name', 'passenger-phone'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', calcAndSync);
+      });
+
+      document.getElementById('refresh-gps-btn').addEventListener('click', () => {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (pos) => {
-              gpsCoords = `${pos.coords.latitude.toFixed(4)}° N, ${pos.coords.longitude.toFixed(4)}° E`;
-              document.getElementById('gps-status-pill').textContent = `GPS Live: ${gpsCoords}`;
+              gpsCoords = `${pos.coords.latitude.toFixed(4)}°N, ${pos.coords.longitude.toFixed(4)}°E`;
+              document.getElementById('live-gps-coords').textContent = `GPS: ${gpsCoords}`;
+              addLiveMessage(`Live GPS synced: ${gpsCoords}`);
             },
             () => {
-              document.getElementById('gps-status-pill').textContent = `GPS Locked: ${gpsCoords}`;
+              document.getElementById('live-gps-coords').textContent = `GPS: ${gpsCoords}`;
+              addLiveMessage(`GPS locked on route: ${gpsCoords}`);
             }
           );
         } else {
-          document.getElementById('gps-status-pill').textContent = `GPS Locked: ${gpsCoords}`;
+          addLiveMessage(`GPS locked: ${gpsCoords}`);
         }
       });
 
-      document.getElementById('sos-btn').addEventListener('click', () => {
-        document.getElementById('gps-status-pill').textContent = `LADIES SOS ALERT SENT • ${gpsCoords}`;
-        document.getElementById('gps-status-pill').className =
-          'px-3 py-1.5 rounded-full bg-light-error text-light-on-error text-xs font-mono font-bold shadow-sm';
+      document.getElementById('test-offline-block-btn').addEventListener('click', () => {
+        addLiveMessage('BLOCKED: 0 Offline Rides allowed! Every ride must go through live transaction & code.');
       });
 
-      document.getElementById('join-rider-btn').addEventListener('click', () => {
-        document.getElementById('customer-msg').textContent =
-          'Free Rider Onboarding Ready! Switch to "Rider Screen" tab to test incoming rides.';
+      document.getElementById('confirm-book-btn').addEventListener('click', () => {
+        if (!document.getElementById('agree-terms-chk').checked) {
+          addLiveMessage('Please check "Okay & agree to fare, GST & admin commission" first.');
+          return;
+        }
+        txnId = '#TXN-' + Math.floor(1000 + Math.random() * 9000);
+        deliveryCode = String(Math.floor(1000 + Math.random() * 9000));
+        const fromAddr = document.getElementById('pickup-addr-input').value.trim() || 'Boddavara';
+        const toPlace = document.getElementById('dest-place-input').value.trim() || 'Thatipudi';
+        const base = km * rate;
+        const total = +(base + base * (gstPct / 100) + base * (commPct / 100)).toFixed(2);
+
+        transactions.push(`${txnId}: ${fromAddr} → ${toPlace} | ₹${total.toFixed(2)} | Code ${deliveryCode} | Booked`);
+        calcAndSync();
+        addLiveMessage(`Ride Booked (${txnId})! ${fromAddr} → ${toPlace} (₹${total.toFixed(2)}). Code: ${deliveryCode}`);
       });
 
-      document.getElementById('book-live-btn').addEventListener('click', () => {
-        rideCode = String(Math.floor(1000 + Math.random() * 9000));
-        const fromVal = document.getElementById('cust-from').value.trim() || 'Boddavara';
-        const toVal = document.getElementById('cust-to').value.trim() || 'Thatipudi';
-        const custName = document.getElementById('cust-name').value.trim() || 'Passenger';
-        const rawPhone = (document.getElementById('cust-phone').value.trim() || '9848022190').replace(/\D/g, '');
-        const fare = km * rate;
-
-        rideLogs.push({ name: custName, phone: rawPhone, from: fromVal, to: toVal, fare, code: rideCode });
-        refreshUI();
-
-        document.getElementById('rider-status-badge').textContent = 'NEW RIDE';
-        document.getElementById('rider-status-badge').className =
-          'px-2.5 py-1 rounded-full bg-light-secondary-container text-light-on-secondary-container text-xs font-bold';
-        document.getElementById('customer-msg').textContent =
-          `Booked! Code: ${rideCode}. Open "Rider Screen" to accept & verify.`;
-        document.getElementById('footer-status').textContent = `Ride Queued • Code ${rideCode}`;
+      document.getElementById('mark-delivered-btn').addEventListener('click', () => {
+        const toPlace = document.getElementById('dest-place-input').value.trim() || 'Thatipudi';
+        transactions.push(`${txnId}: DELIVERED at ${toPlace} (Code ${deliveryCode} verified)`);
+        calcAndSync();
+        addLiveMessage(`DELIVERED! Trip/Order ${txnId} completed at ${toPlace}.`);
       });
 
-      document.getElementById('whatsapp-book-btn').addEventListener('click', () => {
-        refreshUI();
-        const fromVal = document.getElementById('cust-from').value.trim() || 'Boddavara';
-        const toVal = document.getElementById('cust-to').value.trim() || 'Thatipudi';
-        const fare = km * rate;
-        const msg = `HopGo Ride Request:%0AFrom: ${encodeURIComponent(fromVal)}%0ATo: ${encodeURIComponent(toVal)}%0AVehicle: ${vehicle} (${km} km)%0AFare: ₹${fare}%0ADelivery Code: ${rideCode}%0AGPS: ${encodeURIComponent(gpsCoords)}`;
-        window.open(`https://wa.me/?text=${msg}`, '_blank');
+      // Rider Registration & Controls
+      document.getElementById('register-rider-btn').addEventListener('click', () => {
+        const rName = document.getElementById('reg-rider-name').value.trim();
+        const rPhone = document.getElementById('reg-rider-phone').value.trim();
+        const rVeh = document.getElementById('reg-rider-veh').value;
+        if (!rName || rPhone.length < 10) {
+          document.getElementById('rider-reg-msg').textContent = 'Enter Rider Name & 10-digit Phone.';
+          return;
+        }
+        registeredRiders.push(`${rName} (${rVeh})`);
+        document.getElementById('rider-reg-msg').textContent = `Rider ${rName} registered!`;
+        addLiveMessage(`New Rider Registered: ${rName} - ${rVeh}`);
+        calcAndSync();
       });
 
-      // Rider actions
-      document.getElementById('rider-accept-btn').addEventListener('click', () => {
-        document.getElementById('rider-status-badge').textContent = 'ACCEPTED';
-        document.getElementById('rider-status-badge').className =
+      document.getElementById('r-accept-btn').addEventListener('click', () => {
+        document.getElementById('rider-state-chip').textContent = 'ACCEPTED';
+        document.getElementById('rider-state-chip').className =
           'px-2.5 py-1 rounded-full bg-success-container text-on-success-container text-xs font-bold';
-        document.getElementById('rider-feedback').className = 'text-xs font-bold text-success';
-        document.getElementById('rider-feedback').textContent = 'Ride accepted! Ask passenger for 4-digit code to start/deliver.';
+        addLiveMessage('Rider ACCEPTED the ride! Customer number remains hidden from rider.');
       });
 
-      document.getElementById('rider-decline-btn').addEventListener('click', () => {
-        document.getElementById('rider-status-badge').textContent = 'DECLINED';
-        document.getElementById('rider-status-badge').className =
+      document.getElementById('r-reject-btn').addEventListener('click', () => {
+        document.getElementById('rider-state-chip').textContent = 'REJECTED';
+        document.getElementById('rider-state-chip').className =
           'px-2.5 py-1 rounded-full bg-light-error-container text-light-on-error-container text-xs font-bold';
-        document.getElementById('rider-feedback').className = 'text-xs font-bold text-light-error';
-        document.getElementById('rider-feedback').textContent = 'Ride declined.';
+        addLiveMessage('Rider REJECTED the ride. Re-assigning to next live captain.');
       });
 
-      document.getElementById('rider-verify-code-btn').addEventListener('click', () => {
-        const entered = document.getElementById('rider-code-input').value.trim();
-        const fb = document.getElementById('rider-feedback');
-        if (entered === rideCode) {
-          fb.className = 'text-xs font-bold text-success';
-          fb.textContent = `Code ${entered} Verified! Trip/Delivery started on live GPS.`;
-          document.getElementById('footer-status').textContent = 'Trip Verified & Running';
+      document.getElementById('r-verify-otp-btn').addEventListener('click', () => {
+        const entered = document.getElementById('r-otp-input').value.trim();
+        if (entered === deliveryCode) {
+          addLiveMessage(`Delivery/Start Code ${entered} VERIFIED by Rider! Ride/Delivery in progress.`);
         } else {
-          fb.className = 'text-xs font-bold text-light-error';
-          fb.textContent = 'Wrong Delivery/Start Code! Blocked.';
+          addLiveMessage(`ALERT: Wrong code "${entered}" entered by Rider! Blocked.`);
         }
       });
 
-      // Owner lock & actions
-      document.getElementById('owner-unlock-btn').addEventListener('click', () => {
-        if (document.getElementById('owner-pin').value.trim() === OWNER_PIN) {
-          document.getElementById('owner-err').classList.add('hidden');
-          document.getElementById('owner-lock-box').classList.add('hidden');
-          document.getElementById('owner-vault-panel').classList.remove('hidden');
-          document.getElementById('owner-vault-panel').classList.add('flex');
-          refreshUI();
+      // Owner Vault Controls
+      document.getElementById('owner-pin-submit').addEventListener('click', () => {
+        if (document.getElementById('owner-pin-entry').value.trim() === OWNER_PIN) {
+          document.getElementById('owner-pin-wrong').classList.add('hidden');
+          document.getElementById('owner-pin-card').classList.add('hidden');
+          document.getElementById('owner-dashboard').classList.remove('hidden');
+          document.getElementById('owner-dashboard').classList.add('flex');
+          calcAndSync();
         } else {
-          document.getElementById('owner-err').classList.remove('hidden');
+          document.getElementById('owner-pin-wrong').classList.remove('hidden');
         }
       });
 
-      document.getElementById('owner-lock-now').addEventListener('click', () => {
-        document.getElementById('owner-pin').value = '';
-        document.getElementById('owner-vault-panel').classList.add('hidden');
-        document.getElementById('owner-vault-panel').classList.remove('flex');
-        document.getElementById('owner-lock-box').classList.remove('hidden');
+      document.getElementById('owner-lock-btn').addEventListener('click', () => {
+        document.getElementById('owner-pin-entry').value = '';
+        document.getElementById('owner-dashboard').classList.add('hidden');
+        document.getElementById('owner-dashboard').classList.remove('flex');
+        document.getElementById('owner-pin-card').classList.remove('hidden');
       });
 
-      document.getElementById('owner-offline-toggle').addEventListener('change', (e) => {
-        blockOffline = e.target.checked;
-        refreshUI();
+      document.getElementById('o-save-rules').addEventListener('click', () => {
+        const nextGst = Number(document.getElementById('o-gst-input').value);
+        const nextComm = Number(document.getElementById('o-comm-input').value);
+        const nextCode = document.getElementById('o-code-input').value.trim();
+        if (!Number.isNaN(nextGst)) gstPct = nextGst;
+        if (!Number.isNaN(nextComm)) commPct = nextComm;
+        if (/^\d{4}$/.test(nextCode)) deliveryCode = nextCode;
+        calcAndSync();
+        addLiveMessage(`Owner updated rules: GST ${gstPct}%, Admin ${commPct}%, Code ${deliveryCode}.`);
       });
 
-      document.getElementById('owner-apply-code').addEventListener('click', () => {
-        const next = document.getElementById('owner-custom-code').value.trim();
-        if (/^\d{4}$/.test(next)) {
-          rideCode = next;
-          refreshUI();
-        }
+      document.getElementById('o-clear-txns').addEventListener('click', () => {
+        transactions = [];
+        calcAndSync();
+        addLiveMessage('Owner cleared transaction history.');
       });
 
-      document.getElementById('owner-clear-all').addEventListener('click', () => {
-        rideLogs = [];
-        document.getElementById('customer-msg').textContent = 'All rides cleared by Owner.';
-        document.getElementById('rider-feedback').textContent = 'Ride queue cleared by Owner.';
-        refreshUI();
-      });
-
-      refreshUI();
+      calcAndSync();
     })();
   </script>
 </body>
