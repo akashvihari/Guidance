@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HopGo — Full Grid Live Ride, Rider &amp; Owner Lock</title>
+  <title>HopGo IQ — Multi-Village Ride, Rider, Ladies Safety &amp; Owner Lock</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script id="tailwind-config">
     /** @type {import('tailwindcss').Config} */
@@ -57,12 +57,6 @@
             'xl': '24px',
             'full': '9999px',
           },
-          spacing: {
-            'gutter-xs': '4px',
-            'gutter-sm': '8px',
-            'gutter-md': '16px',
-            'gutter-lg': '24px',
-          },
           fontFamily: {
             'display': ['"Mulish"', 'sans-serif'],
             'headline': ['"Mulish"', 'sans-serif'],
@@ -70,16 +64,6 @@
             'body': ['"Instrument Sans"', 'sans-serif'],
             'label': ['"Instrument Sans"', 'sans-serif'],
             'mono': ['"Spline Sans Mono"', 'monospace'],
-          },
-          fontSize: {
-            'headline-lg-mobile': ['24px', { lineHeight: '30px', letterSpacing: '-0.2px', fontWeight: '700' }],
-            'title-lg': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
-            'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
-            'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
-            'label-lg': ['15px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
-            'label-md': ['13px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '600' }],
-            'label-sm': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '500' }],
-            'mono-lg': ['22px', { lineHeight: '28px', letterSpacing: '2px', fontWeight: '700' }],
           },
         },
       },
@@ -99,285 +83,291 @@
       direction: ltr;
       vertical-align: middle;
     }
-    @keyframes pingSoft {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.12); }
-    }
-    .ping-soft { animation: pingSoft 2s infinite ease-in-out; }
   </style>
 </head>
 <body class="bg-light-surface text-light-on-surface antialiased min-h-screen w-full">
-  <!-- FULL DISPLAY AUTO GRID CONTAINER -->
-  <div class="w-full min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-light-surface">
+  <!-- FULL DISPLAY AUTO GRID -->
+  <div class="w-full min-h-screen grid grid-cols-1 lg:grid-cols-12">
 
-    <!-- LEFT / TOP LIVE MAP & ROLE BAR (Auto-fits full display on desktop & mobile) -->
-    <section class="relative w-full min-h-[340px] lg:min-h-screen lg:col-span-7 bg-light-surface-container overflow-hidden flex flex-col justify-between">
+    <!-- LEFT / TOP LIVE MAP & MULTI-VILLAGE TRACKER -->
+    <section class="relative w-full min-h-[320px] lg:min-h-screen lg:col-span-7 bg-light-surface-container overflow-hidden flex flex-col justify-between">
       <img
         src="https://lh3.googleusercontent.com/aida/ALJJyrCOJdoPi5G1hgkKuvSq1z41jRrbxUdyNZgDjMSgwjCK7N9rIMOTm-_mpLn0WeAQj03hjVhOZFwttRly1083Y61SZzJDpIpqTy0-KIk6sMdmsKkTXuBFqxNpbVwJf2l2zMpnM3DTK29NYfbq5k8O1GFyirM193tEOBDSsrXs7ZDw0x-HA1CaMeLUu9hzEmEBnZNJSyXUm9KS8i0B2WPwT1xPJLfX6iTEv0j4pXzudzjmCw2LoSCCRG3I"
-        alt="Live city street map around Madhapur Metro"
+        alt="Live route and GPS map"
         class="absolute inset-0 w-full h-full object-cover"
       />
 
-      <!-- Top Floating Role Switcher Bar -->
-      <header class="relative z-20 p-gutter-md flex flex-wrap items-center justify-between gap-2">
+      <!-- Top Role Switcher & Lock Status -->
+      <header class="relative z-20 p-3 sm:p-4 flex flex-wrap items-center justify-between gap-2">
         <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-light-surface-container-lowest border border-light-outline-variant shadow-sm">
           <span class="material-symbols-outlined text-[18px] text-light-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
-          <span class="font-label text-label-md font-bold">HopGo IQ</span>
-          <span id="offline-lock-pill" class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-success-container text-on-success-container">NO OFFLINE</span>
+          <span class="text-xs font-bold">HopGo IQ</span>
+          <span id="offline-status-badge" class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-success-container text-on-success-container">NO OFFLINE</span>
         </div>
 
-        <!-- Switch View: Customer | Rider | Owner -->
         <div class="inline-flex items-center p-1 rounded-full bg-light-surface-container-lowest border border-light-outline-variant shadow-sm">
-          <button id="tab-customer" type="button" class="px-3 py-1 rounded-full text-xs font-semibold bg-light-primary-container text-light-on-primary-container transition">
-            Customer
+          <button id="tab-customer" type="button" class="px-3 py-1 rounded-full text-xs font-bold bg-light-primary-container text-light-on-primary-container transition">
+            Customer Ride
           </button>
           <button id="tab-rider" type="button" class="px-3 py-1 rounded-full text-xs font-semibold text-light-on-surface-variant hover:bg-light-surface-container-low transition">
             Rider Screen
           </button>
           <button id="tab-owner" type="button" class="px-3 py-1 rounded-full text-xs font-semibold text-light-on-surface-variant hover:bg-light-surface-container-low transition flex items-center gap-1">
             <span class="material-symbols-outlined text-[14px]">lock</span>
-            Owner
+            Owner Vault
           </button>
         </div>
       </header>
 
-      <!-- Live Moving Captains -->
-      <div id="captain-bike" class="relative z-10 ml-14 mt-4 w-10 h-10 rounded-full bg-light-primary-container text-light-on-primary-container shadow-md flex items-center justify-center border-2 border-light-surface-container-lowest ping-soft transition-all duration-500">
-        <span class="material-symbols-outlined text-[20px]">two_wheeler</span>
-      </div>
-
-      <!-- Center Route & Pickup Pin -->
-      <div class="relative z-10 my-auto flex flex-col items-center justify-center pointer-events-none px-4">
-        <div class="px-4 py-1.5 rounded-full bg-light-inverse-surface text-light-inverse-on-surface shadow-md flex items-center gap-2 text-xs font-medium">
-          <span class="w-2.5 h-2.5 rounded-full bg-success"></span>
-          <span id="map-from-label">FROM: Madhapur Metro Gate 2</span>
+      <!-- Center Live Route Pin -->
+      <div class="relative z-10 my-auto flex flex-col items-center justify-center pointer-events-none px-3">
+        <div class="px-3.5 py-1.5 rounded-full bg-light-inverse-surface text-light-inverse-on-surface shadow-md flex flex-wrap items-center justify-center gap-1.5 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-success"></span>
+          <span id="map-from">Boddavara</span>
           <span class="text-light-primary-container font-bold">→</span>
-          <span id="map-to-label">TO: Mindspace Building 12B</span>
+          <span id="map-to">Thatipudi</span>
+          <span class="px-1.5 py-0.5 rounded bg-light-primary-container text-light-on-primary-container font-mono text-[11px]" id="map-fare">₹25</span>
         </div>
         <div class="w-1 h-3 bg-light-inverse-surface"></div>
         <div class="w-4 h-4 rounded-full bg-light-primary-container border-2 border-light-inverse-surface shadow"></div>
       </div>
 
-      <!-- Bottom Map IQ Status Strip -->
-      <div class="relative z-20 p-gutter-md flex items-center justify-between gap-2">
-        <div id="iq-route-banner" class="px-3 py-1.5 rounded-full bg-light-tertiary-container text-light-on-tertiary-container text-xs font-mono shadow-sm">
-          IQ Live Track: Active • Direct Route Verified
+      <!-- Bottom GPS & Ladies SOS Bar -->
+      <div class="relative z-20 p-3 sm:p-4 flex items-center justify-between gap-2">
+        <div id="gps-status-pill" class="px-3 py-1.5 rounded-full bg-light-tertiary-container text-light-on-tertiary-container text-xs font-mono shadow-sm truncate">
+          IQ GPS: Ready • Multi-Village Active
         </div>
-        <button id="recenter-btn" type="button" aria-label="Recenter GPS" class="w-11 h-11 rounded-full bg-light-surface-container-lowest border border-light-outline-variant text-light-tertiary shadow flex items-center justify-center">
-          <span class="material-symbols-outlined text-[20px]">my_location</span>
-        </button>
+        <div class="flex items-center gap-2">
+          <button id="sos-btn" type="button" class="px-3 py-2 rounded-full bg-light-error text-light-on-error text-xs font-bold shadow flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">emergency</span>
+            Ladies SOS
+          </button>
+          <button id="gps-btn" type="button" class="px-3 py-2 rounded-full bg-success text-on-success text-xs font-bold shadow flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">my_location</span>
+            Live GPS
+          </button>
+        </div>
       </div>
     </section>
 
-    <!-- RIGHT / BOTTOM WORKSPACE PANEL (Auto grid fit) -->
-    <main class="w-full lg:col-span-5 bg-light-surface-container-lowest border-t lg:border-t-0 lg:border-l border-light-outline-variant p-gutter-md flex flex-col justify-between gap-gutter-md">
+    <!-- RIGHT / BOTTOM AUTO-GRID WORKSPACE -->
+    <main class="w-full lg:col-span-5 bg-light-surface-container-lowest border-t lg:border-t-0 lg:border-l border-light-outline-variant p-3 sm:p-4 flex flex-col justify-between gap-3">
 
-      <!-- VIEW 1: CUSTOMER BOOKING VIEW -->
-      <div id="view-customer" class="flex flex-col gap-gutter-md">
+      <!-- 1. CUSTOMER BOOKING VIEW -->
+      <div id="view-customer" class="flex flex-col gap-3">
         <div class="flex items-center justify-between gap-2">
           <div>
-            <h1 class="font-headline text-headline-lg-mobile text-light-on-surface">Where to today?</h1>
-            <p class="font-body text-body-md text-light-on-surface-variant">3 bikes &amp; 2 autos within 2 min • Delivery OTP protected</p>
+            <h1 class="font-headline text-xl sm:text-2xl font-extrabold text-light-on-surface">
+              Rapido-Style Easy Ride
+            </h1>
+            <p class="text-xs text-light-on-surface-variant">
+              Any village / any person • Bike ₹5/km • Auto ₹12/km • Car ₹18/km
+            </p>
           </div>
-          <span class="px-2.5 py-1 rounded-full bg-success-container text-on-success-container text-xs font-semibold flex items-center gap-1">
-            <span class="material-symbols-outlined text-[15px]">verified_user</span>
-            Safe Ride
-          </span>
+          <button id="join-rider-btn" type="button" class="px-2.5 py-1.5 rounded-full bg-light-primary-container text-light-on-primary-container text-xs font-bold flex-shrink-0">
+            + Join Rider
+          </button>
         </div>
 
-        <!-- FROM & TO Box -->
+        <!-- Vehicle & Distance Grid -->
         <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2.5">
-          <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-[18px] text-success" style="font-variation-settings: 'FILL' 1;">trip_origin</span>
-            <div class="flex-1 min-w-0">
-              <span class="block text-[11px] font-semibold uppercase tracking-wider text-light-on-surface-variant">FROM (Pickup Point)</span>
-              <input id="from-input" type="text" value="Madhapur Metro Gate 2" class="w-full bg-transparent border-none p-0 font-title text-title-md text-light-on-surface focus:ring-0" />
-            </div>
-          </div>
-
-          <div class="h-px bg-light-outline-variant"></div>
-
-          <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-[20px] text-light-primary">location_on</span>
-            <div class="flex-1 min-w-0">
-              <span class="block text-[11px] font-semibold uppercase tracking-wider text-light-on-surface-variant">TO (Drop Destination)</span>
-              <input id="to-input" type="search" value="Mindspace Building 12B" placeholder="Search drop area or landmark" class="w-full bg-transparent border-none p-0 font-body text-body-lg text-light-on-surface focus:ring-0" />
-            </div>
-            <button id="voice-btn" type="button" aria-label="Voice destination" class="w-10 h-10 rounded-full bg-light-primary-container text-light-on-primary-container flex items-center justify-center flex-shrink-0">
-              <span class="material-symbols-outlined text-[20px]">mic</span>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" data-vehicle="Bike" data-rate="5" class="veh-btn p-2 rounded-lg bg-success text-on-success border border-success flex flex-col items-center text-xs font-bold transition">
+              <span>🏍️ Bike</span>
+              <span class="text-[11px] opacity-90">₹5/km</span>
+            </button>
+            <button type="button" data-vehicle="Auto" data-rate="12" class="veh-btn p-2 rounded-lg bg-light-surface-container-lowest text-light-on-surface border border-light-outline-variant flex flex-col items-center text-xs font-bold transition">
+              <span>🛺 Auto</span>
+              <span class="text-[11px] text-light-on-surface-variant">₹12/km</span>
+            </button>
+            <button type="button" data-vehicle="Car" data-rate="18" class="veh-btn p-2 rounded-lg bg-light-surface-container-lowest text-light-on-surface border border-light-outline-variant flex flex-col items-center text-xs font-bold transition">
+              <span>🚗 Car</span>
+              <span class="text-[11px] text-light-on-surface-variant">₹18/km</span>
             </button>
           </div>
-        </div>
 
-        <!-- Quick Routes Grid -->
-        <div class="grid grid-cols-3 gap-2">
-          <button type="button" data-from="Madhapur Metro Gate 2" data-to="Mindspace Building 12B" data-fare="₹42" data-eta="12 min" class="quick-route p-2.5 rounded-lg bg-light-surface-container-low border border-light-outline-variant hover:border-light-primary text-left flex flex-col gap-1">
-            <span class="material-symbols-outlined text-[18px] text-light-primary">work</span>
-            <span class="text-xs font-bold">Work</span>
-            <span class="text-[11px] text-light-on-surface-variant tabular-nums">12 min • ₹42</span>
-          </button>
-          <button type="button" data-from="Madhapur Metro Gate 2" data-to="Kondapur Botanical Garden" data-fare="₹48" data-eta="15 min" class="quick-route p-2.5 rounded-lg bg-light-surface-container-low border border-light-outline-variant hover:border-light-primary text-left flex flex-col gap-1">
-            <span class="material-symbols-outlined text-[18px] text-light-primary">home</span>
-            <span class="text-xs font-bold">Home</span>
-            <span class="text-[11px] text-light-on-surface-variant tabular-nums">15 min • ₹48</span>
-          </button>
-          <button type="button" data-from="Madhapur Metro Gate 2" data-to="Raidurg Metro Station" data-fare="₹25" data-eta="7 min" class="quick-route p-2.5 rounded-lg bg-light-surface-container-low border border-light-outline-variant hover:border-light-primary text-left flex flex-col gap-1">
-            <span class="material-symbols-outlined text-[18px] text-light-tertiary">directions_subway</span>
-            <span class="text-xs font-bold">Metro</span>
-            <span class="text-[11px] text-light-on-surface-variant tabular-nums">7 min • ₹25</span>
-          </button>
-        </div>
-
-        <!-- Customer Own Info + Delivery Code -->
-        <div class="p-3 rounded-lg bg-light-surface-container border border-light-outline-variant flex items-center justify-between gap-2">
-          <div>
-            <span class="block text-xs text-light-on-surface-variant">Customer Delivery / Start Code</span>
-            <span class="block text-[11px] text-light-on-surface-variant">Give this code to Rider at pickup/drop</span>
+          <div class="flex items-center justify-between text-xs font-bold pt-1">
+            <span>Distance: <span id="km-label" class="font-mono text-sm">5</span> km</span>
+            <span>Est. Fare: <span id="fare-label" class="px-2 py-0.5 rounded bg-success-container text-on-success-container font-mono text-sm">₹25</span></span>
           </div>
-          <span id="customer-otp-display" class="font-mono text-mono-lg px-3 py-1 rounded-lg bg-light-surface-container-lowest border border-light-outline-variant">7391</span>
+          <input id="km-slider" type="range" min="1" max="25" value="5" class="w-full accent-success" />
         </div>
 
-        <button id="book-ride-btn" type="button" class="w-full py-3.5 px-5 rounded-lg bg-light-primary-container text-light-on-primary-container font-label text-label-lg font-bold flex items-center justify-center gap-2 shadow-sm hover:brightness-95 active:scale-[0.99] transition">
-          <span id="book-btn-label">Book Live Ride • ₹42</span>
-          <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
-        </button>
+        <!-- FROM (Any Village) & TO + Customer Phone -->
+        <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <label for="cust-from" class="block text-[11px] font-bold text-light-on-surface-variant">FROM (Any Village / Area)</label>
+              <input id="cust-from" type="text" value="Boddavara" placeholder="Ex: Boddavara / S.Kota" class="mt-0.5 w-full rounded-lg border-light-outline-variant bg-light-surface-container-lowest text-xs font-semibold" />
+            </div>
+            <div>
+              <label for="cust-to" class="block text-[11px] font-bold text-light-on-surface-variant">TO (Drop Place)</label>
+              <input id="cust-to" type="text" value="Thatipudi" placeholder="Ex: Thatipudi / Vizag" class="mt-0.5 w-full rounded-lg border-light-outline-variant bg-light-surface-container-lowest text-xs font-semibold" />
+            </div>
+          </div>
 
-        <p id="customer-feedback" class="text-xs font-semibold text-success min-h-[18px]"></p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <label for="cust-name" class="block text-[11px] font-bold text-light-on-surface-variant">Passenger / User Name</label>
+              <input id="cust-name" type="text" value="Sita Devi" placeholder="Customer name" class="mt-0.5 w-full rounded-lg border-light-outline-variant bg-light-surface-container-lowest text-xs" />
+            </div>
+            <div>
+              <label for="cust-phone" class="block text-[11px] font-bold text-light-on-surface-variant">10-Digit Phone (Owner Only)</label>
+              <input id="cust-phone" type="tel" maxlength="10" value="9848022190" placeholder="10-digit mobile" class="mt-0.5 w-full rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-xs" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Unique Per-Ride Delivery / Start Code -->
+        <div class="p-2.5 rounded-lg bg-light-surface-container border border-light-outline-variant flex items-center justify-between">
+          <div>
+            <span class="block text-xs font-bold">Ride Delivery / Start Code</span>
+            <span class="block text-[11px] text-light-on-surface-variant">Auto-generated per ride • Share at pickup/drop</span>
+          </div>
+          <span id="cust-ride-code" class="font-mono text-lg font-bold px-3 py-1 rounded bg-light-surface-container-lowest border border-light-outline-variant">8429</span>
+        </div>
+
+        <!-- Primary Actions -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <button id="book-live-btn" type="button" class="py-2.5 px-3 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm">
+            <span class="material-symbols-outlined text-[18px]">bolt</span>
+            Book Live Ride
+          </button>
+          <button id="whatsapp-book-btn" type="button" class="py-2.5 px-3 rounded-lg bg-success text-on-success text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm">
+            <span class="material-symbols-outlined text-[18px]">chat</span>
+            WhatsApp + GPS
+          </button>
+        </div>
+
+        <p id="customer-msg" class="text-xs font-semibold text-success min-h-[18px]"></p>
       </div>
 
-      <!-- VIEW 2: RIDER SCREEN (Incoming Ride + From/To + Hidden Phone + Delivery OTP Verify) -->
-      <div id="view-rider" class="hidden flex-col gap-gutter-md">
+      <!-- 2. RIDER SCREEN (Incoming Ride + FROM/TO + Masked Customer Number + Delivery OTP) -->
+      <div id="view-rider" class="hidden flex-col gap-3">
         <div class="flex items-center justify-between gap-2">
           <div>
-            <h2 class="font-headline text-title-lg font-bold">Rider Incoming Ride Console</h2>
-            <p class="text-xs text-light-on-surface-variant">Open here to see incoming ride, FROM → TO &amp; enter Delivery Code</p>
+            <h2 class="font-headline text-lg font-bold">Rider Live Duty Console</h2>
+            <p class="text-xs text-light-on-surface-variant">See FROM → TO, accept ride &amp; verify Delivery Code</p>
           </div>
-          <span id="rider-ride-status" class="px-2.5 py-1 rounded-full bg-light-secondary-container text-light-on-secondary-container text-xs font-bold">
-            NEW RIDE
+          <span id="rider-status-badge" class="px-2.5 py-1 rounded-full bg-light-secondary-container text-light-on-secondary-container text-xs font-bold">
+            WAITING
           </span>
         </div>
 
-        <!-- FROM -> TO Card -->
-        <div class="p-3.5 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold uppercase text-success">FROM (Pickup)</span>
-            <span id="rider-eta-badge" class="text-xs font-mono font-semibold">12 min • ₹42</span>
+        <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-1.5">
+          <div class="flex justify-between text-xs">
+            <span class="font-bold text-success">FROM (Pickup)</span>
+            <span id="rider-veh-summary" class="font-mono font-bold">Bike • 5 km • ₹25</span>
           </div>
-          <p id="rider-from-text" class="font-title text-title-md font-bold">Madhapur Metro Gate 2</p>
+          <p id="rider-from" class="text-sm font-bold text-light-on-surface">Boddavara</p>
 
-          <div class="flex items-center gap-2 my-0.5">
-            <span class="material-symbols-outlined text-light-primary text-[18px]">arrow_downward</span>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-light-primary text-[16px]">arrow_downward</span>
             <div class="h-px flex-1 bg-light-outline-variant"></div>
           </div>
 
-          <span class="text-[11px] font-bold uppercase text-light-primary">TO (Drop Destination)</span>
-          <p id="rider-to-text" class="font-title text-title-md font-bold">Mindspace Building 12B</p>
+          <span class="text-xs font-bold text-light-primary">TO (Drop)</span>
+          <p id="rider-to" class="text-sm font-bold text-light-on-surface">Thatipudi</p>
         </div>
 
-        <!-- Rider Privacy Rule: Customer Number Strictly Hidden -->
+        <!-- Customer Phone Strictly Hidden for Rider -->
         <div class="p-3 rounded-lg bg-light-surface-container border border-light-outline-variant flex items-center justify-between">
           <div>
-            <span class="block text-xs font-semibold">Customer Phone (Rider View)</span>
-            <span class="block text-[11px] text-light-on-surface-variant">Hidden from rider • Relay call only</span>
+            <span class="block text-xs font-bold">Customer Number (Rider View)</span>
+            <span class="block text-[11px] text-light-on-surface-variant">Protected for ladies &amp; privacy • Owner only</span>
           </div>
-          <span class="font-mono text-xs font-bold px-2.5 py-1 rounded bg-light-surface-container-lowest border border-light-outline-variant text-light-on-surface-variant">
-            +91 ••••• ••190 (LOCKED)
+          <span id="rider-masked-phone" class="font-mono text-xs font-bold px-2.5 py-1 rounded bg-light-surface-container-lowest border border-light-outline-variant">
+            +91 ••••• ••190
           </span>
         </div>
 
-        <!-- Delivery Code Check -->
+        <!-- Delivery Code Verification -->
         <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
-          <label for="rider-otp-input" class="text-xs font-semibold">Verify 4-Digit Delivery / Start Code</label>
+          <label for="rider-code-input" class="text-xs font-bold">Enter 4-Digit Delivery / Start Code</label>
           <div class="flex gap-2">
-            <input id="rider-otp-input" type="text" maxlength="4" placeholder="Enter code (e.g. 7391)" class="flex-1 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-sm tracking-widest" />
-            <button id="rider-verify-btn" type="button" class="px-4 py-2 rounded-lg bg-success text-on-success text-xs font-bold">
-              Start / Deliver
+            <input id="rider-code-input" type="text" maxlength="4" placeholder="4-digit code" class="flex-1 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-xs tracking-widest" />
+            <button id="rider-verify-code-btn" type="button" class="px-3.5 py-2 rounded-lg bg-success text-on-success text-xs font-bold">
+              Verify &amp; Go
             </button>
           </div>
-          <p id="rider-otp-msg" class="text-xs font-medium min-h-[16px]"></p>
+          <p id="rider-feedback" class="text-xs font-semibold min-h-[16px]"></p>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
-          <button id="rider-reject-btn" type="button" class="py-2.5 px-3 rounded-lg bg-light-error-container text-light-on-error-container text-xs font-bold">
-            Reject Ride
+          <button id="rider-decline-btn" type="button" class="py-2 rounded-lg bg-light-error-container text-light-on-error-container text-xs font-bold">
+            Decline
           </button>
-          <button id="rider-accept-btn" type="button" class="py-2.5 px-3 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-bold">
+          <button id="rider-accept-btn" type="button" class="py-2 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-bold">
             Accept Ride
           </button>
         </div>
       </div>
 
-      <!-- VIEW 3: OWNER FULL LOCK PANEL (PIN 4829 • ONLY Owner sees real customer numbers) -->
-      <div id="view-owner" class="hidden flex-col gap-gutter-md">
+      <!-- 3. OWNER FULL LOCK VAULT (PIN 4829 • ONLY Owner sees real customer numbers) -->
+      <div id="view-owner" class="hidden flex-col gap-3">
         <div class="flex items-center justify-between">
           <div>
-            <h2 class="font-headline text-title-lg font-bold">Owner Lock &amp; Privacy Vault</h2>
-            <p class="text-xs text-light-on-surface-variant">PIN required • Real customer numbers visible ONLY to Owner</p>
+            <h2 class="font-headline text-lg font-bold">Owner Master Lock Vault</h2>
+            <p class="text-xs text-light-on-surface-variant">Real customer numbers visible ONLY to Owner</p>
           </div>
           <span class="px-2.5 py-1 rounded-full bg-light-primary-container text-light-on-primary-container text-xs font-mono font-bold">
             PIN: 4829
           </span>
         </div>
 
-        <div id="owner-auth-box" class="p-3.5 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
-          <label for="owner-pin-box" class="text-xs font-semibold">Enter Owner PIN to Unlock Controls &amp; Numbers</label>
+        <div id="owner-lock-box" class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
+          <label for="owner-pin" class="text-xs font-bold">Enter Owner PIN (4829)</label>
           <div class="flex gap-2">
-            <input id="owner-pin-box" type="password" maxlength="4" placeholder="4829" class="flex-1 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-center tracking-widest" />
-            <button id="owner-unlock-action" type="button" class="px-4 py-2 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-bold">
+            <input id="owner-pin" type="password" maxlength="4" placeholder="••••" class="flex-1 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-center tracking-widest" />
+            <button id="owner-unlock-btn" type="button" class="px-4 py-2 rounded-lg bg-light-primary-container text-light-on-primary-container text-xs font-bold">
               Unlock
             </button>
           </div>
-          <p id="owner-pin-err" class="hidden text-xs text-light-error font-semibold">Incorrect PIN. Try 4829.</p>
+          <p id="owner-err" class="hidden text-xs font-bold text-light-error">Wrong PIN!</p>
         </div>
 
-        <div id="owner-unlocked-panel" class="hidden flex-col gap-3">
-          <div class="p-3 rounded-lg bg-success-container text-on-success-container flex items-center justify-between text-xs font-bold">
+        <div id="owner-vault-panel" class="hidden flex-col gap-2.5">
+          <div class="p-2.5 rounded-lg bg-success-container text-on-success-container flex items-center justify-between text-xs font-bold">
             <span>OWNER UNLOCKED • FULL CONTROL</span>
-            <button id="owner-lock-again" type="button" class="underline">Lock Vault</button>
+            <button id="owner-lock-now" type="button" class="underline">Lock</button>
           </div>
 
-          <!-- ONLY OWNER SEES CUSTOMER NUMBERS -->
+          <!-- ONLY OWNER SEES ACTUAL CUSTOMER NUMBERS -->
           <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-1.5">
             <span class="text-xs font-bold text-light-primary">Customer Phone Numbers (OWNER ONLY)</span>
             <div class="flex justify-between text-xs py-1 border-b border-light-outline-variant/50">
-              <span>Current Ride Customer:</span>
-              <span class="font-mono font-bold">+91 98480 22190</span>
+              <span id="owner-active-cust-name">Sita Devi (Active Ride):</span>
+              <span id="owner-active-cust-phone" class="font-mono font-bold">+91 9848022190</span>
             </div>
-            <div class="flex justify-between text-xs py-1">
-              <span>Ladies / Priority Customer #2:</span>
-              <span class="font-mono font-bold">+91 99891 55412</span>
+            <div id="owner-ride-history" class="text-[11px] text-light-on-surface-variant flex flex-col gap-1 pt-1">
+              <span>No extra bookings logged yet.</span>
             </div>
           </div>
 
-          <!-- Block Offline Rides Toggle -->
-          <label class="flex items-center justify-between p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant cursor-pointer">
-            <div>
-              <span class="block text-xs font-bold">Block All Offline Rides</span>
-              <span class="block text-[11px] text-light-on-surface-variant">Prevents offline/unverified ride bookings</span>
-            </div>
-            <input id="owner-offline-switch" type="checkbox" checked class="rounded text-light-primary" />
+          <label class="flex items-center justify-between p-2.5 rounded-lg bg-light-surface-container-low border border-light-outline-variant text-xs font-bold cursor-pointer">
+            <span>Block All Offline Rides</span>
+            <input id="owner-offline-toggle" type="checkbox" checked class="rounded text-light-primary" />
           </label>
 
-          <!-- Edit Delivery Code & Clear Rides -->
-          <div class="p-3 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
-            <span class="text-xs font-bold">Edit Delivery Code or Remove Rides</span>
+          <div class="p-2.5 rounded-lg bg-light-surface-container-low border border-light-outline-variant flex flex-col gap-2">
+            <span class="text-xs font-bold">Set Custom Delivery Code / Remove Rides</span>
             <div class="flex gap-2">
-              <input id="owner-code-input" type="text" maxlength="4" value="7391" class="w-24 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-center text-sm" />
-              <button id="owner-save-code" type="button" class="flex-1 py-2 px-3 rounded-lg bg-light-surface-container border border-light-outline-variant text-xs font-bold">
-                Save Code
+              <input id="owner-custom-code" type="text" maxlength="4" value="8429" class="w-24 rounded-lg border-light-outline-variant bg-light-surface-container-lowest font-mono text-center text-xs" />
+              <button id="owner-apply-code" type="button" class="flex-1 py-1.5 px-3 rounded-lg bg-light-surface-container border border-light-outline-variant text-xs font-bold">
+                Update Code
               </button>
             </div>
-            <button id="owner-clear-rides" type="button" class="w-full py-2 px-3 rounded-lg bg-light-error-container text-light-on-error-container text-xs font-bold">
-              Remove / Reset Active Ride
+            <button id="owner-clear-all" type="button" class="w-full py-2 px-3 rounded-lg bg-light-error-container text-light-on-error-container text-xs font-bold">
+              Remove / Reset All Rides
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Bottom Quick Status Bar -->
+      <!-- Footer -->
       <footer class="pt-2 border-t border-light-outline-variant flex items-center justify-between text-[11px] text-light-on-surface-variant">
-        <span>Active Code: <strong id="footer-code" class="font-mono text-light-on-surface">7391</strong></span>
-        <span id="footer-ride-state" class="font-semibold text-light-on-surface">Ready • Live Dispatch</span>
+        <span>Delivery Code: <strong id="footer-code" class="font-mono text-light-on-surface">8429</strong></span>
+        <span id="footer-status" class="font-semibold text-light-on-surface">Ready • Multi-Village Grid</span>
       </footer>
     </main>
   </div>
@@ -385,185 +375,231 @@
   <script>
     (function () {
       const OWNER_PIN = '4829';
-      let deliveryCode = '7391';
+      let vehicle = 'Bike';
+      let rate = 5;
+      let km = 5;
+      let rideCode = '8429';
       let blockOffline = true;
-      let fromLoc = 'Madhapur Metro Gate 2';
-      let toLoc = 'Mindspace Building 12B';
-      let fare = '₹42';
-      let eta = '12 min';
+      let gpsCoords = '18.1167° N, 83.2415° E';
+      let rideLogs = [];
 
-      const fromInput = document.getElementById('from-input');
-      const toInput = document.getElementById('to-input');
-      const bookBtnLabel = document.getElementById('book-btn-label');
+      const tabs = {
+        customer: { btn: document.getElementById('tab-customer'), view: document.getElementById('view-customer') },
+        rider: { btn: document.getElementById('tab-rider'), view: document.getElementById('view-rider') },
+        owner: { btn: document.getElementById('tab-owner'), view: document.getElementById('view-owner') }
+      };
 
-      const tabCustomer = document.getElementById('tab-customer');
-      const tabRider = document.getElementById('tab-rider');
-      const tabOwner = document.getElementById('tab-owner');
-
-      const viewCustomer = document.getElementById('view-customer');
-      const viewRider = document.getElementById('view-rider');
-      const viewOwner = document.getElementById('view-owner');
-
-      function setActiveTab(mode) {
-        [viewCustomer, viewRider, viewOwner].forEach((v) => v.classList.add('hidden'));
-        [tabCustomer, tabRider, tabOwner].forEach((b) => {
-          b.className = b.id === 'tab-owner'
+      function switchTab(name) {
+        Object.entries(tabs).forEach(([k, obj]) => {
+          obj.view.classList.add('hidden');
+          obj.view.classList.remove('flex');
+          obj.btn.className = k === 'owner'
             ? 'px-3 py-1 rounded-full text-xs font-semibold text-light-on-surface-variant hover:bg-light-surface-container-low transition flex items-center gap-1'
             : 'px-3 py-1 rounded-full text-xs font-semibold text-light-on-surface-variant hover:bg-light-surface-container-low transition';
         });
-
-        if (mode === 'customer') {
-          viewCustomer.classList.remove('hidden');
-          viewCustomer.classList.add('flex');
-          tabCustomer.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-light-primary-container text-light-on-primary-container transition';
-        } else if (mode === 'rider') {
-          viewRider.classList.remove('hidden');
-          viewRider.classList.add('flex');
-          tabRider.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-light-primary-container text-light-on-primary-container transition';
-        } else {
-          viewOwner.classList.remove('hidden');
-          viewOwner.classList.add('flex');
-          tabOwner.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-light-primary-container text-light-on-primary-container transition flex items-center gap-1';
-        }
-        syncAll();
+        tabs[name].view.classList.remove('hidden');
+        tabs[name].view.classList.add('flex');
+        tabs[name].btn.className = name === 'owner'
+          ? 'px-3 py-1 rounded-full text-xs font-bold bg-light-primary-container text-light-on-primary-container transition flex items-center gap-1'
+          : 'px-3 py-1 rounded-full text-xs font-bold bg-light-primary-container text-light-on-primary-container transition';
+        refreshUI();
       }
 
-      function syncAll() {
-        fromLoc = fromInput.value.trim() || 'Madhapur Metro Gate 2';
-        toLoc = toInput.value.trim() || 'Mindspace Building 12B';
+      function refreshUI() {
+        const fromVal = document.getElementById('cust-from').value.trim() || 'Boddavara';
+        const toVal = document.getElementById('cust-to').value.trim() || 'Thatipudi';
+        const custName = document.getElementById('cust-name').value.trim() || 'Passenger';
+        const rawPhone = (document.getElementById('cust-phone').value.trim() || '9848022190').replace(/\D/g, '');
+        const fare = km * rate;
 
-        document.getElementById('map-from-label').textContent = 'FROM: ' + fromLoc;
-        document.getElementById('map-to-label').textContent = 'TO: ' + toLoc;
-        document.getElementById('rider-from-text').textContent = fromLoc;
-        document.getElementById('rider-to-text').textContent = toLoc;
-        document.getElementById('rider-eta-badge').textContent = `${eta} • ${fare}`;
-        document.getElementById('customer-otp-display').textContent = deliveryCode;
-        document.getElementById('footer-code').textContent = deliveryCode;
-        document.getElementById('owner-code-input').value = deliveryCode;
-        bookBtnLabel.textContent = `Book Live Ride • ${fare}`;
+        document.getElementById('km-label').textContent = km;
+        document.getElementById('fare-label').textContent = '₹' + fare;
+        document.getElementById('map-from').textContent = fromVal;
+        document.getElementById('map-to').textContent = toVal;
+        document.getElementById('map-fare').textContent = '₹' + fare;
 
-        const pill = document.getElementById('offline-lock-pill');
-        pill.textContent = blockOffline ? 'NO OFFLINE' : 'OFFLINE ON';
-        pill.className = blockOffline
+        document.getElementById('rider-from').textContent = fromVal;
+        document.getElementById('rider-to').textContent = toVal;
+        document.getElementById('rider-veh-summary').textContent = `${vehicle} • ${km} km • ₹${fare}`;
+
+        const last2 = rawPhone.slice(-2) || '90';
+        document.getElementById('rider-masked-phone').textContent = `+91 ••••• ••${last2}`;
+
+        document.getElementById('cust-ride-code').textContent = rideCode;
+        document.getElementById('footer-code').textContent = rideCode;
+        document.getElementById('owner-custom-code').value = rideCode;
+
+        document.getElementById('owner-active-cust-name').textContent = `${custName} (${fromVal} → ${toVal}):`;
+        document.getElementById('owner-active-cust-phone').textContent = `+91 ${rawPhone}`;
+
+        const badge = document.getElementById('offline-status-badge');
+        badge.textContent = blockOffline ? 'NO OFFLINE' : 'OFFLINE ON';
+        badge.className = blockOffline
           ? 'px-2 py-0.5 text-[10px] font-mono rounded-full bg-success-container text-on-success-container'
           : 'px-2 py-0.5 text-[10px] font-mono rounded-full bg-light-error-container text-light-on-error-container';
+
+        const histEl = document.getElementById('owner-ride-history');
+        if (rideLogs.length) {
+          histEl.innerHTML = rideLogs
+            .slice(-3)
+            .map((r) => `<div>• ${r.name} (+91 ${r.phone}) | ${r.from} → ${r.to} | ₹${r.fare} | Code ${r.code}</div>`)
+            .join('');
+        } else {
+          histEl.innerHTML = '<span>No extra bookings logged yet.</span>';
+        }
       }
 
-      tabCustomer.addEventListener('click', () => setActiveTab('customer'));
-      tabRider.addEventListener('click', () => setActiveTab('rider'));
-      tabOwner.addEventListener('click', () => setActiveTab('owner'));
+      tabs.customer.btn.addEventListener('click', () => switchTab('customer'));
+      tabs.rider.btn.addEventListener('click', () => switchTab('rider'));
+      tabs.owner.btn.addEventListener('click', () => switchTab('owner'));
 
-      fromInput.addEventListener('input', syncAll);
-      toInput.addEventListener('input', syncAll);
-
-      document.querySelectorAll('.quick-route').forEach((btn) => {
+      document.querySelectorAll('.veh-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
-          fromInput.value = btn.getAttribute('data-from');
-          toInput.value = btn.getAttribute('data-to');
-          fare = btn.getAttribute('data-fare');
-          eta = btn.getAttribute('data-eta');
-          syncAll();
+          document.querySelectorAll('.veh-btn').forEach((b) => {
+            b.className = 'veh-btn p-2 rounded-lg bg-light-surface-container-lowest text-light-on-surface border border-light-outline-variant flex flex-col items-center text-xs font-bold transition';
+          });
+          btn.className = 'veh-btn p-2 rounded-lg bg-success text-on-success border border-success flex flex-col items-center text-xs font-bold transition';
+          vehicle = btn.getAttribute('data-vehicle');
+          rate = Number(btn.getAttribute('data-rate'));
+          refreshUI();
         });
       });
 
-      document.getElementById('voice-btn').addEventListener('click', () => {
-        toInput.value = 'Listening...';
-        setTimeout(() => {
-          toInput.value = 'Mindspace Building 12B';
-          fare = '₹42';
-          eta = '12 min';
-          syncAll();
-        }, 700);
+      document.getElementById('km-slider').addEventListener('input', (e) => {
+        km = Number(e.target.value);
+        refreshUI();
       });
 
-      document.getElementById('book-ride-btn').addEventListener('click', () => {
-        syncAll();
-        document.getElementById('customer-feedback').textContent =
-          `Live ride dispatched (${fromLoc} → ${toLoc}). Code: ${deliveryCode}. Open "Rider Screen" tab to accept!`;
-        document.getElementById('footer-ride-state').textContent = 'Dispatched to Rider';
+      ['cust-from', 'cust-to', 'cust-name', 'cust-phone'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', refreshUI);
+      });
+
+      document.getElementById('gps-btn').addEventListener('click', () => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              gpsCoords = `${pos.coords.latitude.toFixed(4)}° N, ${pos.coords.longitude.toFixed(4)}° E`;
+              document.getElementById('gps-status-pill').textContent = `GPS Live: ${gpsCoords}`;
+            },
+            () => {
+              document.getElementById('gps-status-pill').textContent = `GPS Locked: ${gpsCoords}`;
+            }
+          );
+        } else {
+          document.getElementById('gps-status-pill').textContent = `GPS Locked: ${gpsCoords}`;
+        }
+      });
+
+      document.getElementById('sos-btn').addEventListener('click', () => {
+        document.getElementById('gps-status-pill').textContent = `LADIES SOS ALERT SENT • ${gpsCoords}`;
+        document.getElementById('gps-status-pill').className =
+          'px-3 py-1.5 rounded-full bg-light-error text-light-on-error text-xs font-mono font-bold shadow-sm';
+      });
+
+      document.getElementById('join-rider-btn').addEventListener('click', () => {
+        document.getElementById('customer-msg').textContent =
+          'Free Rider Onboarding Ready! Switch to "Rider Screen" tab to test incoming rides.';
+      });
+
+      document.getElementById('book-live-btn').addEventListener('click', () => {
+        rideCode = String(Math.floor(1000 + Math.random() * 9000));
+        const fromVal = document.getElementById('cust-from').value.trim() || 'Boddavara';
+        const toVal = document.getElementById('cust-to').value.trim() || 'Thatipudi';
+        const custName = document.getElementById('cust-name').value.trim() || 'Passenger';
+        const rawPhone = (document.getElementById('cust-phone').value.trim() || '9848022190').replace(/\D/g, '');
+        const fare = km * rate;
+
+        rideLogs.push({ name: custName, phone: rawPhone, from: fromVal, to: toVal, fare, code: rideCode });
+        refreshUI();
+
+        document.getElementById('rider-status-badge').textContent = 'NEW RIDE';
+        document.getElementById('rider-status-badge').className =
+          'px-2.5 py-1 rounded-full bg-light-secondary-container text-light-on-secondary-container text-xs font-bold';
+        document.getElementById('customer-msg').textContent =
+          `Booked! Code: ${rideCode}. Open "Rider Screen" to accept & verify.`;
+        document.getElementById('footer-status').textContent = `Ride Queued • Code ${rideCode}`;
+      });
+
+      document.getElementById('whatsapp-book-btn').addEventListener('click', () => {
+        refreshUI();
+        const fromVal = document.getElementById('cust-from').value.trim() || 'Boddavara';
+        const toVal = document.getElementById('cust-to').value.trim() || 'Thatipudi';
+        const fare = km * rate;
+        const msg = `HopGo Ride Request:%0AFrom: ${encodeURIComponent(fromVal)}%0ATo: ${encodeURIComponent(toVal)}%0AVehicle: ${vehicle} (${km} km)%0AFare: ₹${fare}%0ADelivery Code: ${rideCode}%0AGPS: ${encodeURIComponent(gpsCoords)}`;
+        window.open(`https://wa.me/?text=${msg}`, '_blank');
       });
 
       // Rider actions
       document.getElementById('rider-accept-btn').addEventListener('click', () => {
-        document.getElementById('rider-ride-status').textContent = 'ACCEPTED';
-        document.getElementById('rider-ride-status').className = 'px-2.5 py-1 rounded-full bg-success-container text-on-success-container text-xs font-bold';
-        document.getElementById('rider-otp-msg').className = 'text-xs font-semibold text-success';
-        document.getElementById('rider-otp-msg').textContent = `Ride accepted! Route: ${fromLoc} → ${toLoc}. Ask customer for code.`;
+        document.getElementById('rider-status-badge').textContent = 'ACCEPTED';
+        document.getElementById('rider-status-badge').className =
+          'px-2.5 py-1 rounded-full bg-success-container text-on-success-container text-xs font-bold';
+        document.getElementById('rider-feedback').className = 'text-xs font-bold text-success';
+        document.getElementById('rider-feedback').textContent = 'Ride accepted! Ask passenger for 4-digit code to start/deliver.';
       });
 
-      document.getElementById('rider-reject-btn').addEventListener('click', () => {
-        document.getElementById('rider-ride-status').textContent = 'REJECTED';
-        document.getElementById('rider-ride-status').className = 'px-2.5 py-1 rounded-full bg-light-error-container text-light-on-error-container text-xs font-bold';
-        document.getElementById('rider-otp-msg').className = 'text-xs font-semibold text-light-error';
-        document.getElementById('rider-otp-msg').textContent = 'Ride rejected by rider.';
+      document.getElementById('rider-decline-btn').addEventListener('click', () => {
+        document.getElementById('rider-status-badge').textContent = 'DECLINED';
+        document.getElementById('rider-status-badge').className =
+          'px-2.5 py-1 rounded-full bg-light-error-container text-light-on-error-container text-xs font-bold';
+        document.getElementById('rider-feedback').className = 'text-xs font-bold text-light-error';
+        document.getElementById('rider-feedback').textContent = 'Ride declined.';
       });
 
-      document.getElementById('rider-verify-btn').addEventListener('click', () => {
-        const entered = document.getElementById('rider-otp-input').value.trim();
-        const msg = document.getElementById('rider-otp-msg');
-        if (entered === deliveryCode) {
-          msg.className = 'text-xs font-bold text-success';
-          msg.textContent = `Code ${entered} Verified! Trip/Delivery active on live GPS.`;
-          document.getElementById('footer-ride-state').textContent = 'Trip Verified & Active';
+      document.getElementById('rider-verify-code-btn').addEventListener('click', () => {
+        const entered = document.getElementById('rider-code-input').value.trim();
+        const fb = document.getElementById('rider-feedback');
+        if (entered === rideCode) {
+          fb.className = 'text-xs font-bold text-success';
+          fb.textContent = `Code ${entered} Verified! Trip/Delivery started on live GPS.`;
+          document.getElementById('footer-status').textContent = 'Trip Verified & Running';
         } else {
-          msg.className = 'text-xs font-bold text-light-error';
-          msg.textContent = 'Invalid Delivery/Start Code! Trip blocked.';
+          fb.className = 'text-xs font-bold text-light-error';
+          fb.textContent = 'Wrong Delivery/Start Code! Blocked.';
         }
       });
 
-      // Owner unlock & lock
-      document.getElementById('owner-unlock-action').addEventListener('click', () => {
-        const pinVal = document.getElementById('owner-pin-box').value.trim();
-        if (pinVal === OWNER_PIN) {
-          document.getElementById('owner-pin-err').classList.add('hidden');
-          document.getElementById('owner-auth-box').classList.add('hidden');
-          document.getElementById('owner-unlocked-panel').classList.remove('hidden');
-          document.getElementById('owner-unlocked-panel').classList.add('flex');
+      // Owner lock & actions
+      document.getElementById('owner-unlock-btn').addEventListener('click', () => {
+        if (document.getElementById('owner-pin').value.trim() === OWNER_PIN) {
+          document.getElementById('owner-err').classList.add('hidden');
+          document.getElementById('owner-lock-box').classList.add('hidden');
+          document.getElementById('owner-vault-panel').classList.remove('hidden');
+          document.getElementById('owner-vault-panel').classList.add('flex');
+          refreshUI();
         } else {
-          document.getElementById('owner-pin-err').classList.remove('hidden');
+          document.getElementById('owner-err').classList.remove('hidden');
         }
       });
 
-      document.getElementById('owner-lock-again').addEventListener('click', () => {
-        document.getElementById('owner-pin-box').value = '';
-        document.getElementById('owner-unlocked-panel').classList.add('hidden');
-        document.getElementById('owner-unlocked-panel').classList.remove('flex');
-        document.getElementById('owner-auth-box').classList.remove('hidden');
+      document.getElementById('owner-lock-now').addEventListener('click', () => {
+        document.getElementById('owner-pin').value = '';
+        document.getElementById('owner-vault-panel').classList.add('hidden');
+        document.getElementById('owner-vault-panel').classList.remove('flex');
+        document.getElementById('owner-lock-box').classList.remove('hidden');
       });
 
-      document.getElementById('owner-offline-switch').addEventListener('change', (e) => {
+      document.getElementById('owner-offline-toggle').addEventListener('change', (e) => {
         blockOffline = e.target.checked;
-        syncAll();
+        refreshUI();
       });
 
-      document.getElementById('owner-save-code').addEventListener('click', () => {
-        const next = document.getElementById('owner-code-input').value.trim();
+      document.getElementById('owner-apply-code').addEventListener('click', () => {
+        const next = document.getElementById('owner-custom-code').value.trim();
         if (/^\d{4}$/.test(next)) {
-          deliveryCode = next;
-          syncAll();
+          rideCode = next;
+          refreshUI();
         }
       });
 
-      document.getElementById('owner-clear-rides').addEventListener('click', () => {
-        document.getElementById('rider-ride-status').textContent = 'CLEARED';
-        document.getElementById('rider-ride-status').className = 'px-2.5 py-1 rounded-full bg-light-surface-container text-light-on-surface text-xs font-bold';
-        document.getElementById('rider-otp-msg').textContent = 'Active ride removed by Owner.';
-        document.getElementById('customer-feedback').textContent = 'Ride cleared by Owner.';
+      document.getElementById('owner-clear-all').addEventListener('click', () => {
+        rideLogs = [];
+        document.getElementById('customer-msg').textContent = 'All rides cleared by Owner.';
+        document.getElementById('rider-feedback').textContent = 'Ride queue cleared by Owner.';
+        refreshUI();
       });
 
-      // Captain gentle motion
-      const bike = document.getElementById('captain-bike');
-      let step = 0;
-      setInterval(() => {
-        step = (step + 1) % 2;
-        bike.style.transform = step ? 'translate(14px, -8px)' : 'translate(0px, 0px)';
-      }, 2000);
-
-      document.getElementById('recenter-btn').addEventListener('click', () => {
-        document.getElementById('iq-route-banner').textContent = 'GPS Recentered • Live Lock Verified';
-      });
-
-      syncAll();
+      refreshUI();
     })();
   </script>
 </body>
